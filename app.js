@@ -696,41 +696,50 @@ function showCalendarDayMatches(dateStr) {
 // ========== RENDER KNOCKOUT ==========
 function renderKnockout() {
     const container = document.getElementById('knockoutBracket');
-    const stageNames = { round32:"Vòng 32 Đội", round16:"Vòng 16 Đội", quarter:"Tứ Kết", semi:"Bán Kết", third:"Tranh Hạng Ba", final:"Chung Kết 🏆" };
-    const stages = ["round32","round16","quarter","semi","third","final"];
+    const stageNames = { round32:"Vòng 32 Đội", round16:"Vòng 16 Đội", quarter:"Tứ Kết", semi:"Bán Kết", third:"Hạng Ba", final:"Chung Kết" };
+    const stages = ["round32","round16","quarter","semi","final", "third"];
     const stageIcons = { round32:"⚡", round16:"🔥", quarter:"💎", semi:"🌟", third:"🥉", final:"🏆" };
 
-    container.innerHTML = stages.map(stage => {
+    let html = `<div class="bracket-wrapper">
+                    <div class="bracket-scroll-container">`;
+
+    stages.forEach(stage => {
         const matches = KNOCKOUT_MATCHES.filter(m => m.stage === stage);
-        if (!matches.length) return '';
-        return `
-            <div class="knockout-round">
-                <h3 class="round-title">${stageIcons[stage]} ${stageNames[stage]}</h3>
-                <div class="round-matches">
+        if (!matches.length) return;
+        
+        html += `
+            <div class="bracket-column bracket-${stage}">
+                <div class="bracket-column-header">
+                    <h3>${stageIcons[stage]} ${stageNames[stage]}</h3>
+                </div>
+                <div class="bracket-matches">
                     ${matches.map(m => `
-                        <div class="knockout-card ${stage==='final'?'final-card':''}">
-                            <div class="knockout-header">
-                                <span class="knockout-match-num">Trận #${m.num}</span>
-                                <span class="knockout-date">${formatDate(m.date)} • ${m.time}</span>
-                            </div>
-                            <div class="knockout-teams">
-                                <div class="knockout-team">
-                                    <span class="team-flag">${getFlag(m.home, 24)}</span>
-                                    <span class="team-name" onclick="showTeamProfile('${m.home}')" style="cursor: pointer;">${m.home}</span>
+                        <div class="bracket-match-card ${stage==='final'?'final-card':''}">
+                            <div class="b-match-num">Trận #${m.num}</div>
+                            <div class="b-match-teams">
+                                <div class="b-team">
+                                    <span class="b-team-flag">${getFlag(m.home, 20)}</span>
+                                    <span class="b-team-name" onclick="showTeamProfile('${m.home}')">${m.home}</span>
                                 </div>
-                                <div class="knockout-vs">VS</div>
-                                <div class="knockout-team">
-                                    <span class="team-flag">${getFlag(m.away, 24)}</span>
-                                    <span class="team-name" onclick="showTeamProfile('${m.away}')" style="cursor: pointer;">${m.away}</span>
+                                <div class="b-team">
+                                    <span class="b-team-flag">${getFlag(m.away, 20)}</span>
+                                    <span class="b-team-name" onclick="showTeamProfile('${m.away}')">${m.away}</span>
                                 </div>
                             </div>
-                            <div class="knockout-venue">📍 ${m.venue}</div>
+                            <div class="b-match-date">${formatDateShort(m.date)} ${m.time}</div>
                         </div>
                     `).join('')}
                 </div>
             </div>
         `;
-    }).join('');
+    });
+
+    html += `</div></div>`;
+    
+    // Add instruction for users
+    html = `<div class="bracket-instruction">👈 Vuốt ngang để xem toàn bộ nhánh đấu 👉</div>` + html;
+
+    container.innerHTML = html;
 }
 
 // ========== RENDER VENUES ==========

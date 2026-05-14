@@ -893,3 +893,160 @@ body {
     background: var(--gold);
     color: #000 !important;
 }
+
+/* ========== US-16: KNOCKOUT BRACKET ========== */
+.bracket-instruction {
+    text-align: center;
+    color: var(--gold);
+    font-size: 0.9rem;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 0.6; }
+    50% { opacity: 1; }
+    100% { opacity: 0.6; }
+}
+
+.bracket-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 1rem;
+}
+
+/* Custom scrollbar for bracket */
+.bracket-wrapper::-webkit-scrollbar {
+    height: 8px;
+}
+.bracket-wrapper::-webkit-scrollbar-track {
+    background: rgba(255,255,255,0.05);
+    border-radius: 4px;
+}
+.bracket-wrapper::-webkit-scrollbar-thumb {
+    background: var(--gold);
+    border-radius: 4px;
+}
+
+.bracket-scroll-container {
+    display: flex;
+    gap: 2.5rem;
+    padding: 1rem;
+    min-width: max-content; /* This ensures it scrolls horizontally */
+}
+
+.bracket-column {
+    display: flex;
+    flex-direction: column;
+    width: 260px;
+    gap: 1.5rem;
+    position: relative;
+}
+
+.bracket-column-header {
+    text-align: center;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--gold);
+    margin-bottom: 1rem;
+}
+
+.bracket-column-header h3 {
+    color: var(--text-light);
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.bracket-matches {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    flex: 1;
+    gap: 1.5rem;
+}
+
+/* Ensure centering for fewer matches (e.g. final) */
+.bracket-final .bracket-matches,
+.bracket-third .bracket-matches {
+    justify-content: center;
+}
+
+.bracket-match-card {
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 12px;
+    position: relative;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    transition: transform 0.2s, border-color 0.2s;
+    /* Backdrop filter for glassmorphism */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.bracket-match-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--gold);
+    box-shadow: 0 6px 15px rgba(255,215,0,0.15);
+}
+
+.final-card {
+    border: 2px solid var(--gold);
+    background: rgba(255, 215, 0, 0.05);
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
+    transform: scale(1.05);
+}
+
+.final-card:hover {
+    transform: scale(1.05) translateY(-2px);
+}
+
+.b-match-num {
+    font-size: 0.75rem;
+    color: var(--gold);
+    margin-bottom: 10px;
+    border-bottom: 1px dashed rgba(255,255,255,0.1);
+    padding-bottom: 4px;
+    font-weight: 600;
+}
+
+.b-match-teams {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.b-team {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.b-team-flag img {
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+.b-team-name {
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: color 0.2s;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.b-team-name:hover {
+    color: var(--gold);
+}
+
+.b-match-date {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-align: right;
+    margin-top: 10px;
+    font-family: monospace;
+}
