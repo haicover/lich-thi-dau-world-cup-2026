@@ -6,6 +6,7 @@ let ALL_MATCHES = [];
 let GROUP_MATCHES = [];
 let KNOCKOUT_MATCHES = [];
 let VENUES = [];
+let TEAMS_DATA = [];
 
 document.addEventListener('DOMContentLoaded', async () => {
     await fetchData();
@@ -30,6 +31,7 @@ async function fetchData() {
         const teamsData = await teamsRes.json();
         const matchesData = await matchesRes.json();
         VENUES = await venuesRes.json();
+        TEAMS_DATA = teamsData;
 
         teamsData.forEach(t => {
             if (!GROUPS[t.group]) GROUPS[t.group] = [];
@@ -361,7 +363,7 @@ function renderGroups() {
                     <div class="team-row ${favs.includes(t) ? 'team-favorite' : ''}">
                         <span class="team-rank">${i + 1}</span>
                         <span class="team-flag">${getFlag(t, 28)}</span>
-                        <span class="team-name">${t}</span>
+                        <span class="team-name" onclick="showTeamProfile('${t}')" style="cursor: pointer;">${t}</span>
                         <button class="fav-btn ${favs.includes(t) ? 'fav-active' : ''}" onclick="toggleFavorite('${t}')" title="${favs.includes(t) ? 'Bỏ yêu thích' : 'Yêu thích'}">
                             ${favs.includes(t) ? '★' : '☆'}
                         </button>
@@ -382,7 +384,7 @@ function renderGroups() {
                         ${standings.map((s, i) => `
                             <tr class="${i < 2 ? 'pos-qualified' : i === 2 ? 'pos-possible' : ''}">
                                 <td>${s.pos}</td>
-                                <td class="standings-team">${getFlag(s.team, 20)} <span>${s.team}</span></td>
+                                <td class="standings-team">${getFlag(s.team, 20)} <span onclick="showTeamProfile('${s.team}')" style="cursor: pointer;">${s.team}</span></td>
                                 <td>${s.played}</td><td>${s.wins}</td><td>${s.draws}</td><td>${s.losses}</td>
                                 <td>${s.gf}</td><td>${s.ga}</td><td>${s.gd}</td>
                                 <td class="standings-pts">${s.pts}</td>
@@ -464,7 +466,7 @@ function renderSchedule() {
                     <div class="match-card ${favs.includes(m.home) || favs.includes(m.away) ? 'match-fav' : ''}">
                         <div class="match-team home">
                             <span class="team-flag">${getFlag(m.home, 30)}</span>
-                            <span class="team-name">${m.home}</span>
+                            <span class="team-name" onclick="showTeamProfile('${m.home}')" style="cursor: pointer;">${m.home}</span>
                         </div>
                         <div class="match-center">
                             <div class="match-time">${m.time}</div>
@@ -474,7 +476,7 @@ function renderSchedule() {
                         </div>
                         <div class="match-team away">
                             <span class="team-flag">${getFlag(m.away, 30)}</span>
-                            <span class="team-name">${m.away}</span>
+                            <span class="team-name" onclick="showTeamProfile('${m.away}')" style="cursor: pointer;">${m.away}</span>
                         </div>
                         <div class="match-actions">
                             <button class="action-btn" onclick="downloadICS(ALL_MATCHES[${ALL_MATCHES.indexOf(m)}])" title="Thêm vào Calendar">📅</button>
@@ -510,12 +512,12 @@ function renderKnockout() {
                             <div class="knockout-teams">
                                 <div class="knockout-team">
                                     <span class="team-flag">${getFlag(m.home, 24)}</span>
-                                    <span class="team-name">${m.home}</span>
+                                    <span class="team-name" onclick="showTeamProfile('${m.home}')" style="cursor: pointer;">${m.home}</span>
                                 </div>
                                 <div class="knockout-vs">VS</div>
                                 <div class="knockout-team">
                                     <span class="team-flag">${getFlag(m.away, 24)}</span>
-                                    <span class="team-name">${m.away}</span>
+                                    <span class="team-name" onclick="showTeamProfile('${m.away}')" style="cursor: pointer;">${m.away}</span>
                                 </div>
                             </div>
                             <div class="knockout-venue">📍 ${m.venue}</div>
@@ -586,7 +588,7 @@ function initSearch() {
                 html += '<div class="search-results-group"><div class="search-group-title">Đội tuyển</div>';
                 resTeams.forEach(t => {
                     html += `
-                        <div class="search-result-item" onclick="document.getElementById('tab-groups').click(); document.getElementById('globalSearchInput').value=''; document.getElementById('searchResults').style.display='none';">
+                        <div class="search-result-item" onclick="document.getElementById('globalSearchInput').value=''; document.getElementById('searchResults').style.display='none'; showTeamProfile('${t.name}');">
                             <div class="search-result-icon">🏳️</div>
                             <div class="search-result-text">
                                 <div class="search-result-title">${t.name}</div>
@@ -650,3 +652,80 @@ function initSearch() {
         }
     });
 }
+
+// ========== US-10: TEAM PROFILE MODAL ==========
+function showTeamProfile(teamName) {
+    const teamInfo = TEAMS_DATA.find(t => t.name === teamName);
+    if (!teamInfo) return;
+
+    const matches = ALL_MATCHES.filter(m => m.home === teamName || m.away === teamName);
+    const isFav = favorites.includes(teamName);
+
+    const matchHtml = matches.map(m => `
+        <div class="profile-match-card">
+            <div class="profile-match-teams">
+                ${m.home === teamName ? `<strong>${m.home}</strong> vs ${m.away}` : `${m.home} vs <strong>${m.away}</strong>`}
+            </div>
+            <div class="profile-match-time">
+                ${formatDateShort(m.date)} ${m.time}<br>
+                ${m.venue}
+            </div>
+        </div>
+    `).join('');
+
+    const html = `
+        <div class="team-profile-header">
+            <div class="team-profile-flag">
+                <img src="${getFlagUrl(FLAG_CODES[teamName])}" alt="${teamName}" width="120" loading="lazy">
+            </div>
+            <div class="team-profile-name">${teamName}</div>
+            <div class="team-profile-meta">
+                <span class="team-profile-tag">${CONF[teamName] || ''}</span>
+                <span class="team-profile-tag">Bảng ${teamInfo.group}</span>
+            </div>
+        </div>
+        
+        <div class="team-profile-info">
+            <div class="profile-info-row">
+                <span class="profile-info-label">Huấn luyện viên</span>
+                <span class="profile-info-value">${teamInfo.coach || 'Đang cập nhật'}</span>
+            </div>
+            <div class="profile-info-row">
+                <span class="profile-info-label">Biệt danh</span>
+                <span class="profile-info-value">${teamInfo.nickname || 'Đang cập nhật'}</span>
+            </div>
+            <div class="profile-info-row">
+                <span class="profile-info-label">Xếp hạng FIFA</span>
+                <span class="profile-info-value">Hạng ${teamInfo.ranking || '-'}</span>
+            </div>
+            <div class="profile-info-row">
+                <span class="profile-info-label">Thành tích tốt nhất</span>
+                <span class="profile-info-value">${teamInfo.best_finish || 'Đang cập nhật'}</span>
+            </div>
+        </div>
+
+        <div class="team-profile-matches">
+            <h4>Lịch thi đấu (${matches.length} trận)</h4>
+            ${matchHtml}
+        </div>
+
+        <div class="team-profile-actions">
+            <button class="btn ${isFav ? 'btn-outline' : ''}" onclick="toggleFavorite(event, '${teamName}'); showTeamProfile('${teamName}')">
+                ${isFav ? '❌ Bỏ Yêu Thích' : '⭐ Yêu Thích Đội Này'}
+            </button>
+        </div>
+    `;
+
+    document.getElementById('teamModalBody').innerHTML = html;
+    document.getElementById('teamModal').classList.add('active');
+}
+
+document.getElementById('closeTeamModal').addEventListener('click', () => {
+    document.getElementById('teamModal').classList.remove('active');
+});
+
+document.getElementById('teamModal').addEventListener('click', (e) => {
+    if (e.target.id === 'teamModal') {
+        document.getElementById('teamModal').classList.remove('active');
+    }
+});

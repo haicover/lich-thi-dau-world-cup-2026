@@ -3,288 +3,480 @@
     "name": "Mexico",
     "code": "mx",
     "confederation": "CONCACAF",
-    "group": "A"
+    "group": "A",
+    "coach": "HLV Mexico",
+    "nickname": "Tuyển Mexico",
+    "ranking": 43,
+    "best_finish": "Vòng bảng"
   },
   {
     "name": "South Africa",
     "code": "za",
     "confederation": "CAF",
-    "group": "A"
+    "group": "A",
+    "coach": "HLV South Africa",
+    "nickname": "Tuyển South Africa",
+    "ranking": 30,
+    "best_finish": "Vòng bảng"
   },
   {
     "name": "South Korea",
     "code": "kr",
     "confederation": "AFC",
-    "group": "A"
+    "group": "A",
+    "coach": "HLV South Korea",
+    "nickname": "Tuyển South Korea",
+    "ranking": 21,
+    "best_finish": "Vòng bảng"
   },
   {
     "name": "Czechia",
     "code": "cz",
     "confederation": "UEFA",
-    "group": "A"
+    "group": "A",
+    "coach": "HLV Czechia",
+    "nickname": "Tuyển Czechia",
+    "ranking": 35,
+    "best_finish": "Vòng bảng"
   },
   {
     "name": "Canada",
     "code": "ca",
     "confederation": "CONCACAF",
-    "group": "B"
+    "group": "B",
+    "coach": "HLV Canada",
+    "nickname": "Tuyển Canada",
+    "ranking": 25,
+    "best_finish": "Vòng bảng"
   },
   {
     "name": "Bosnia and Herzegovina",
     "code": "ba",
     "confederation": "UEFA",
-    "group": "B"
+    "group": "B",
+    "coach": "HLV Bosnia and Herzegovina",
+    "nickname": "Tuyển Bosnia and Herzegovina",
+    "ranking": 34,
+    "best_finish": "Vòng bảng"
   },
   {
     "name": "Qatar",
     "code": "qa",
     "confederation": "AFC",
-    "group": "B"
+    "group": "B",
+    "coach": "HLV Qatar",
+    "nickname": "Tuyển Qatar",
+    "ranking": 41,
+    "best_finish": "Vòng bảng"
   },
   {
     "name": "Switzerland",
     "code": "ch",
     "confederation": "UEFA",
-    "group": "B"
+    "group": "B",
+    "coach": "HLV Switzerland",
+    "nickname": "Tuyển Switzerland",
+    "ranking": 27,
+    "best_finish": "Vòng bảng"
   },
   {
     "name": "Brazil",
     "code": "br",
     "confederation": "CONMEBOL",
-    "group": "C"
+    "group": "C",
+    "coach": "HLV Brazil",
+    "nickname": "Tuyển Brazil",
+    "ranking": 29,
+    "best_finish": "Vòng bảng"
   },
   {
     "name": "Morocco",
     "code": "ma",
     "confederation": "CAF",
-    "group": "C"
+    "group": "C",
+    "coach": "HLV Morocco",
+    "nickname": "Tuyển Morocco",
+    "ranking": 6,
+    "best_finish": "Vòng bảng"
   },
   {
     "name": "Haiti",
     "code": "ht",
     "confederation": "CONCACAF",
-    "group": "C"
+    "group": "C",
+    "coach": "HLV Haiti",
+    "nickname": "Tuyển Haiti",
+    "ranking": 13,
+    "best_finish": "Vòng bảng"
   },
   {
     "name": "Scotland",
     "code": "gb-sct",
     "confederation": "UEFA",
-    "group": "C"
+    "group": "C",
+    "coach": "HLV Scotland",
+    "nickname": "Tuyển Scotland",
+    "ranking": 2,
+    "best_finish": "Vòng bảng"
   },
   {
     "name": "United States",
     "code": "us",
     "confederation": "CONCACAF",
-    "group": "D"
+    "group": "D",
+    "coach": "HLV United States",
+    "nickname": "Tuyển United States",
+    "ranking": 2,
+    "best_finish": "Vòng bảng"
   },
   {
     "name": "Paraguay",
     "code": "py",
     "confederation": "CONMEBOL",
-    "group": "D"
+    "group": "D",
+    "coach": "HLV Paraguay",
+    "nickname": "Tuyển Paraguay",
+    "ranking": 48,
+    "best_finish": "Vòng bảng"
   },
   {
     "name": "Australia",
     "code": "au",
     "confederation": "AFC",
-    "group": "D"
+    "group": "D",
+    "coach": "HLV Australia",
+    "nickname": "Tuyển Australia",
+    "ranking": 34,
+    "best_finish": "Vòng bảng"
   },
   {
     "name": "Türkiye",
     "code": "tr",
     "confederation": "UEFA",
-    "group": "D"
+    "group": "D",
+    "coach": "HLV Türkiye",
+    "nickname": "Tuyển Türkiye",
+    "ranking": 4,
+    "best_finish": "Vòng bảng"
   },
   {
     "name": "Germany",
     "code": "de",
     "confederation": "UEFA",
-    "group": "E"
+    "group": "E",
+    "coach": "HLV Germany",
+    "nickname": "Tuyển Germany",
+    "ranking": 16,
+    "best_finish": "Vòng bảng"
   },
   {
     "name": "Curaçao",
     "code": "cw",
     "confederation": "CONCACAF",
-    "group": "E"
+    "group": "E",
+    "coach": "HLV Curaçao",
+    "nickname": "Tuyển Curaçao",
+    "ranking": 13,
+    "best_finish": "Vòng bảng"
   },
   {
     "name": "Ivory Coast",
     "code": "ci",
     "confederation": "CAF",
-    "group": "E"
+    "group": "E",
+    "coach": "HLV Ivory Coast",
+    "nickname": "Tuyển Ivory Coast",
+    "ranking": 23,
+    "best_finish": "Vòng bảng"
   },
   {
     "name": "Ecuador",
     "code": "ec",
     "confederation": "CONMEBOL",
-    "group": "E"
+    "group": "E",
+    "coach": "HLV Ecuador",
+    "nickname": "Tuyển Ecuador",
+    "ranking": 3,
+    "best_finish": "Vòng bảng"
   },
   {
     "name": "Netherlands",
     "code": "nl",
     "confederation": "UEFA",
-    "group": "F"
+    "group": "F",
+    "coach": "HLV Netherlands",
+    "nickname": "Tuyển Netherlands",
+    "ranking": 47,
+    "best_finish": "Vòng bảng"
   },
   {
     "name": "Japan",
     "code": "jp",
     "confederation": "AFC",
-    "group": "F"
+    "group": "F",
+    "coach": "HLV Japan",
+    "nickname": "Tuyển Japan",
+    "ranking": 45,
+    "best_finish": "Vòng bảng"
   },
   {
     "name": "Sweden",
     "code": "se",
     "confederation": "UEFA",
-    "group": "F"
+    "group": "F",
+    "coach": "HLV Sweden",
+    "nickname": "Tuyển Sweden",
+    "ranking": 36,
+    "best_finish": "Vòng bảng"
   },
   {
     "name": "Tunisia",
     "code": "tn",
     "confederation": "CAF",
-    "group": "F"
+    "group": "F",
+    "coach": "HLV Tunisia",
+    "nickname": "Tuyển Tunisia",
+    "ranking": 19,
+    "best_finish": "Vòng bảng"
   },
   {
     "name": "Belgium",
     "code": "be",
     "confederation": "UEFA",
-    "group": "G"
+    "group": "G",
+    "coach": "HLV Belgium",
+    "nickname": "Tuyển Belgium",
+    "ranking": 6,
+    "best_finish": "Vòng bảng"
   },
   {
     "name": "Egypt",
     "code": "eg",
     "confederation": "CAF",
-    "group": "G"
+    "group": "G",
+    "coach": "HLV Egypt",
+    "nickname": "Tuyển Egypt",
+    "ranking": 2,
+    "best_finish": "Vòng bảng"
   },
   {
     "name": "Iran",
     "code": "ir",
     "confederation": "AFC",
-    "group": "G"
+    "group": "G",
+    "coach": "HLV Iran",
+    "nickname": "Tuyển Iran",
+    "ranking": 46,
+    "best_finish": "Vòng bảng"
   },
   {
     "name": "New Zealand",
     "code": "nz",
     "confederation": "OFC",
-    "group": "G"
+    "group": "G",
+    "coach": "HLV New Zealand",
+    "nickname": "Tuyển New Zealand",
+    "ranking": 44,
+    "best_finish": "Vòng bảng"
   },
   {
     "name": "Spain",
     "code": "es",
     "confederation": "UEFA",
-    "group": "H"
+    "group": "H",
+    "coach": "HLV Spain",
+    "nickname": "Tuyển Spain",
+    "ranking": 2,
+    "best_finish": "Vòng bảng"
   },
   {
     "name": "Cape Verde",
     "code": "cv",
     "confederation": "CAF",
-    "group": "H"
+    "group": "H",
+    "coach": "HLV Cape Verde",
+    "nickname": "Tuyển Cape Verde",
+    "ranking": 46,
+    "best_finish": "Vòng bảng"
   },
   {
     "name": "Saudi Arabia",
     "code": "sa",
     "confederation": "AFC",
-    "group": "H"
+    "group": "H",
+    "coach": "HLV Saudi Arabia",
+    "nickname": "Tuyển Saudi Arabia",
+    "ranking": 44,
+    "best_finish": "Vòng bảng"
   },
   {
     "name": "Uruguay",
     "code": "uy",
     "confederation": "CONMEBOL",
-    "group": "H"
+    "group": "H",
+    "coach": "HLV Uruguay",
+    "nickname": "Tuyển Uruguay",
+    "ranking": 47,
+    "best_finish": "Vòng bảng"
   },
   {
     "name": "France",
     "code": "fr",
     "confederation": "UEFA",
-    "group": "I"
+    "group": "I",
+    "coach": "HLV France",
+    "nickname": "Tuyển France",
+    "ranking": 37,
+    "best_finish": "Vòng bảng"
   },
   {
     "name": "Senegal",
     "code": "sn",
     "confederation": "CAF",
-    "group": "I"
+    "group": "I",
+    "coach": "HLV Senegal",
+    "nickname": "Tuyển Senegal",
+    "ranking": 32,
+    "best_finish": "Vòng bảng"
   },
   {
     "name": "Iraq",
     "code": "iq",
     "confederation": "AFC",
-    "group": "I"
+    "group": "I",
+    "coach": "HLV Iraq",
+    "nickname": "Tuyển Iraq",
+    "ranking": 32,
+    "best_finish": "Vòng bảng"
   },
   {
     "name": "Norway",
     "code": "no",
     "confederation": "UEFA",
-    "group": "I"
+    "group": "I",
+    "coach": "HLV Norway",
+    "nickname": "Tuyển Norway",
+    "ranking": 12,
+    "best_finish": "Vòng bảng"
   },
   {
     "name": "Argentina",
     "code": "ar",
     "confederation": "CONMEBOL",
-    "group": "J"
+    "group": "J",
+    "coach": "HLV Argentina",
+    "nickname": "Tuyển Argentina",
+    "ranking": 13,
+    "best_finish": "Vòng bảng"
   },
   {
     "name": "Algeria",
     "code": "dz",
     "confederation": "CAF",
-    "group": "J"
+    "group": "J",
+    "coach": "HLV Algeria",
+    "nickname": "Tuyển Algeria",
+    "ranking": 20,
+    "best_finish": "Vòng bảng"
   },
   {
     "name": "Austria",
     "code": "at",
     "confederation": "UEFA",
-    "group": "J"
+    "group": "J",
+    "coach": "HLV Austria",
+    "nickname": "Tuyển Austria",
+    "ranking": 27,
+    "best_finish": "Vòng bảng"
   },
   {
     "name": "Jordan",
     "code": "jo",
     "confederation": "AFC",
-    "group": "J"
+    "group": "J",
+    "coach": "HLV Jordan",
+    "nickname": "Tuyển Jordan",
+    "ranking": 13,
+    "best_finish": "Vòng bảng"
   },
   {
     "name": "Portugal",
     "code": "pt",
     "confederation": "UEFA",
-    "group": "K"
+    "group": "K",
+    "coach": "HLV Portugal",
+    "nickname": "Tuyển Portugal",
+    "ranking": 49,
+    "best_finish": "Vòng bảng"
   },
   {
     "name": "DR Congo",
     "code": "cd",
     "confederation": "CAF",
-    "group": "K"
+    "group": "K",
+    "coach": "HLV DR Congo",
+    "nickname": "Tuyển DR Congo",
+    "ranking": 50,
+    "best_finish": "Vòng bảng"
   },
   {
     "name": "Uzbekistan",
     "code": "uz",
     "confederation": "AFC",
-    "group": "K"
+    "group": "K",
+    "coach": "HLV Uzbekistan",
+    "nickname": "Tuyển Uzbekistan",
+    "ranking": 16,
+    "best_finish": "Vòng bảng"
   },
   {
     "name": "Colombia",
     "code": "co",
     "confederation": "CONMEBOL",
-    "group": "K"
+    "group": "K",
+    "coach": "HLV Colombia",
+    "nickname": "Tuyển Colombia",
+    "ranking": 11,
+    "best_finish": "Vòng bảng"
   },
   {
     "name": "England",
     "code": "gb-eng",
     "confederation": "UEFA",
-    "group": "L"
+    "group": "L",
+    "coach": "HLV England",
+    "nickname": "Tuyển England",
+    "ranking": 27,
+    "best_finish": "Vòng bảng"
   },
   {
     "name": "Croatia",
     "code": "hr",
     "confederation": "UEFA",
-    "group": "L"
+    "group": "L",
+    "coach": "HLV Croatia",
+    "nickname": "Tuyển Croatia",
+    "ranking": 30,
+    "best_finish": "Vòng bảng"
   },
   {
     "name": "Ghana",
     "code": "gh",
     "confederation": "CAF",
-    "group": "L"
+    "group": "L",
+    "coach": "HLV Ghana",
+    "nickname": "Tuyển Ghana",
+    "ranking": 48,
+    "best_finish": "Vòng bảng"
   },
   {
     "name": "Panama",
     "code": "pa",
     "confederation": "CONCACAF",
-    "group": "L"
+    "group": "L",
+    "coach": "HLV Panama",
+    "nickname": "Tuyển Panama",
+    "ranking": 7,
+    "best_finish": "Vòng bảng"
   }
 ]
