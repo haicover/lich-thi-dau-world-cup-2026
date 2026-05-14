@@ -140,7 +140,7 @@ python -m http.server 3000
 
 - [x] **Phase 1** — PWA + Cá nhân hóa (Sprint 1) ✅
 - [x] **Phase 2** — Dữ liệu thời gian thực + Tìm kiếm, Lịch, Profile (Sprint 2) ✅
-- [ ] **Phase 3** — Serverless Backend + H2H + Bracket trực quan (Sprint 3)
+- [x] **Phase 3** — Serverless Backend + H2H + Bracket trực quan (Sprint 3) ✅
 - [ ] **Phase 4** — Live Scores (Cập nhật tỷ số tự động)
 - [ ] **Phase 5** — Đa ngôn ngữ + Cộng đồng
 
