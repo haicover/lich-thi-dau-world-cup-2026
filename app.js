@@ -1,5 +1,14 @@
-// ========== APP LOGIC — Sprint 1 ==========
-document.addEventListener('DOMContentLoaded', () => {
+// ========== APP LOGIC — Sprint 2 ==========
+let GROUPS = {};
+let FLAG_CODES = {};
+let CONF = {};
+let ALL_MATCHES = [];
+let GROUP_MATCHES = [];
+let KNOCKOUT_MATCHES = [];
+let VENUES = [];
+
+document.addEventListener('DOMContentLoaded', async () => {
+    await fetchData();
     registerServiceWorker();  // US-02
     initOfflineDetection();   // US-02
     initCountdown();
@@ -8,10 +17,56 @@ document.addEventListener('DOMContentLoaded', () => {
     renderGroups();
     populateTeamFilter();
     renderSchedule();
-    renderKnockout();
     renderVenues();
     initFavoritesFilter();    // US-03
+    initSearch();             // US-09
 });
+
+async function fetchData() {
+    try {
+        const [teamsRes, matchesRes, venuesRes] = await Promise.all([
+            fetch('./teams.json'), fetch('./matches.json'), fetch('./venues.json')
+        ]);
+        const teamsData = await teamsRes.json();
+        const matchesData = await matchesRes.json();
+        VENUES = await venuesRes.json();
+
+        teamsData.forEach(t => {
+            if (!GROUPS[t.group]) GROUPS[t.group] = [];
+            GROUPS[t.group].push(t.name);
+            FLAG_CODES[t.name] = t.code;
+            CONF[t.name] = t.confederation;
+        });
+
+        const timeFormatter = new Intl.DateTimeFormat('vi-VN', {
+            timeZone: 'Asia/Ho_Chi_Minh',
+            hour: '2-digit', minute: '2-digit', hour12: false
+        });
+
+        ALL_MATCHES = matchesData.map(m => {
+            const d = new Date(m.utcTime);
+            return {
+                ...m,
+                date: d,
+                time: timeFormatter.format(d)
+            };
+        });
+
+        GROUP_MATCHES = ALL_MATCHES.filter(m => m.stage === 'group');
+        KNOCKOUT_MATCHES = ALL_MATCHES.filter(m => m.stage !== 'group');
+
+    } catch (e) {
+        console.error("Lỗi khi tải dữ liệu:", e);
+        showToast('Lỗi tải dữ liệu, vui lòng thử lại', 'warning');
+    }
+}
+
+function getFlagImg(name, size) {
+    size = size || 24;
+    const code = FLAG_CODES[name];
+    if (!code) return '<span class="team-flag-placeholder">🏳️</span>';
+    return `<img src="https://flagcdn.com/w40/${code}.png" width="${size}" height="${Math.round(size*0.75)}" alt="${name}" class="team-flag-img" loading="lazy">`;
+}
 
 // ========== US-02: SERVICE WORKER REGISTRATION ==========
 function registerServiceWorker() {
@@ -490,4 +545,108 @@ function renderVenues() {
             </div>
         </div>
     `).join('');
+}
+
+// ========== US-09: GLOBAL SEARCH (Fuse.js) ==========
+function initSearch() {
+    const input = document.getElementById('globalSearchInput');
+    const dropdown = document.getElementById('searchResults');
+    if (!input || !dropdown) return;
+
+    // Prepare data for Fuse
+    const teamsData = Object.keys(FLAG_CODES).map(name => ({ type: 'team', name, conf: CONF[name] }));
+    const fuseTeams = new Fuse(teamsData, { keys: ['name', 'conf'], threshold: 0.3 });
+    
+    const fuseMatches = new Fuse(ALL_MATCHES, { keys: ['home', 'away', 'venue'], threshold: 0.3 });
+    const fuseVenues = new Fuse(VENUES, { keys: ['name', 'city'], threshold: 0.3 });
+
+    let debounceTimer;
+
+    input.addEventListener('input', (e) => {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(() => {
+            const q = e.target.value.trim();
+            if (q.length < 2) {
+                dropdown.style.display = 'none';
+                return;
+            }
+
+            const resTeams = fuseTeams.search(q).slice(0, 3).map(r => r.item);
+            const resMatches = fuseMatches.search(q).slice(0, 3).map(r => r.item);
+            const resVenues = fuseVenues.search(q).slice(0, 3).map(r => r.item);
+
+            if (!resTeams.length && !resMatches.length && !resVenues.length) {
+                dropdown.innerHTML = '<div class="search-result-item"><div class="search-result-text"><div class="search-result-title">Không tìm thấy kết quả</div></div></div>';
+                dropdown.style.display = 'block';
+                return;
+            }
+
+            let html = '';
+            if (resTeams.length) {
+                html += '<div class="search-results-group"><div class="search-group-title">Đội tuyển</div>';
+                resTeams.forEach(t => {
+                    html += `
+                        <div class="search-result-item" onclick="document.getElementById('tab-groups').click(); document.getElementById('globalSearchInput').value=''; document.getElementById('searchResults').style.display='none';">
+                            <div class="search-result-icon">🏳️</div>
+                            <div class="search-result-text">
+                                <div class="search-result-title">${t.name}</div>
+                                <div class="search-result-desc">${t.conf}</div>
+                            </div>
+                        </div>
+                    `;
+                });
+                html += '</div>';
+            }
+
+            if (resMatches.length) {
+                html += '<div class="search-results-group"><div class="search-group-title">Trận đấu</div>';
+                resMatches.forEach(m => {
+                    html += `
+                        <div class="search-result-item" onclick="document.getElementById('tab-schedule').click(); document.getElementById('globalSearchInput').value=''; document.getElementById('searchResults').style.display='none';">
+                            <div class="search-result-icon">⚽</div>
+                            <div class="search-result-text">
+                                <div class="search-result-title">${m.home} vs ${m.away}</div>
+                                <div class="search-result-desc">${formatDateShort(m.date)} • ${m.venue}</div>
+                            </div>
+                        </div>
+                    `;
+                });
+                html += '</div>';
+            }
+
+            if (resVenues.length) {
+                html += '<div class="search-results-group"><div class="search-group-title">Sân vận động</div>';
+                resVenues.forEach(v => {
+                    html += `
+                        <div class="search-result-item" onclick="document.getElementById('tab-venues').click(); document.getElementById('globalSearchInput').value=''; document.getElementById('searchResults').style.display='none';">
+                            <div class="search-result-icon">🏟️</div>
+                            <div class="search-result-text">
+                                <div class="search-result-title">${v.name}</div>
+                                <div class="search-result-desc">${v.city}</div>
+                            </div>
+                        </div>
+                    `;
+                });
+                html += '</div>';
+            }
+
+            dropdown.innerHTML = html;
+            dropdown.style.display = 'block';
+
+        }, 200);
+    });
+
+    // Close on escape
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            dropdown.style.display = 'none';
+        }
+    });
+
+    // Close on click outside
+    document.addEventListener('click', (e) => {
+        if (!input.contains(e.target) && !dropdown.contains(e.target)) {
+            dropdown.style.display = 'none';
+        }
+    });
 }

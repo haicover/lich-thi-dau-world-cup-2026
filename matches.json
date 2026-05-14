@@ -1,0 +1,938 @@
+[
+  {
+    "num": 1,
+    "stage": "group",
+    "group": "A",
+    "home": "Mexico",
+    "away": "South Africa",
+    "utcTime": "2026-06-10T18:00:00.000Z",
+    "venue": "Mexico City"
+  },
+  {
+    "num": 2,
+    "stage": "group",
+    "group": "A",
+    "home": "South Korea",
+    "away": "Czechia",
+    "utcTime": "2026-06-10T21:00:00.000Z",
+    "venue": "Guadalajara"
+  },
+  {
+    "num": 3,
+    "stage": "group",
+    "group": "B",
+    "home": "Canada",
+    "away": "Bosnia and Herzegovina",
+    "utcTime": "2026-06-12T00:00:00.000Z",
+    "venue": "Monterrey"
+  },
+  {
+    "num": 4,
+    "stage": "group",
+    "group": "B",
+    "home": "Qatar",
+    "away": "Switzerland",
+    "utcTime": "2026-06-12T03:00:00.000Z",
+    "venue": "Vancouver"
+  },
+  {
+    "num": 5,
+    "stage": "group",
+    "group": "C",
+    "home": "Brazil",
+    "away": "Morocco",
+    "utcTime": "2026-06-13T15:00:00.000Z",
+    "venue": "Toronto"
+  },
+  {
+    "num": 6,
+    "stage": "group",
+    "group": "C",
+    "home": "Haiti",
+    "away": "Scotland",
+    "utcTime": "2026-06-13T12:00:00.000Z",
+    "venue": "Atlanta"
+  },
+  {
+    "num": 7,
+    "stage": "group",
+    "group": "D",
+    "home": "United States",
+    "away": "Paraguay",
+    "utcTime": "2026-06-13T18:00:00.000Z",
+    "venue": "Boston"
+  },
+  {
+    "num": 8,
+    "stage": "group",
+    "group": "D",
+    "home": "Australia",
+    "away": "Türkiye",
+    "utcTime": "2026-06-13T21:00:00.000Z",
+    "venue": "Dallas"
+  },
+  {
+    "num": 9,
+    "stage": "group",
+    "group": "E",
+    "home": "Germany",
+    "away": "Curaçao",
+    "utcTime": "2026-06-11T00:00:00.000Z",
+    "venue": "Houston"
+  },
+  {
+    "num": 10,
+    "stage": "group",
+    "group": "E",
+    "home": "Ivory Coast",
+    "away": "Ecuador",
+    "utcTime": "2026-06-11T03:00:00.000Z",
+    "venue": "Kansas City"
+  },
+  {
+    "num": 11,
+    "stage": "group",
+    "group": "F",
+    "home": "Netherlands",
+    "away": "Japan",
+    "utcTime": "2026-06-12T15:00:00.000Z",
+    "venue": "Los Angeles"
+  },
+  {
+    "num": 12,
+    "stage": "group",
+    "group": "F",
+    "home": "Sweden",
+    "away": "Tunisia",
+    "utcTime": "2026-06-12T12:00:00.000Z",
+    "venue": "Miami"
+  },
+  {
+    "num": 13,
+    "stage": "group",
+    "group": "G",
+    "home": "Belgium",
+    "away": "Egypt",
+    "utcTime": "2026-06-12T18:00:00.000Z",
+    "venue": "New York/New Jersey"
+  },
+  {
+    "num": 14,
+    "stage": "group",
+    "group": "G",
+    "home": "Iran",
+    "away": "New Zealand",
+    "utcTime": "2026-06-12T21:00:00.000Z",
+    "venue": "Philadelphia"
+  },
+  {
+    "num": 15,
+    "stage": "group",
+    "group": "H",
+    "home": "Spain",
+    "away": "Cape Verde",
+    "utcTime": "2026-06-14T00:00:00.000Z",
+    "venue": "San Francisco"
+  },
+  {
+    "num": 16,
+    "stage": "group",
+    "group": "H",
+    "home": "Saudi Arabia",
+    "away": "Uruguay",
+    "utcTime": "2026-06-14T03:00:00.000Z",
+    "venue": "Seattle"
+  },
+  {
+    "num": 17,
+    "stage": "group",
+    "group": "I",
+    "home": "France",
+    "away": "Senegal",
+    "utcTime": "2026-06-11T15:00:00.000Z",
+    "venue": "Mexico City"
+  },
+  {
+    "num": 18,
+    "stage": "group",
+    "group": "I",
+    "home": "Iraq",
+    "away": "Norway",
+    "utcTime": "2026-06-11T12:00:00.000Z",
+    "venue": "Guadalajara"
+  },
+  {
+    "num": 19,
+    "stage": "group",
+    "group": "J",
+    "home": "Argentina",
+    "away": "Algeria",
+    "utcTime": "2026-06-11T18:00:00.000Z",
+    "venue": "Monterrey"
+  },
+  {
+    "num": 20,
+    "stage": "group",
+    "group": "J",
+    "home": "Austria",
+    "away": "Jordan",
+    "utcTime": "2026-06-11T21:00:00.000Z",
+    "venue": "Vancouver"
+  },
+  {
+    "num": 21,
+    "stage": "group",
+    "group": "K",
+    "home": "Portugal",
+    "away": "DR Congo",
+    "utcTime": "2026-06-13T00:00:00.000Z",
+    "venue": "Toronto"
+  },
+  {
+    "num": 22,
+    "stage": "group",
+    "group": "K",
+    "home": "Uzbekistan",
+    "away": "Colombia",
+    "utcTime": "2026-06-13T03:00:00.000Z",
+    "venue": "Atlanta"
+  },
+  {
+    "num": 23,
+    "stage": "group",
+    "group": "L",
+    "home": "England",
+    "away": "Croatia",
+    "utcTime": "2026-06-14T15:00:00.000Z",
+    "venue": "Boston"
+  },
+  {
+    "num": 24,
+    "stage": "group",
+    "group": "L",
+    "home": "Ghana",
+    "away": "Panama",
+    "utcTime": "2026-06-14T12:00:00.000Z",
+    "venue": "Dallas"
+  },
+  {
+    "num": 25,
+    "stage": "group",
+    "group": "A",
+    "home": "Mexico",
+    "away": "South Korea",
+    "utcTime": "2026-06-14T18:00:00.000Z",
+    "venue": "Houston"
+  },
+  {
+    "num": 26,
+    "stage": "group",
+    "group": "A",
+    "home": "Czechia",
+    "away": "South Africa",
+    "utcTime": "2026-06-14T21:00:00.000Z",
+    "venue": "Kansas City"
+  },
+  {
+    "num": 27,
+    "stage": "group",
+    "group": "B",
+    "home": "Canada",
+    "away": "Qatar",
+    "utcTime": "2026-06-16T00:00:00.000Z",
+    "venue": "Los Angeles"
+  },
+  {
+    "num": 28,
+    "stage": "group",
+    "group": "B",
+    "home": "Switzerland",
+    "away": "Bosnia and Herzegovina",
+    "utcTime": "2026-06-16T03:00:00.000Z",
+    "venue": "Miami"
+  },
+  {
+    "num": 29,
+    "stage": "group",
+    "group": "C",
+    "home": "Brazil",
+    "away": "Haiti",
+    "utcTime": "2026-06-17T15:00:00.000Z",
+    "venue": "New York/New Jersey"
+  },
+  {
+    "num": 30,
+    "stage": "group",
+    "group": "C",
+    "home": "Scotland",
+    "away": "Morocco",
+    "utcTime": "2026-06-17T12:00:00.000Z",
+    "venue": "Philadelphia"
+  },
+  {
+    "num": 31,
+    "stage": "group",
+    "group": "D",
+    "home": "United States",
+    "away": "Australia",
+    "utcTime": "2026-06-17T18:00:00.000Z",
+    "venue": "San Francisco"
+  },
+  {
+    "num": 32,
+    "stage": "group",
+    "group": "D",
+    "home": "Türkiye",
+    "away": "Paraguay",
+    "utcTime": "2026-06-17T21:00:00.000Z",
+    "venue": "Seattle"
+  },
+  {
+    "num": 33,
+    "stage": "group",
+    "group": "E",
+    "home": "Germany",
+    "away": "Ivory Coast",
+    "utcTime": "2026-06-15T00:00:00.000Z",
+    "venue": "Mexico City"
+  },
+  {
+    "num": 34,
+    "stage": "group",
+    "group": "E",
+    "home": "Ecuador",
+    "away": "Curaçao",
+    "utcTime": "2026-06-15T03:00:00.000Z",
+    "venue": "Guadalajara"
+  },
+  {
+    "num": 35,
+    "stage": "group",
+    "group": "F",
+    "home": "Netherlands",
+    "away": "Sweden",
+    "utcTime": "2026-06-16T15:00:00.000Z",
+    "venue": "Monterrey"
+  },
+  {
+    "num": 36,
+    "stage": "group",
+    "group": "F",
+    "home": "Tunisia",
+    "away": "Japan",
+    "utcTime": "2026-06-16T12:00:00.000Z",
+    "venue": "Vancouver"
+  },
+  {
+    "num": 37,
+    "stage": "group",
+    "group": "G",
+    "home": "Belgium",
+    "away": "Iran",
+    "utcTime": "2026-06-16T18:00:00.000Z",
+    "venue": "Toronto"
+  },
+  {
+    "num": 38,
+    "stage": "group",
+    "group": "G",
+    "home": "New Zealand",
+    "away": "Egypt",
+    "utcTime": "2026-06-16T21:00:00.000Z",
+    "venue": "Atlanta"
+  },
+  {
+    "num": 39,
+    "stage": "group",
+    "group": "H",
+    "home": "Spain",
+    "away": "Saudi Arabia",
+    "utcTime": "2026-06-18T00:00:00.000Z",
+    "venue": "Boston"
+  },
+  {
+    "num": 40,
+    "stage": "group",
+    "group": "H",
+    "home": "Uruguay",
+    "away": "Cape Verde",
+    "utcTime": "2026-06-18T03:00:00.000Z",
+    "venue": "Dallas"
+  },
+  {
+    "num": 41,
+    "stage": "group",
+    "group": "I",
+    "home": "France",
+    "away": "Iraq",
+    "utcTime": "2026-06-15T15:00:00.000Z",
+    "venue": "Houston"
+  },
+  {
+    "num": 42,
+    "stage": "group",
+    "group": "I",
+    "home": "Norway",
+    "away": "Senegal",
+    "utcTime": "2026-06-15T12:00:00.000Z",
+    "venue": "Kansas City"
+  },
+  {
+    "num": 43,
+    "stage": "group",
+    "group": "J",
+    "home": "Argentina",
+    "away": "Austria",
+    "utcTime": "2026-06-15T18:00:00.000Z",
+    "venue": "Los Angeles"
+  },
+  {
+    "num": 44,
+    "stage": "group",
+    "group": "J",
+    "home": "Jordan",
+    "away": "Algeria",
+    "utcTime": "2026-06-15T21:00:00.000Z",
+    "venue": "Miami"
+  },
+  {
+    "num": 45,
+    "stage": "group",
+    "group": "K",
+    "home": "Portugal",
+    "away": "Uzbekistan",
+    "utcTime": "2026-06-17T00:00:00.000Z",
+    "venue": "New York/New Jersey"
+  },
+  {
+    "num": 46,
+    "stage": "group",
+    "group": "K",
+    "home": "Colombia",
+    "away": "DR Congo",
+    "utcTime": "2026-06-17T03:00:00.000Z",
+    "venue": "Philadelphia"
+  },
+  {
+    "num": 47,
+    "stage": "group",
+    "group": "L",
+    "home": "England",
+    "away": "Ghana",
+    "utcTime": "2026-06-18T15:00:00.000Z",
+    "venue": "San Francisco"
+  },
+  {
+    "num": 48,
+    "stage": "group",
+    "group": "L",
+    "home": "Panama",
+    "away": "Croatia",
+    "utcTime": "2026-06-18T12:00:00.000Z",
+    "venue": "Seattle"
+  },
+  {
+    "num": 49,
+    "stage": "group",
+    "group": "A",
+    "home": "Czechia",
+    "away": "Mexico",
+    "utcTime": "2026-06-21T18:00:00.000Z",
+    "venue": "Mexico City"
+  },
+  {
+    "num": 50,
+    "stage": "group",
+    "group": "A",
+    "home": "South Africa",
+    "away": "South Korea",
+    "utcTime": "2026-06-21T21:00:00.000Z",
+    "venue": "Guadalajara"
+  },
+  {
+    "num": 51,
+    "stage": "group",
+    "group": "B",
+    "home": "Switzerland",
+    "away": "Canada",
+    "utcTime": "2026-06-23T00:00:00.000Z",
+    "venue": "Monterrey"
+  },
+  {
+    "num": 52,
+    "stage": "group",
+    "group": "B",
+    "home": "Bosnia and Herzegovina",
+    "away": "Qatar",
+    "utcTime": "2026-06-23T03:00:00.000Z",
+    "venue": "Vancouver"
+  },
+  {
+    "num": 53,
+    "stage": "group",
+    "group": "C",
+    "home": "Scotland",
+    "away": "Brazil",
+    "utcTime": "2026-06-24T15:00:00.000Z",
+    "venue": "Toronto"
+  },
+  {
+    "num": 54,
+    "stage": "group",
+    "group": "C",
+    "home": "Morocco",
+    "away": "Haiti",
+    "utcTime": "2026-06-24T12:00:00.000Z",
+    "venue": "Atlanta"
+  },
+  {
+    "num": 55,
+    "stage": "group",
+    "group": "D",
+    "home": "Türkiye",
+    "away": "United States",
+    "utcTime": "2026-06-24T18:00:00.000Z",
+    "venue": "Boston"
+  },
+  {
+    "num": 56,
+    "stage": "group",
+    "group": "D",
+    "home": "Paraguay",
+    "away": "Australia",
+    "utcTime": "2026-06-24T21:00:00.000Z",
+    "venue": "Dallas"
+  },
+  {
+    "num": 57,
+    "stage": "group",
+    "group": "E",
+    "home": "Ecuador",
+    "away": "Germany",
+    "utcTime": "2026-06-22T00:00:00.000Z",
+    "venue": "Houston"
+  },
+  {
+    "num": 58,
+    "stage": "group",
+    "group": "E",
+    "home": "Curaçao",
+    "away": "Ivory Coast",
+    "utcTime": "2026-06-22T03:00:00.000Z",
+    "venue": "Kansas City"
+  },
+  {
+    "num": 59,
+    "stage": "group",
+    "group": "F",
+    "home": "Tunisia",
+    "away": "Netherlands",
+    "utcTime": "2026-06-23T15:00:00.000Z",
+    "venue": "Los Angeles"
+  },
+  {
+    "num": 60,
+    "stage": "group",
+    "group": "F",
+    "home": "Japan",
+    "away": "Sweden",
+    "utcTime": "2026-06-23T12:00:00.000Z",
+    "venue": "Miami"
+  },
+  {
+    "num": 61,
+    "stage": "group",
+    "group": "G",
+    "home": "New Zealand",
+    "away": "Belgium",
+    "utcTime": "2026-06-23T18:00:00.000Z",
+    "venue": "New York/New Jersey"
+  },
+  {
+    "num": 62,
+    "stage": "group",
+    "group": "G",
+    "home": "Egypt",
+    "away": "Iran",
+    "utcTime": "2026-06-23T21:00:00.000Z",
+    "venue": "Philadelphia"
+  },
+  {
+    "num": 63,
+    "stage": "group",
+    "group": "H",
+    "home": "Uruguay",
+    "away": "Spain",
+    "utcTime": "2026-06-25T00:00:00.000Z",
+    "venue": "San Francisco"
+  },
+  {
+    "num": 64,
+    "stage": "group",
+    "group": "H",
+    "home": "Cape Verde",
+    "away": "Saudi Arabia",
+    "utcTime": "2026-06-25T03:00:00.000Z",
+    "venue": "Seattle"
+  },
+  {
+    "num": 65,
+    "stage": "group",
+    "group": "I",
+    "home": "Norway",
+    "away": "France",
+    "utcTime": "2026-06-22T15:00:00.000Z",
+    "venue": "Mexico City"
+  },
+  {
+    "num": 66,
+    "stage": "group",
+    "group": "I",
+    "home": "Senegal",
+    "away": "Iraq",
+    "utcTime": "2026-06-22T12:00:00.000Z",
+    "venue": "Guadalajara"
+  },
+  {
+    "num": 67,
+    "stage": "group",
+    "group": "J",
+    "home": "Jordan",
+    "away": "Argentina",
+    "utcTime": "2026-06-22T18:00:00.000Z",
+    "venue": "Monterrey"
+  },
+  {
+    "num": 68,
+    "stage": "group",
+    "group": "J",
+    "home": "Algeria",
+    "away": "Austria",
+    "utcTime": "2026-06-22T21:00:00.000Z",
+    "venue": "Vancouver"
+  },
+  {
+    "num": 69,
+    "stage": "group",
+    "group": "K",
+    "home": "Colombia",
+    "away": "Portugal",
+    "utcTime": "2026-06-24T00:00:00.000Z",
+    "venue": "Toronto"
+  },
+  {
+    "num": 70,
+    "stage": "group",
+    "group": "K",
+    "home": "DR Congo",
+    "away": "Uzbekistan",
+    "utcTime": "2026-06-24T03:00:00.000Z",
+    "venue": "Atlanta"
+  },
+  {
+    "num": 71,
+    "stage": "group",
+    "group": "L",
+    "home": "Panama",
+    "away": "England",
+    "utcTime": "2026-06-25T15:00:00.000Z",
+    "venue": "Boston"
+  },
+  {
+    "num": 72,
+    "stage": "group",
+    "group": "L",
+    "home": "Croatia",
+    "away": "Ghana",
+    "utcTime": "2026-06-25T12:00:00.000Z",
+    "venue": "Dallas"
+  },
+  {
+    "num": 73,
+    "stage": "round32",
+    "group": null,
+    "home": "Nhất 1A",
+    "away": "Nhì 2B",
+    "utcTime": "2026-06-27T18:00:00.000Z",
+    "venue": "Mexico City"
+  },
+  {
+    "num": 74,
+    "stage": "round32",
+    "group": null,
+    "home": "Nhất 1C",
+    "away": "Nhì 2D",
+    "utcTime": "2026-06-27T21:00:00.000Z",
+    "venue": "Guadalajara"
+  },
+  {
+    "num": 75,
+    "stage": "round32",
+    "group": null,
+    "home": "Nhất 1E",
+    "away": "Nhì 2F",
+    "utcTime": "2026-06-29T00:00:00.000Z",
+    "venue": "Monterrey"
+  },
+  {
+    "num": 76,
+    "stage": "round32",
+    "group": null,
+    "home": "Nhất 1G",
+    "away": "Nhì 2H",
+    "utcTime": "2026-06-29T03:00:00.000Z",
+    "venue": "Vancouver"
+  },
+  {
+    "num": 77,
+    "stage": "round32",
+    "group": null,
+    "home": "Nhất 1I",
+    "away": "Nhì 2J",
+    "utcTime": "2026-06-29T18:00:00.000Z",
+    "venue": "Toronto"
+  },
+  {
+    "num": 78,
+    "stage": "round32",
+    "group": null,
+    "home": "Nhất 1K",
+    "away": "Nhì 2L",
+    "utcTime": "2026-06-29T21:00:00.000Z",
+    "venue": "Atlanta"
+  },
+  {
+    "num": 79,
+    "stage": "round32",
+    "group": null,
+    "home": "Nhất 1B",
+    "away": "Nhì 2A",
+    "utcTime": "2026-07-01T00:00:00.000Z",
+    "venue": "Boston"
+  },
+  {
+    "num": 80,
+    "stage": "round32",
+    "group": null,
+    "home": "Nhất 1D",
+    "away": "Nhì 2C",
+    "utcTime": "2026-07-01T03:00:00.000Z",
+    "venue": "Dallas"
+  },
+  {
+    "num": 81,
+    "stage": "round32",
+    "group": null,
+    "home": "Nhất 1F",
+    "away": "Nhì 2E",
+    "utcTime": "2026-06-30T18:00:00.000Z",
+    "venue": "Houston"
+  },
+  {
+    "num": 82,
+    "stage": "round32",
+    "group": null,
+    "home": "Nhất 1H",
+    "away": "Nhì 2G",
+    "utcTime": "2026-07-01T21:00:00.000Z",
+    "venue": "Kansas City"
+  },
+  {
+    "num": 83,
+    "stage": "round32",
+    "group": null,
+    "home": "Nhất 1J",
+    "away": "Nhì 2I",
+    "utcTime": "2026-07-02T00:00:00.000Z",
+    "venue": "Los Angeles"
+  },
+  {
+    "num": 84,
+    "stage": "round32",
+    "group": null,
+    "home": "Nhất 1L",
+    "away": "Nhì 2K",
+    "utcTime": "2026-07-02T03:00:00.000Z",
+    "venue": "Miami"
+  },
+  {
+    "num": 85,
+    "stage": "round32",
+    "group": null,
+    "home": "Nhất 3A/B/C",
+    "away": "Nhì 3D/E/F",
+    "utcTime": "2026-07-02T18:00:00.000Z",
+    "venue": "New York/New Jersey"
+  },
+  {
+    "num": 86,
+    "stage": "round32",
+    "group": null,
+    "home": "Nhất 3A/B/C",
+    "away": "Nhì 3G/H/I",
+    "utcTime": "2026-07-02T21:00:00.000Z",
+    "venue": "Philadelphia"
+  },
+  {
+    "num": 87,
+    "stage": "round32",
+    "group": null,
+    "home": "Nhất 3D/E/F",
+    "away": "Nhì 3J/K/L",
+    "utcTime": "2026-07-03T00:00:00.000Z",
+    "venue": "San Francisco"
+  },
+  {
+    "num": 88,
+    "stage": "round32",
+    "group": null,
+    "home": "Nhất 3G/H/I",
+    "away": "Nhì 3J/K/L",
+    "utcTime": "2026-07-03T03:00:00.000Z",
+    "venue": "Seattle"
+  },
+  {
+    "num": 89,
+    "stage": "round16",
+    "group": null,
+    "home": "Thắng trận 73",
+    "away": "Thắng trận 74",
+    "utcTime": "2026-07-03T18:00:00.000Z",
+    "venue": "Toronto"
+  },
+  {
+    "num": 90,
+    "stage": "round16",
+    "group": null,
+    "home": "Thắng trận 75",
+    "away": "Thắng trận 76",
+    "utcTime": "2026-07-03T21:00:00.000Z",
+    "venue": "Atlanta"
+  },
+  {
+    "num": 91,
+    "stage": "round16",
+    "group": null,
+    "home": "Thắng trận 77",
+    "away": "Thắng trận 78",
+    "utcTime": "2026-07-04T18:00:00.000Z",
+    "venue": "Boston"
+  },
+  {
+    "num": 92,
+    "stage": "round16",
+    "group": null,
+    "home": "Thắng trận 79",
+    "away": "Thắng trận 80",
+    "utcTime": "2026-07-04T21:00:00.000Z",
+    "venue": "Dallas"
+  },
+  {
+    "num": 93,
+    "stage": "round16",
+    "group": null,
+    "home": "Thắng trận 81",
+    "away": "Thắng trận 82",
+    "utcTime": "2026-07-05T18:00:00.000Z",
+    "venue": "Houston"
+  },
+  {
+    "num": 94,
+    "stage": "round16",
+    "group": null,
+    "home": "Thắng trận 83",
+    "away": "Thắng trận 84",
+    "utcTime": "2026-07-05T21:00:00.000Z",
+    "venue": "Kansas City"
+  },
+  {
+    "num": 95,
+    "stage": "round16",
+    "group": null,
+    "home": "Thắng trận 85",
+    "away": "Thắng trận 86",
+    "utcTime": "2026-07-06T18:00:00.000Z",
+    "venue": "Los Angeles"
+  },
+  {
+    "num": 96,
+    "stage": "round16",
+    "group": null,
+    "home": "Thắng trận 87",
+    "away": "Thắng trận 88",
+    "utcTime": "2026-07-06T21:00:00.000Z",
+    "venue": "Miami"
+  },
+  {
+    "num": 97,
+    "stage": "quarter",
+    "group": null,
+    "home": "Thắng trận 89",
+    "away": "Thắng trận 90",
+    "utcTime": "2026-07-08T18:00:00.000Z",
+    "venue": "Houston"
+  },
+  {
+    "num": 98,
+    "stage": "quarter",
+    "group": null,
+    "home": "Thắng trận 91",
+    "away": "Thắng trận 92",
+    "utcTime": "2026-07-09T00:00:00.000Z",
+    "venue": "Kansas City"
+  },
+  {
+    "num": 99,
+    "stage": "quarter",
+    "group": null,
+    "home": "Thắng trận 93",
+    "away": "Thắng trận 94",
+    "utcTime": "2026-07-09T18:00:00.000Z",
+    "venue": "Los Angeles"
+  },
+  {
+    "num": 100,
+    "stage": "quarter",
+    "group": null,
+    "home": "Thắng trận 95",
+    "away": "Thắng trận 96",
+    "utcTime": "2026-07-11T00:00:00.000Z",
+    "venue": "Miami"
+  },
+  {
+    "num": 101,
+    "stage": "semi",
+    "group": null,
+    "home": "Thắng TK1",
+    "away": "Thắng TK2",
+    "utcTime": "2026-07-13T21:00:00.000Z",
+    "venue": "Dallas"
+  },
+  {
+    "num": 102,
+    "stage": "semi",
+    "group": null,
+    "home": "Thắng TK3",
+    "away": "Thắng TK4",
+    "utcTime": "2026-07-14T21:00:00.000Z",
+    "venue": "Atlanta"
+  },
+  {
+    "num": 103,
+    "stage": "third",
+    "group": null,
+    "home": "Thua BK1",
+    "away": "Thua BK2",
+    "utcTime": "2026-07-17T21:00:00.000Z",
+    "venue": "Miami"
+  },
+  {
+    "num": 104,
+    "stage": "final",
+    "group": null,
+    "home": "Thắng BK1",
+    "away": "Thắng BK2",
+    "utcTime": "2026-07-18T21:00:00.000Z",
+    "venue": "New York/New Jersey"
+  }
+]

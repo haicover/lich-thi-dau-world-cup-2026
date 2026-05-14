@@ -1,5 +1,5 @@
 // ========== SERVICE WORKER — World Cup 2026 PWA ==========
-const CACHE_NAME = 'wc2026-v1';
+const CACHE_NAME = 'wc2026-v2';
 const OFFLINE_URL = './index.html';
 
 // Files to pre-cache on install
@@ -7,8 +7,10 @@ const PRE_CACHE = [
     './',
     './index.html',
     './style.css',
-    './data.js',
     './app.js',
+    './teams.json',
+    './matches.json',
+    './venues.json',
     './manifest.json',
     './icon-192.png',
     './icon-512.png',

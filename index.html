@@ -107,6 +107,17 @@
                     </div>
                 </div>
             </div>
+            
+            <!-- Global Search (US-09) -->
+            <div class="global-search-container">
+                <div class="search-input-wrapper">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="globalSearchInput" placeholder="Tìm đội, sân, thành phố..." autocomplete="off">
+                </div>
+                <div class="search-results-dropdown" id="searchResults" style="display: none;">
+                    <!-- Results rendered via JS -->
+                </div>
+            </div>
         </div>
     </header>
 
@@ -271,7 +282,8 @@
         </svg>
     </button>
 
-    <script src="data.js"></script>
+    <!-- Search engine -->
+    <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2"></script>
     <script src="app.js"></script>
 </body>
 </html>
