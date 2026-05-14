@@ -369,6 +369,27 @@ function initTabs() {
     document.getElementById('filterStage').addEventListener('change', renderSchedule);
     document.getElementById('filterGroup').addEventListener('change', renderSchedule);
     document.getElementById('filterTeam').addEventListener('change', renderSchedule);
+
+    // View Toggles
+    const btnList = document.getElementById('btnListView');
+    const btnCal = document.getElementById('btnCalendarView');
+    const listEl = document.getElementById('scheduleList');
+    const calEl = document.getElementById('scheduleCalendar');
+
+    if (btnList && btnCal) {
+        btnList.addEventListener('click', () => {
+            btnList.classList.add('active');
+            btnCal.classList.remove('active');
+            listEl.style.display = 'block';
+            calEl.style.display = 'none';
+        });
+        btnCal.addEventListener('click', () => {
+            btnCal.classList.add('active');
+            btnList.classList.remove('active');
+            calEl.style.display = 'block';
+            listEl.style.display = 'none';
+        });
+    }
 }
 
 // ========== SCROLL TOP ==========
@@ -550,6 +571,120 @@ function renderSchedule() {
             </div>
         </div>
     `).join('');
+
+    renderCalendar(filtered, favs, byDate);
+}
+
+let CURRENT_FILTERED_MATCHES = [];
+
+// ========== RENDER CALENDAR (US-12) ==========
+function renderCalendar(filtered, favs, byDate) {
+    CURRENT_FILTERED_MATCHES = filtered;
+    const calContainer = document.getElementById('scheduleCalendar');
+    if (!calContainer) return;
+
+    // June & July 2026
+    const months = [
+        { year: 2026, month: 5, name: 'Tháng 6, 2026' }, // 0-indexed month
+        { year: 2026, month: 6, name: 'Tháng 7, 2026' }
+    ];
+
+    let html = '';
+    const todayStr = new Date().toISOString().split('T')[0];
+
+    months.forEach(mo => {
+        html += `<div class="calendar-month-wrapper">
+            <div class="calendar-header"><h3>${mo.name}</h3></div>
+            <div class="calendar-grid">
+                <div class="calendar-day-header">CN</div>
+                <div class="calendar-day-header">T2</div>
+                <div class="calendar-day-header">T3</div>
+                <div class="calendar-day-header">T4</div>
+                <div class="calendar-day-header">T5</div>
+                <div class="calendar-day-header">T6</div>
+                <div class="calendar-day-header">T7</div>`;
+
+        const firstDay = new Date(mo.year, mo.month, 1).getDay(); // 0 = Sun
+        const daysInMonth = new Date(mo.year, mo.month + 1, 0).getDate();
+
+        // Padding before day 1
+        for (let i = 0; i < firstDay; i++) {
+            html += `<div class="calendar-day empty"></div>`;
+        }
+
+        // Days
+        for (let d = 1; d <= daysInMonth; d++) {
+            const dateStr = `${mo.year}-${String(mo.month + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+            const matchesForDay = byDate[dateStr] || [];
+            
+            let classes = ['calendar-day'];
+            if (dateStr === todayStr) classes.push('today');
+            if (matchesForDay.length > 0) classes.push('has-matches');
+
+            let badgeHtml = '';
+            if (matchesForDay.length > 0) {
+                badgeHtml = `<div class="calendar-badges"><span class="match-badge">${matchesForDay.length} trận</span></div>`;
+            }
+
+            html += `
+                <div class="${classes.join(' ')}" onclick="showCalendarDayMatches('${dateStr}')">
+                    <div class="calendar-date-num">${d}</div>
+                    ${badgeHtml}
+                </div>
+            `;
+        }
+
+        // Padding after last day to complete grid (optional, but good for borders)
+        const totalCells = firstDay + daysInMonth;
+        const remainingCells = totalCells % 7 === 0 ? 0 : 7 - (totalCells % 7);
+        for (let i = 0; i < remainingCells; i++) {
+            html += `<div class="calendar-day empty"></div>`;
+        }
+
+        html += `</div></div>`;
+    });
+
+    html += `<div id="calendarDayDetails" class="calendar-day-details" style="display:none;"></div>`;
+    calContainer.innerHTML = html;
+}
+
+// Global matches lookup for calendar
+function showCalendarDayMatches(dateStr) {
+    const detailsContainer = document.getElementById('calendarDayDetails');
+    const dayMatches = CURRENT_FILTERED_MATCHES.filter(m => m.date.toISOString().split('T')[0] === dateStr);
+    
+    if (dayMatches.length === 0) {
+        detailsContainer.style.display = 'block';
+        detailsContainer.innerHTML = `<h4>Lịch thi đấu ngày ${formatDateShort(new Date(dateStr))}</h4><p style="color:var(--text-muted)">Không có trận đấu nào.</p>`;
+        return;
+    }
+
+    const stageNames = { group:"Vòng bảng", round32:"Vòng 32", round16:"Vòng 16", quarter:"Tứ kết", semi:"Bán kết", third:"Tranh hạng 3", final:"Chung kết" };
+    const favs = getFavorites();
+
+    let html = `<h4>Lịch thi đấu ngày ${formatDateShort(new Date(dateStr))}</h4>`;
+    html += `<div class="day-matches">` + dayMatches.map(m => `
+        <div class="match-card ${favs.includes(m.home) || favs.includes(m.away) ? 'match-fav' : ''}">
+            <div class="match-team home">
+                <span class="team-flag">${getFlag(m.home, 30)}</span>
+                <span class="team-name" onclick="showTeamProfile('${m.home}')" style="cursor: pointer;">${m.home}</span>
+            </div>
+            <div class="match-center">
+                <div class="match-time">${m.time}</div>
+                <div class="match-info">(Giờ VN)</div>
+                ${m.group ? `<div class="match-group-tag">Bảng ${m.group}</div>` : `<div class="match-group-tag">${stageNames[m.stage]||''}</div>`}
+                <div class="match-venue">📍 ${m.venue}</div>
+            </div>
+            <div class="match-team away">
+                <span class="team-flag">${getFlag(m.away, 30)}</span>
+                <span class="team-name" onclick="showTeamProfile('${m.away}')" style="cursor: pointer;">${m.away}</span>
+            </div>
+        </div>
+    `).join('') + `</div>`;
+
+    detailsContainer.innerHTML = html;
+    detailsContainer.style.display = 'block';
+    detailsContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
 // ========== RENDER KNOCKOUT ==========

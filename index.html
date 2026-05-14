@@ -226,6 +226,10 @@
                         ❌ Xóa tất cả
                     </button>
                 </div>
+                <div class="filter-group view-toggle-group" style="margin-left: auto;">
+                    <button class="view-toggle-btn active" id="btnListView" title="Xem dạng danh sách">📄 Danh sách</button>
+                    <button class="view-toggle-btn" id="btnCalendarView" title="Xem dạng lịch tháng">📅 Lịch</button>
+                </div>
             </div>
         </div>
     </div>
@@ -241,6 +245,9 @@
             <!-- Schedule Tab -->
             <div class="tab-content" id="content-schedule">
                 <div class="schedule-list" id="scheduleList"></div>
+                <div class="schedule-calendar" id="scheduleCalendar" style="display:none;">
+                    <!-- Calendar View will be rendered here -->
+                </div>
             </div>
 
             <!-- Knockout Tab -->
