@@ -564,6 +564,7 @@ function renderSchedule() {
                             <span class="team-name" onclick="showTeamProfile('${m.away}')" style="cursor: pointer;">${m.away}</span>
                         </div>
                         <div class="match-actions">
+                            <button class="action-btn" onclick="showMatchDetails('${m.home}', '${m.away}')" title="Chi tiết trận đấu (Timeline & Stats)">📊 Stats</button>
                             <button class="action-btn btn-h2h" onclick="showH2H('${m.home}', '${m.away}')" title="Lịch sử đối đầu">⚔️ H2H</button>
                             <button class="action-btn" onclick="downloadICS(ALL_MATCHES[${ALL_MATCHES.indexOf(m)}])" title="Thêm vào Calendar">📅</button>
                             <button class="action-btn" onclick="shareMatch(ALL_MATCHES[${ALL_MATCHES.indexOf(m)}])" title="Chia sẻ">🔗</button>
@@ -682,6 +683,7 @@ function showCalendarDayMatches(dateStr) {
                 <span class="team-name" onclick="showTeamProfile('${m.away}')" style="cursor: pointer;">${m.away}</span>
             </div>
             <div class="match-actions" style="margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 10px;">
+                <button class="action-btn" onclick="showMatchDetails('${m.home}', '${m.away}')" title="Chi tiết trận đấu (Timeline & Stats)">📊 Stats</button>
                 <button class="action-btn btn-h2h" onclick="showH2H('${m.home}', '${m.away}')" title="Lịch sử đối đầu">⚔️ H2H</button>
                 <button class="action-btn" onclick="downloadICS(ALL_MATCHES[${ALL_MATCHES.indexOf(m)}])" title="Thêm vào Calendar">📅</button>
                 <button class="action-btn" onclick="shareMatch(ALL_MATCHES[${ALL_MATCHES.indexOf(m)}])" title="Chia sẻ">🔗</button>
@@ -715,7 +717,7 @@ function renderKnockout() {
                 </div>
                 <div class="bracket-matches">
                     ${matches.map(m => `
-                        <div class="bracket-match-card ${stage==='final'?'final-card':''}" data-home="${m.home}" data-away="${m.away}">
+                        <div class="bracket-match-card ${stage==='final'?'final-card':''}" data-home="${m.home}" data-away="${m.away}" onclick="showMatchDetails('${m.home}', '${m.away}')" style="cursor:pointer;" title="Xem chi tiết trận đấu">
                             ${m.isLive ? '<div class="live-badge-bracket">🔴 LIVE</div>' : ''}
                             <div class="b-match-num">Trận #${m.num}</div>
                             <div class="b-match-teams">
@@ -1172,3 +1174,131 @@ function updateMatchDOM(home, away, score, isLive) {
         }
     });
 }
+
+// ========== US-20: MATCH DETAILS & TIMELINE MODAL ==========
+
+window.showMatchDetails = function(home, away) {
+    const modal = document.getElementById('matchDetailsModal');
+    const body = document.getElementById('matchDetailsModalBody');
+    
+    const match = ALL_MATCHES.find(m => m.home === home && m.away === away);
+    const scoreStr = match?.score || 'VS';
+    
+    // Generate Mock Stats
+    const stats = {
+        possession: [Math.floor(Math.random()*40 + 30), 0],
+        shots: [Math.floor(Math.random()*15 + 2), Math.floor(Math.random()*15 + 2)],
+        shotsOnTarget: [Math.floor(Math.random()*8 + 1), Math.floor(Math.random()*8 + 1)],
+        corners: [Math.floor(Math.random()*8), Math.floor(Math.random()*8)],
+        fouls: [Math.floor(Math.random()*15 + 5), Math.floor(Math.random()*15 + 5)]
+    };
+    stats.possession[1] = 100 - stats.possession[0];
+
+    // Generate Mock Timeline
+    const events = [];
+    const eventTypes = ['goal', 'yellow-card', 'red-card', 'sub'];
+    for(let i=0; i<Math.floor(Math.random()*6 + 2); i++) {
+        events.push({
+            minute: Math.floor(Math.random()*90 + 1),
+            type: eventTypes[Math.floor(Math.random()*eventTypes.length)],
+            team: Math.random() > 0.5 ? home : away,
+            player: 'Cầu thủ số ' + Math.floor(Math.random()*20 + 1)
+        });
+    }
+    events.sort((a,b) => a.minute - b.minute);
+
+    const html = `
+        <div class="md-header">
+            <div class="md-team md-home">
+                ${getFlag(home, 50)}
+                <h4>${home}</h4>
+            </div>
+            <div class="md-score-board">
+                <div class="md-status">${match?.isLive ? '🔴 ĐANG ĐÁ' : 'KẾT QUẢ'}</div>
+                <div class="md-score ${match?.isLive ? 'live-score-text' : ''}">${scoreStr}</div>
+            </div>
+            <div class="md-team md-away">
+                ${getFlag(away, 50)}
+                <h4>${away}</h4>
+            </div>
+        </div>
+
+        <div class="md-tabs">
+            <button class="md-tab-btn active" onclick="switchMdTab('timeline', this)">Dòng thời gian</button>
+            <button class="md-tab-btn" onclick="switchMdTab('stats', this)">Thống kê</button>
+        </div>
+
+        <div id="md-timeline" class="md-panel active">
+            <div class="md-timeline-container">
+                ${events.length === 0 ? '<p style="text-align:center; color:gray">Chưa có sự kiện nào</p>' : ''}
+                ${events.map(e => `
+                    <div class="timeline-row ${e.team === home ? 'row-left' : 'row-right'}">
+                        <div class="timeline-event-box">
+                            <div class="t-min">${e.minute}'</div>
+                            <div class="t-icon">${getEventIcon(e.type)}</div>
+                            <div class="t-desc">${e.player}</div>
+                        </div>
+                    </div>
+                `).join('')}
+                <div class="timeline-line"></div>
+            </div>
+        </div>
+
+        <div id="md-stats" class="md-panel">
+            <div class="md-stats-container">
+                ${renderStatBar('Kiểm soát bóng (%)', stats.possession[0], stats.possession[1])}
+                ${renderStatBar('Số cú sút', stats.shots[0], stats.shots[1])}
+                ${renderStatBar('Sút trúng đích', stats.shotsOnTarget[0], stats.shotsOnTarget[1])}
+                ${renderStatBar('Phạt góc', stats.corners[0], stats.corners[1])}
+                ${renderStatBar('Phạm lỗi', stats.fouls[0], stats.fouls[1])}
+            </div>
+        </div>
+    `;
+
+    body.innerHTML = html;
+    modal.classList.add('active');
+};
+
+function getEventIcon(type) {
+    if(type === 'goal') return '⚽';
+    if(type === 'yellow-card') return '<div class="card-icon yellow"></div>';
+    if(type === 'red-card') return '<div class="card-icon red"></div>';
+    if(type === 'sub') return '🔄';
+    return '•';
+}
+
+function renderStatBar(label, val1, val2) {
+    const total = val1 + val2 || 1;
+    const p1 = (val1 / total) * 100;
+    const p2 = (val2 / total) * 100;
+    return `
+        <div class="stat-row">
+            <div class="stat-labels">
+                <span class="stat-val home-val">${val1}</span>
+                <span class="stat-name">${label}</span>
+                <span class="stat-val away-val">${val2}</span>
+            </div>
+            <div class="stat-bar-wrapper">
+                <div class="stat-bar-left" style="width: ${p1}%"></div>
+                <div class="stat-bar-right" style="width: ${p2}%"></div>
+            </div>
+        </div>
+    `;
+}
+
+window.switchMdTab = function(tabId, btn) {
+    document.querySelectorAll('.md-tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.md-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('md-' + tabId).classList.add('active');
+};
+
+document.getElementById('closeMatchDetailsModal').addEventListener('click', () => {
+    document.getElementById('matchDetailsModal').classList.remove('active');
+});
+
+document.getElementById('matchDetailsModal').addEventListener('click', (e) => {
+    if (e.target.id === 'matchDetailsModal') {
+        document.getElementById('matchDetailsModal').classList.remove('active');
+    }
+});
