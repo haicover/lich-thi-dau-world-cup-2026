@@ -563,6 +563,7 @@ function renderSchedule() {
                             <span class="team-name" onclick="showTeamProfile('${m.away}')" style="cursor: pointer;">${m.away}</span>
                         </div>
                         <div class="match-actions">
+                            <button class="action-btn btn-h2h" onclick="showH2H('${m.home}', '${m.away}')" title="Lịch sử đối đầu">⚔️ H2H</button>
                             <button class="action-btn" onclick="downloadICS(ALL_MATCHES[${ALL_MATCHES.indexOf(m)}])" title="Thêm vào Calendar">📅</button>
                             <button class="action-btn" onclick="shareMatch(ALL_MATCHES[${ALL_MATCHES.indexOf(m)}])" title="Chia sẻ">🔗</button>
                         </div>
@@ -678,6 +679,11 @@ function showCalendarDayMatches(dateStr) {
             <div class="match-team away">
                 <span class="team-flag">${getFlag(m.away, 30)}</span>
                 <span class="team-name" onclick="showTeamProfile('${m.away}')" style="cursor: pointer;">${m.away}</span>
+            </div>
+            <div class="match-actions" style="margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 10px;">
+                <button class="action-btn btn-h2h" onclick="showH2H('${m.home}', '${m.away}')" title="Lịch sử đối đầu">⚔️ H2H</button>
+                <button class="action-btn" onclick="downloadICS(ALL_MATCHES[${ALL_MATCHES.indexOf(m)}])" title="Thêm vào Calendar">📅</button>
+                <button class="action-btn" onclick="shareMatch(ALL_MATCHES[${ALL_MATCHES.indexOf(m)}])" title="Chia sẻ">🔗</button>
             </div>
         </div>
     `).join('') + `</div>`;
@@ -927,3 +933,107 @@ document.getElementById('teamModal').addEventListener('click', (e) => {
         document.getElementById('teamModal').classList.remove('active');
     }
 });
+
+// ========== US-15: H2H MODAL LOGIC ==========
+function generateMockH2H(teamA, teamB) {
+    // Generate some stable fake data based on team names length
+    const hash = teamA.length + teamB.length;
+    
+    // Thắng / Hòa / Thua của Team A
+    const wins = hash % 4;
+    const draws = (hash + 1) % 3;
+    const losses = (hash + 2) % 4;
+    
+    const matches = [];
+    let currentYear = 2024;
+    for (let i = 0; i < (wins + draws + losses); i++) {
+        currentYear -= (1 + (hash % 2));
+        
+        // Random kết quả
+        let scoreA, scoreB;
+        if (i < wins) { scoreA = 2 + (i%2); scoreB = i%2; }
+        else if (i < wins + draws) { scoreA = 1 + (i%2); scoreB = scoreA; }
+        else { scoreA = i%2; scoreB = 2 + (i%2); }
+        
+        matches.push({
+            year: currentYear,
+            tournament: i % 2 === 0 ? 'Giao hữu quốc tế' : 'World Cup',
+            scoreA, scoreB
+        });
+    }
+    
+    return { wins, draws, losses, matches };
+}
+
+window.showH2H = function(teamA, teamB) {
+    const modal = document.getElementById('h2hModal');
+    const body = document.getElementById('h2hModalBody');
+    
+    const data = generateMockH2H(teamA, teamB);
+    const totalMatches = data.wins + data.draws + data.losses;
+
+    let html = `
+        <div class="h2h-header">
+            <h3>Lịch Sử Đối Đầu</h3>
+            <p style="color: var(--text-muted); font-size: 0.8rem; margin-top: 5px;">(Dữ liệu mô phỏng tham khảo)</p>
+        </div>
+        <div class="h2h-matchup">
+            <div class="h2h-team">
+                ${getFlag(teamA, 40)}
+                <div class="h2h-team-name">${teamA}</div>
+                <div class="h2h-wins-count">${data.wins} Thắng</div>
+            </div>
+            <div class="h2h-center">
+                <div class="h2h-vs">VS</div>
+                <div class="h2h-draws">${data.draws} Hòa</div>
+            </div>
+            <div class="h2h-team">
+                ${getFlag(teamB, 40)}
+                <div class="h2h-team-name">${teamB}</div>
+                <div class="h2h-wins-count">${data.losses} Thắng</div>
+            </div>
+        </div>
+    `;
+
+    if (totalMatches === 0) {
+        html += `<div style="text-align:center; padding: 2rem; color: var(--text-muted);">Hai đội chưa từng gặp nhau trong quá khứ.</div>`;
+    } else {
+        html += `<div class="h2h-history-list">
+            <h4 style="margin-bottom: 1rem; color: var(--gold); border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 5px;">Các trận gần nhất</h4>
+        `;
+        data.matches.forEach(m => {
+            let resultClass = '';
+            if (m.scoreA > m.scoreB) resultClass = 'h2h-win-a';
+            else if (m.scoreA < m.scoreB) resultClass = 'h2h-win-b';
+            else resultClass = 'h2h-draw';
+
+            html += `
+                <div class="h2h-match-item">
+                    <div class="h2h-match-meta">${m.year} • ${m.tournament}</div>
+                    <div class="h2h-match-score ${resultClass}">
+                        <span>${teamA}</span>
+                        <strong>${m.scoreA} - ${m.scoreB}</strong>
+                        <span>${teamB}</span>
+                    </div>
+                </div>
+            `;
+        });
+        html += `</div>`;
+    }
+
+    body.innerHTML = html;
+    modal.classList.add('active');
+}
+
+// Close H2H Modal
+document.getElementById('closeH2hModal').addEventListener('click', () => {
+    document.getElementById('h2hModal').classList.remove('active');
+});
+
+// Click outside H2H modal
+document.getElementById('h2hModal').addEventListener('click', (e) => {
+    if (e.target === document.getElementById('h2hModal')) {
+        document.getElementById('h2hModal').classList.remove('active');
+    }
+});
+
