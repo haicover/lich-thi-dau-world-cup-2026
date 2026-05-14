@@ -43,6 +43,25 @@
 - Copy thông tin trận đấu ra clipboard (desktop)
 - Format đẹp: "🇧🇷 Brazil 🆚 Argentina | 10/06 01:00 (VN) | MetLife Stadium"
 
+### 🔍 Tìm Kiếm & Lọc Nhanh (Mới)
+- Tìm kiếm tức thì (Realtime) đội bóng, sân vận động bằng công nghệ Fuse.js
+- Trả về kết quả phân nhóm trực quan ngay khi gõ
+
+### 👤 Thông Tin Đội Tuyển (Mới)
+- Bấm vào tên đội bóng để xem lịch sử, HLV, thành tích
+- Danh sách tất cả các trận đấu của đội đó tại giải
+- Đánh dấu yêu thích trực tiếp trên trang cá nhân đội bóng
+
+### ⏱️ Đếm Ngược Trực Tiếp (Mới)
+- Banner thông minh hiển thị chính xác trận đấu tiếp theo
+- Đếm ngược từng giây đến giờ bóng lăn
+- Trạng thái "ĐANG DIỄN RA" khi trận đấu bắt đầu
+
+### 📅 Lịch Dạng Tháng (Mới)
+- Xem lịch thi đấu dưới dạng lưới tháng 6 & 7 trực quan
+- Đánh dấu số trận mỗi ngày
+- Bấm vào ngày để xem chi tiết các trận trong ngày đó
+
 ### 📶 Offline Mode
 - Service Worker cache toàn bộ app + 48 lá cờ quốc gia
 - Xem lịch thi đấu khi không có mạng
@@ -68,25 +87,29 @@ WorldCup2026/
 ├── index.html          # Trang chính (SPA)
 ├── style.css           # Toàn bộ styling
 ├── app.js              # Logic ứng dụng
-├── data.js             # Dữ liệu 48 đội + 104 trận
+├── matches.json        # Dữ liệu 104 trận đấu
+├── teams.json          # Dữ liệu 48 đội tuyển
+├── venues.json         # Dữ liệu 16 sân vận động
 ├── sw.js               # Service Worker (offline cache)
 ├── manifest.json       # PWA manifest
 ├── og-image.png        # Ảnh preview khi share lên MXH
 ├── icon-192.png        # App icon 192x192
 ├── icon-512.png        # App icon 512x512
+├── robots.txt          # SEO configuration
+├── sitemap.xml         # SEO sitemap
 └── README.md           # File này
 ```
 
 ## 🚀 Cài Đặt & Chạy
 
 ### Xem trực tiếp
-👉 **[https://haicover.github.io/lich-thi-dau-world-cup-2026/](https://haicover.github.io/lich-thi-dau-world-cup-2026/)**
+👉 **[https://haicover.github.io/WorldCup2026/](https://haicover.github.io/WorldCup2026/)**
 
 ### Chạy local
 ```bash
 # Clone repo
-git clone https://github.com/haicover/lich-thi-dau-world-cup-2026.git
-cd lich-thi-dau-world-cup-2026
+git clone https://github.com/haicover/WorldCup2026.git
+cd WorldCup2026
 
 # Chạy server (cần Node.js)
 npx serve .
@@ -116,9 +139,10 @@ python -m http.server 3000
 ## 🗺️ Roadmap
 
 - [x] **Phase 1** — PWA + Cá nhân hóa (Sprint 1) ✅
-- [ ] **Phase 2** — Dữ liệu thời gian thực + Tìm kiếm
-- [ ] **Phase 3** — Bracket trực quan + Thống kê
-- [ ] **Phase 4** — Đa ngôn ngữ + Accessibility
+- [x] **Phase 2** — Dữ liệu thời gian thực + Tìm kiếm, Lịch, Profile (Sprint 2) ✅
+- [ ] **Phase 3** — Serverless Backend + H2H + Bracket trực quan (Sprint 3)
+- [ ] **Phase 4** — Live Scores (Cập nhật tỷ số tự động)
+- [ ] **Phase 5** — Đa ngôn ngữ + Cộng đồng
 
 ## 📄 License
 
