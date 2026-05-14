@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lịch Thi Đấu World Cup 2026 | FIFA World Cup™</title>
+    <meta name="description" content="Lịch thi đấu đầy đủ FIFA World Cup 2026 tại Mỹ, Mexico và Canada. 48 đội, 104 trận đấu từ vòng bảng đến chung kết.">
+
+    <!-- PWA (US-01) -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#FFD700">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="WC2026">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
+
+    <!-- Open Graph (US-07) -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Lịch Thi Đấu World Cup 2026 🏆">
+    <meta property="og:description" content="Xem lịch thi đấu đầy đủ 104 trận FIFA World Cup 2026. 48 đội tuyển, 16 sân vận động tại Mỹ, Mexico & Canada.">
+    <meta property="og:image" content="og-image.png">
+    <meta property="og:locale" content="vi_VN">
+
+    <!-- Twitter Card (US-07) -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Lịch Thi Đấu World Cup 2026 🏆">
+    <meta name="twitter:description" content="48 đội, 104 trận đấu, 16 sân — FIFA World Cup 2026 tại Mỹ, Mexico & Canada.">
+    <meta name="twitter:image" content="og-image.png">
+
+    <!-- JSON-LD Structured Data (US-07) -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SportsEvent",
+        "name": "FIFA World Cup 2026",
+        "startDate": "2026-06-11",
+        "endDate": "2026-07-19",
+        "location": {
+            "@type": "Place",
+            "name": "United States, Mexico, Canada"
+        },
+        "description": "FIFA World Cup 2026 — 48 teams, 104 matches across 16 venues in USA, Mexico, and Canada."
+    }
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="bg-animation">
+        <div class="bg-orb bg-orb-1"></div>
+        <div class="bg-orb bg-orb-2"></div>
+        <div class="bg-orb bg-orb-3"></div>
+        <div class="bg-orb bg-orb-4"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="header" id="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="24" cy="24" r="22" stroke="url(#grad1)" stroke-width="2.5" fill="none"/>
+                            <path d="M24 4C24 4 30 14 30 24C30 34 24 44 24 44" stroke="url(#grad1)" stroke-width="1.5" fill="none"/>
+                            <path d="M24 4C24 4 18 14 18 24C18 34 24 44 24 44" stroke="url(#grad1)" stroke-width="1.5" fill="none"/>
+                            <path d="M4 24H44" stroke="url(#grad1)" stroke-width="1.5"/>
+                            <path d="M6 14H42" stroke="url(#grad1)" stroke-width="1"/>
+                            <path d="M6 34H42" stroke="url(#grad1)" stroke-width="1"/>
+                            <defs>
+                                <linearGradient id="grad1" x1="0" y1="0" x2="48" y2="48">
+                                    <stop offset="0%" stop-color="#FFD700"/>
+                                    <stop offset="100%" stop-color="#FF6B35"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                    </div>
+                    <div class="logo-text">
+                        <h1>FIFA World Cup 2026™</h1>
+                        <p>USA • Mexico • Canada</p>
+                    </div>
+                </div>
+                <div class="countdown" id="countdown">
+                    <div class="countdown-item">
+                        <span class="countdown-value" id="days">--</span>
+                        <span class="countdown-label">Ngày</span>
+                    </div>
+                    <div class="countdown-sep">:</div>
+                    <div class="countdown-item">
+                        <span class="countdown-value" id="hours">--</span>
+                        <span class="countdown-label">Giờ</span>
+                    </div>
+                    <div class="countdown-sep">:</div>
+                    <div class="countdown-item">
+                        <span class="countdown-value" id="minutes">--</span>
+                        <span class="countdown-label">Phút</span>
+                    </div>
+                    <div class="countdown-sep">:</div>
+                    <div class="countdown-item">
+                        <span class="countdown-value" id="seconds">--</span>
+                        <span class="countdown-label">Giây</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-badge">🏆 11/06 – 19/07/2026</div>
+                <h2 class="hero-title">Lịch Thi Đấu <span class="gradient-text">World Cup 2026</span></h2>
+                <p class="hero-subtitle">48 đội tuyển • 104 trận đấu • 16 thành phố • 3 quốc gia</p>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <div class="stat-value">48</div>
+                        <div class="stat-label">Đội tuyển</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">104</div>
+                        <div class="stat-label">Trận đấu</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">16</div>
+                        <div class="stat-label">Thành phố</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">39</div>
+                        <div class="stat-label">Ngày thi đấu</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Navigation Tabs -->
+    <nav class="nav-tabs" id="navTabs">
+        <div class="container">
+            <div class="tabs-wrapper">
+                <button class="tab-btn active" data-tab="groups" id="tab-groups">
+                    <span class="tab-icon">🏟️</span>
+                    <span>Bảng Đấu</span>
+                </button>
+                <button class="tab-btn" data-tab="schedule" id="tab-schedule">
+                    <span class="tab-icon">📅</span>
+                    <span>Lịch Thi Đấu</span>
+                </button>
+                <button class="tab-btn" data-tab="knockout" id="tab-knockout">
+                    <span class="tab-icon">⚔️</span>
+                    <span>Vòng Loại Trực Tiếp</span>
+                </button>
+                <button class="tab-btn" data-tab="venues" id="tab-venues">
+                    <span class="tab-icon">📍</span>
+                    <span>Sân Vận Động</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Filter Bar (for schedule tab) -->
+    <div class="filter-bar" id="filterBar" style="display: none;">
+        <div class="container">
+            <div class="filters">
+                <div class="filter-group">
+                    <label for="filterStage">Vòng đấu:</label>
+                    <select id="filterStage">
+                        <option value="all">Tất cả</option>
+                        <option value="group">Vòng bảng</option>
+                        <option value="round32">Vòng 32</option>
+                        <option value="round16">Vòng 16</option>
+                        <option value="quarter">Tứ kết</option>
+                        <option value="semi">Bán kết</option>
+                        <option value="third">Tranh hạng 3</option>
+                        <option value="final">Chung kết</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="filterGroup">Bảng:</label>
+                    <select id="filterGroup">
+                        <option value="all">Tất cả</option>
+                        <option value="A">Bảng A</option>
+                        <option value="B">Bảng B</option>
+                        <option value="C">Bảng C</option>
+                        <option value="D">Bảng D</option>
+                        <option value="E">Bảng E</option>
+                        <option value="F">Bảng F</option>
+                        <option value="G">Bảng G</option>
+                        <option value="H">Bảng H</option>
+                        <option value="I">Bảng I</option>
+                        <option value="J">Bảng J</option>
+                        <option value="K">Bảng K</option>
+                        <option value="L">Bảng L</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="filterTeam">Đội:</label>
+                    <select id="filterTeam">
+                        <option value="all">Tất cả</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <button class="filter-chip" id="filterFavorites" title="Lọc đội yêu thích">
+                        ⭐ Đội yêu thích
+                    </button>
+                    <button class="filter-chip clear-fav-btn" id="clearFavorites" title="Xóa tất cả yêu thích" style="display:none;">
+                        ❌ Xóa tất cả
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Groups Tab -->
+            <div class="tab-content active" id="content-groups">
+                <div class="groups-grid" id="groupsGrid"></div>
+            </div>
+
+            <!-- Schedule Tab -->
+            <div class="tab-content" id="content-schedule">
+                <div class="schedule-list" id="scheduleList"></div>
+            </div>
+
+            <!-- Knockout Tab -->
+            <div class="tab-content" id="content-knockout">
+                <div class="knockout-bracket" id="knockoutBracket"></div>
+            </div>
+
+            <!-- Venues Tab -->
+            <div class="tab-content" id="content-venues">
+                <div class="venues-grid" id="venuesGrid"></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Toast Notification (US-03, US-05, US-06) -->
+    <div class="toast" id="toast"></div>
+
+    <!-- Offline Indicator (US-02) -->
+    <div class="offline-bar" id="offlineBar">
+        📶 Đang xem offline — Dữ liệu có thể chưa cập nhật
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <p>🌍 FIFA World Cup 2026™ — USA • Mexico • Canada</p>
+                    <p class="footer-note">Dữ liệu lịch thi đấu được tổng hợp từ FIFA.com. Thời gian theo giờ Việt Nam (GMT+7).</p>
+                </div>
+                <div class="footer-flags">
+                    🇺🇸 🇲🇽 🇨🇦
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to top -->
+    <button class="scroll-top" id="scrollTop" aria-label="Scroll to top">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="18 15 12 9 6 15"></polyline>
+        </svg>
+    </button>
+
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

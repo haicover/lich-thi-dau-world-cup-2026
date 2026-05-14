@@ -1,0 +1,27 @@
+{
+  "name": "Lịch Thi Đấu World Cup 2026",
+  "short_name": "WC2026",
+  "description": "Lịch thi đấu đầy đủ FIFA World Cup 2026. 48 đội, 104 trận đấu, 16 sân vận động.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0a0e1a",
+  "theme_color": "#FFD700",
+  "orientation": "any",
+  "scope": "./",
+  "lang": "vi",
+  "categories": ["sports"],
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
