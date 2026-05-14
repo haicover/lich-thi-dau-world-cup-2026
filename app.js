@@ -1091,10 +1091,24 @@ async function fetchLiveScores() {
                 const newScore = `${homeScore} - ${awayScore}`;
                 const isLive = lm.status === 'IN_PLAY' || lm.status === 'PAUSED';
                 
+                const oldScoreStr = target.score;
+
                 if (target.score !== newScore || target.isLive !== isLive) {
                     target.score = newScore;
                     target.isLive = isLive;
                     updateMatchDOM(target.home, target.away, newScore, isLive);
+
+                    // ========== US-19: GOAL NOTIFICATIONS ==========
+                    if (oldScoreStr && oldScoreStr.includes('-')) {
+                        const [oldH, oldA] = oldScoreStr.split('-').map(s => parseInt(s.trim()));
+                        if (!isNaN(oldH) && !isNaN(oldA)) {
+                            if (homeScore > oldH) {
+                                showGoalNotification(target.home, target.home, target.away, newScore);
+                            } else if (awayScore > oldA) {
+                                showGoalNotification(target.away, target.home, target.away, newScore);
+                            }
+                        }
+                    }
                 }
             }
         });
@@ -1102,6 +1116,32 @@ async function fetchLiveScores() {
     } catch(err) {
         console.error("Live Polling Error", err);
     }
+}
+
+function showGoalNotification(scoringTeam, home, away, scoreStr) {
+    const banner = document.createElement('div');
+    banner.className = 'goal-notification';
+    banner.innerHTML = `
+        <div class="goal-icon">⚽</div>
+        <div class="goal-text">
+            <strong>VÀOOO! ${scoringTeam}</strong>
+            <span>${home} <b style="color:var(--gold)">${scoreStr}</b> ${away}</span>
+        </div>
+    `;
+    document.body.appendChild(banner);
+
+    // Thử phát âm thanh (Browser có thể block nếu user chưa tương tác)
+    try {
+        const audio = new Audio('https://actions.google.com/sounds/v1/crowds/crowd_cheer.ogg');
+        audio.volume = 0.6;
+        audio.play().catch(e => console.log('Autoplay prevented:', e));
+    } catch(err) {}
+
+    // Tự động ẩn sau 5 giây
+    setTimeout(() => {
+        banner.classList.add('goal-fade-out');
+        setTimeout(() => banner.remove(), 500);
+    }, 5000);
 }
 
 function updateMatchDOM(home, away, score, isLive) {

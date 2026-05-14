@@ -1098,3 +1098,63 @@ body {
     50% { opacity: 0.5; transform: scale(0.95); }
     100% { opacity: 1; transform: scale(1); }
 }
+
+/* ========== US-19: GOAL NOTIFICATION BANNER ========== */
+.goal-notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: rgba(10, 10, 15, 0.95);
+    border-left: 4px solid var(--gold);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 20px rgba(255,215,0,0.2);
+    border-radius: 8px;
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    z-index: 9999;
+    color: white;
+    backdrop-filter: blur(10px);
+    animation: slideInRight 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.goal-icon {
+    font-size: 2rem;
+    animation: spin 3s linear infinite;
+}
+
+.goal-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.goal-text strong {
+    font-size: 1.1rem;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.goal-text span {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-top: 5px;
+}
+
+.goal-fade-out {
+    animation: fadeOutRight 0.5s ease-in forwards;
+}
+
+@keyframes slideInRight {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes fadeOutRight {
+    from { transform: translateX(0); opacity: 1; }
+    to { transform: translateX(100%); opacity: 0; }
+}
+
+@keyframes spin {
+    100% { transform: rotate(360deg); }
+}
