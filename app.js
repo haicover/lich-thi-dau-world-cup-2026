@@ -266,27 +266,90 @@ function shareMatch(match) {
     }
 }
 
-// ========== COUNTDOWN ==========
+// ========== US-11: NEXT MATCH COUNTDOWN ==========
+let currentNextMatchId = null;
+
+function scrollToNextMatch() {
+    if (!currentNextMatchId) return;
+    document.getElementById('tab-schedule').click();
+    setTimeout(() => {
+        const els = document.querySelectorAll('.match-card');
+        for (let el of els) {
+            const home = el.querySelector('.home .team-name').textContent;
+            const away = el.querySelector('.away .team-name').textContent;
+            if (home === currentNextMatchId.home && away === currentNextMatchId.away) {
+                el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                el.style.boxShadow = '0 0 20px rgba(255, 215, 0, 0.5)';
+                setTimeout(() => el.style.boxShadow = '', 2000);
+                break;
+            }
+        }
+    }, 100);
+}
+
 function initCountdown() {
-    const target = new Date('2026-06-11T18:00:00-05:00');
     function update() {
         const now = new Date();
-        const diff = target - now;
-        if (diff <= 0) {
-            document.getElementById('countdown').innerHTML = '<span style="color:var(--gold);font-weight:700;">🎉 Giải đấu đang diễn ra!</span>';
+        
+        let nextMatch = null;
+        for (let m of ALL_MATCHES) {
+            // Assume a match lasts ~2 hours (7200000 ms)
+            if (m.date.getTime() + 7200000 > now.getTime()) {
+                nextMatch = m;
+                break;
+            }
+        }
+
+        const container = document.getElementById('countdownContainer');
+        if (!container) return;
+
+        if (!nextMatch) {
+            container.innerHTML = '<span style="color:var(--gold);font-weight:700;">🎉 Giải đấu đã kết thúc!</span>';
+            container.onclick = null;
+            container.style.cursor = 'default';
             return;
         }
+
+        currentNextMatchId = nextMatch;
+        container.onclick = scrollToNextMatch;
+        container.style.cursor = 'pointer';
+
+        const diff = nextMatch.date - now;
+        
+        if (diff <= 0) {
+            container.innerHTML = `
+                <div style="color:var(--red); font-weight:700; font-size:1.1rem; animation:pulse-glow 2s infinite; text-align:right;">
+                    🔴 ĐANG DIỄN RA: ${getFlag(nextMatch.home, 20)} ${nextMatch.home} vs ${nextMatch.away} ${getFlag(nextMatch.away, 20)}
+                </div>
+                <div style="font-size:0.8rem; color:var(--text-muted); margin-top:4px; text-align:right;">📍 ${nextMatch.venue}</div>
+            `;
+            return;
+        }
+
         const d = Math.floor(diff / 86400000);
         const h = Math.floor((diff % 86400000) / 3600000);
-        const m = Math.floor((diff % 3600000) / 60000);
-        const s = Math.floor((diff % 60000) / 1000);
-        document.getElementById('days').textContent = String(d).padStart(2, '0');
-        document.getElementById('hours').textContent = String(h).padStart(2, '0');
-        document.getElementById('minutes').textContent = String(m).padStart(2, '0');
-        document.getElementById('seconds').textContent = String(s).padStart(2, '0');
+        const min = Math.floor((diff % 3600000) / 60000);
+        const sec = Math.floor((diff % 60000) / 1000);
+
+        container.innerHTML = `
+            <div class="next-match-label" id="nextMatchLabel">
+                Sắp tới: ${getFlag(nextMatch.home, 16)} ${nextMatch.home} vs ${nextMatch.away} ${getFlag(nextMatch.away, 16)} <br>
+                <span style="font-size:0.6rem;color:var(--text-muted);font-weight:normal">📍 ${nextMatch.venue} • ${nextMatch.time} (Giờ VN)</span>
+            </div>
+            <div class="countdown-timer" id="countdown">
+                <div class="countdown-item"><span class="countdown-value">${String(d).padStart(2, '0')}</span><span class="countdown-label">Ngày</span></div><div class="countdown-sep">:</div>
+                <div class="countdown-item"><span class="countdown-value">${String(h).padStart(2, '0')}</span><span class="countdown-label">Giờ</span></div><div class="countdown-sep">:</div>
+                <div class="countdown-item"><span class="countdown-value">${String(min).padStart(2, '0')}</span><span class="countdown-label">Phút</span></div><div class="countdown-sep">:</div>
+                <div class="countdown-item"><span class="countdown-value">${String(sec).padStart(2, '0')}</span><span class="countdown-label">Giây</span></div>
+            </div>
+        `;
     }
-    update();
-    setInterval(update, 1000);
+    
+    if (ALL_MATCHES.length > 0) {
+        ALL_MATCHES.sort((a, b) => a.date - b.date);
+        update();
+        setInterval(update, 1000);
+    }
 }
 
 // ========== TABS ==========

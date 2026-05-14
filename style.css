@@ -76,11 +76,17 @@ body {
 .logo-text p { font-size: 0.7rem; color: var(--text-muted); letter-spacing: 2px; text-transform: uppercase; }
 
 /* Countdown */
-.countdown { display: flex; align-items: center; gap: 6px; }
-.countdown-item { text-align: center; background: var(--bg-glass); border: 1px solid var(--border); border-radius: var(--radius-xs); padding: 6px 10px; min-width: 52px; }
-.countdown-value { font-family: var(--font-main); font-size: 1.3rem; font-weight: 700; color: var(--gold); display: block; line-height: 1; }
-.countdown-label { font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
-.countdown-sep { font-size: 1.2rem; color: var(--gold); font-weight: 700; opacity: 0.5; }
+.countdown-container {
+    display: flex; flex-direction: column; align-items: flex-end; gap: 4px;
+}
+.next-match-label {
+    font-size: 0.7rem; color: var(--gold); text-transform: uppercase; letter-spacing: 1px; font-weight: 600; text-align: right; line-height: 1.4;
+}
+.countdown-timer { display: flex; align-items: center; gap: 6px; }
+.countdown-item { text-align: center; background: var(--bg-glass); border: 1px solid var(--border); border-radius: var(--radius-xs); padding: 4px 8px; min-width: 48px; }
+.countdown-value { font-family: var(--font-main); font-size: 1.1rem; font-weight: 700; color: var(--text-light); display: block; line-height: 1; }
+.countdown-label { font-size: 0.55rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+.countdown-sep { font-size: 1rem; color: var(--text-muted); font-weight: 700; opacity: 0.5; }
 
 /* ========== HERO ========== */
 .hero {
