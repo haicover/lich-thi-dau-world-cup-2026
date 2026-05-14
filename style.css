@@ -1050,3 +1050,51 @@ body {
     margin-top: 10px;
     font-family: monospace;
 }
+
+/* ========== US-18: LIVE POLLING STYLES ========== */
+.live-score-text {
+    font-size: 1.5rem !important;
+    font-weight: 800 !important;
+    color: var(--gold) !important;
+    letter-spacing: 2px;
+    animation: textPulse 2s infinite;
+}
+
+@keyframes textPulse {
+    0% { opacity: 0.8; }
+    50% { opacity: 1; text-shadow: 0 0 10px rgba(255,215,0,0.5); }
+    100% { opacity: 0.8; }
+}
+
+.live-badge {
+    display: inline-block;
+    color: #ff4757;
+    font-weight: bold;
+    font-size: 0.8rem;
+    animation: blink 1.5s infinite;
+    background: rgba(255, 71, 87, 0.1);
+    padding: 2px 8px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 71, 87, 0.3);
+}
+
+.live-badge-bracket {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background: #ff4757;
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 800;
+    padding: 3px 8px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(255, 71, 87, 0.4);
+    animation: blink 1.5s infinite;
+    z-index: 10;
+}
+
+@keyframes blink {
+    0% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.95); }
+    100% { opacity: 1; transform: scale(1); }
+}
