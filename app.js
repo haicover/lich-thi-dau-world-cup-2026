@@ -410,16 +410,102 @@ function formatDate(d) {
 }
 function formatDateShort(d) { return `${d.getDate()}/${d.getMonth()+1}`; }
 
-// ========== US-04: STANDINGS DATA ==========
+// ========== US-04 & US-21: STANDINGS DATA ==========
 function getStandingsForGroup(groupName) {
     const teams = GROUPS[groupName];
-    return teams.map((t, i) => ({
-        team: t,
-        pos: i + 1,
-        played: 0, wins: 0, draws: 0, losses: 0,
-        gf: 0, ga: 0, gd: 0, pts: 0
-    }));
+    
+    const stats = {};
+    teams.forEach(t => {
+        stats[t] = { team: t, played: 0, wins: 0, draws: 0, losses: 0, gf: 0, ga: 0, gd: 0, pts: 0 };
+    });
+
+    ALL_MATCHES.forEach(m => {
+        if (m.stage === 'group' && m.group === groupName && m.score && m.score !== 'vs') {
+            const parts = m.score.split('-');
+            if (parts.length === 2) {
+                const homeGoals = parseInt(parts[0].trim());
+                const awayGoals = parseInt(parts[1].trim());
+                if (!isNaN(homeGoals) && !isNaN(awayGoals)) {
+                    const home = stats[m.home];
+                    const away = stats[m.away];
+                    
+                    if (home && away) {
+                        home.played++; away.played++;
+                        home.gf += homeGoals; home.ga += awayGoals;
+                        away.gf += awayGoals; away.ga += homeGoals;
+                        
+                        if (homeGoals > awayGoals) {
+                            home.wins++; home.pts += 3;
+                            away.losses++;
+                        } else if (homeGoals < awayGoals) {
+                            away.wins++; away.pts += 3;
+                            home.losses++;
+                        } else {
+                            home.draws++; home.pts += 1;
+                            away.draws++; away.pts += 1;
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    const standings = Object.values(stats).map(s => {
+        s.gd = s.gf - s.ga;
+        return s;
+    });
+
+    standings.sort((a, b) => {
+        if (b.pts !== a.pts) return b.pts - a.pts;
+        if (b.gd !== a.gd) return b.gd - a.gd;
+        return b.gf - a.gf;
+    });
+
+    standings.forEach((s, i) => s.pos = i + 1);
+    return standings;
 }
+
+window.updateLiveStandings = function(groupName) {
+    const tbody = document.querySelector(`#standings-${groupName} tbody`);
+    if (!tbody) return;
+    
+    // Lưu lại hạng cũ
+    const oldRanks = {};
+    Array.from(tbody.querySelectorAll('tr')).forEach(tr => {
+        const teamNameEl = tr.querySelector('.standings-team span');
+        if (teamNameEl) {
+            const teamName = teamNameEl.textContent.trim();
+            const pos = parseInt(tr.querySelector('td').textContent);
+            oldRanks[teamName] = pos;
+        }
+    });
+
+    const standings = getStandingsForGroup(groupName);
+    
+    tbody.innerHTML = standings.map((s, i) => {
+        const oldPos = oldRanks[s.team];
+        let rankChangeHtml = '';
+        if (oldPos && s.pos < oldPos) rankChangeHtml = '<span style="color:var(--green);font-size:0.7rem;margin-left:4px">▲</span>';
+        else if (oldPos && s.pos > oldPos) rankChangeHtml = '<span style="color:var(--red);font-size:0.7rem;margin-left:4px">▼</span>';
+        
+        return `
+            <tr class="${i < 2 ? 'pos-qualified' : i === 2 ? 'pos-possible' : ''}" style="transition: background-color 1s;">
+                <td>${s.pos}${rankChangeHtml}</td>
+                <td class="standings-team">${getFlag(s.team, 20)} <span onclick="showTeamProfile('${s.team}')" style="cursor: pointer;">${s.team}</span></td>
+                <td>${s.played}</td><td>${s.wins}</td><td>${s.draws}</td><td>${s.losses}</td>
+                <td>${s.gf}</td><td>${s.ga}</td><td>${s.gd}</td>
+                <td class="standings-pts">${s.pts}</td>
+            </tr>
+        `;
+    }).join('');
+
+    // Highlight card
+    const card = document.getElementById(`standings-${groupName}`);
+    if (card && !card.classList.contains('hidden')) {
+        card.closest('.group-card').style.boxShadow = '0 0 20px rgba(34, 197, 94, 0.4)';
+        setTimeout(() => card.closest('.group-card').style.boxShadow = '', 2000);
+    }
+};
 
 // ========== RENDER GROUPS (US-03 + US-04) ==========
 function renderGroups() {
@@ -1068,12 +1154,12 @@ async function fetchLiveScores() {
         
         // Mock data logic if no real matches and we are in dev/testing
         if (liveMatches.length === 0 && data.note) {
-             const firstMatch = ALL_MATCHES.find(m => m.stage === 'group');
-             if (firstMatch) {
+             const mockMatch = ALL_MATCHES.find(m => m.stage === 'group' && m.group === 'A');
+             if (mockMatch) {
                  // Giả lập trận đấu ngẫu nhiên
                  liveMatches.push({
-                     homeTeam: { name: firstMatch.home },
-                     awayTeam: { name: firstMatch.away },
+                     homeTeam: { name: mockMatch.home },
+                     awayTeam: { name: mockMatch.away },
                      score: { fullTime: { home: Math.floor(Math.random()*4), away: Math.floor(Math.random()*4) } },
                      status: 'IN_PLAY'
                  });
@@ -1099,6 +1185,11 @@ async function fetchLiveScores() {
                     target.score = newScore;
                     target.isLive = isLive;
                     updateMatchDOM(target.home, target.away, newScore, isLive);
+
+                    // Update Live Standings (US-21)
+                    if (target.stage === 'group' && target.group) {
+                        updateLiveStandings(target.group);
+                    }
 
                     // ========== US-19: GOAL NOTIFICATIONS ==========
                     if (oldScoreStr && oldScoreStr.includes('-')) {
