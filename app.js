@@ -8,6 +8,7 @@ let KNOCKOUT_MATCHES = [];
 let VENUES = [];
 let TEAMS_DATA = [];
 let SCORERS = [];
+let PREDICTIONS = JSON.parse(localStorage.getItem('wc2026_predictions')) || {};
 
 document.addEventListener('DOMContentLoaded', async () => {
     await fetchData();
@@ -25,6 +26,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     initLivePolling();        // US-18
     initThemeToggle();        // US-28
     renderScorers();          // US-29
+    renderPredictions();      // US-26
 });
 
 async function fetchData() {
@@ -1653,4 +1655,123 @@ function renderScorers() {
     });
 
     tbody.innerHTML = html;
+}
+
+// ========== US-26: BRACKET PREDICTION GAME ==========
+function renderPredictions() {
+    const container = document.getElementById('predictionBracket');
+    if(!container) return;
+
+    let pMatches = JSON.parse(JSON.stringify(KNOCKOUT_MATCHES));
+    
+    // Resolve predicted winners
+    pMatches.forEach(m => {
+        // Resolve home
+        if (m.home.startsWith('Thắng trận ')) {
+            const feedId = parseInt(m.home.replace('Thắng trận ', ''));
+            m.home = PREDICTIONS[feedId] || m.home;
+        } else if (m.home.startsWith('Thắng TK')) {
+            const tkIndex = parseInt(m.home.replace('Thắng TK', '')) - 1;
+            const tkMatchId = 97 + tkIndex;
+            m.home = PREDICTIONS[tkMatchId] || m.home;
+        } else if (m.home.startsWith('Thắng BK')) {
+            const bkIndex = parseInt(m.home.replace('Thắng BK', '')) - 1;
+            const bkMatchId = 101 + bkIndex;
+            m.home = PREDICTIONS[bkMatchId] || m.home;
+        }
+        
+        // Resolve away
+        if (m.away.startsWith('Thắng trận ')) {
+            const feedId = parseInt(m.away.replace('Thắng trận ', ''));
+            m.away = PREDICTIONS[feedId] || m.away;
+        } else if (m.away.startsWith('Thắng TK')) {
+            const tkIndex = parseInt(m.away.replace('Thắng TK', '')) - 1;
+            const tkMatchId = 97 + tkIndex;
+            m.away = PREDICTIONS[tkMatchId] || m.away;
+        } else if (m.away.startsWith('Thắng BK')) {
+            const bkIndex = parseInt(m.away.replace('Thắng BK', '')) - 1;
+            const bkMatchId = 101 + bkIndex;
+            m.away = PREDICTIONS[bkMatchId] || m.away;
+        }
+    });
+
+    const stageNames = { round32:"Vòng 32 Đội", round16:"Vòng 16 Đội", quarter:"Tứ Kết", semi:"Bán Kết", final:"Chung Kết" };
+    const stages = ["round32","round16","quarter","semi","final"];
+
+    let html = `<div class="bracket-wrapper"><div class="bracket-scroll-container">`;
+
+    stages.forEach(stage => {
+        const matches = pMatches.filter(m => m.stage === stage);
+        if (!matches.length) return;
+        
+        html += `<div class="bracket-column bracket-${stage}">
+                    <div class="bracket-column-header"><h3>${stageNames[stage]}</h3></div>
+                    <div class="bracket-matches">
+                        ${matches.map(m => {
+                            const isHomePredicted = PREDICTIONS[m.num] === m.home && m.home && !m.home.startsWith('Thắng ');
+                            const isAwayPredicted = PREDICTIONS[m.num] === m.away && m.away && !m.away.startsWith('Thắng ');
+                            const hasPrediction = !!PREDICTIONS[m.num];
+                            
+                            return \`
+                                <div class="bracket-match-card prediction-match">
+                                    <div class="b-match-num">Trận #\${m.num}</div>
+                                    <div class="b-match-teams">
+                                        <div class="b-team prediction-team \${isHomePredicted ? 'selected' : (hasPrediction ? 'loser' : '')}" onclick="predictWinner(\${m.num}, '\${m.home.replace(/'/g, "\\'")}')">
+                                            <span class="b-team-flag">\${getFlag(m.home, 20)}</span>
+                                            <span class="b-team-name">\${m.home}</span>
+                                        </div>
+                                        <div class="b-team prediction-team \${isAwayPredicted ? 'selected' : (hasPrediction ? 'loser' : '')}" onclick="predictWinner(\${m.num}, '\${m.away.replace(/'/g, "\\'")}')">
+                                            <span class="b-team-flag">\${getFlag(m.away, 20)}</span>
+                                            <span class="b-team-name">\${m.away}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            \`;
+                        }).join('')}
+                    </div>
+                </div>`;
+    });
+
+    html += `</div></div>`;
+    
+    // Add instruction
+    html = `<div class="bracket-instruction">👈 Vuốt ngang để xem toàn bộ nhánh đấu 👉</div>` + html;
+    
+    container.innerHTML = html;
+    
+    const totalPredictions = Object.keys(PREDICTIONS).length;
+    document.getElementById('predictionProgress').textContent = `${totalPredictions}/31 trận đã dự đoán`;
+}
+
+window.predictWinner = function(matchId, team) {
+    if(!team || team.startsWith('Thắng ')) {
+        // Show toast indicating they must wait for actual team or previous prediction
+        showToast('Bạn phải dự đoán vòng trước để xác định đội!', 'error');
+        return;
+    }
+    
+    const oldWinner = PREDICTIONS[matchId];
+    PREDICTIONS[matchId] = team;
+    
+    // If changed, wipe subsequent rounds to avoid corrupted state
+    if(oldWinner && oldWinner !== team) {
+        // A simple wipe logic: wipe everything after this round (matchId > this matchId)
+        // More robust: wipe specific matches, but for simplicity we wipe higher IDs since knockout flows sequentially 73 -> 104
+        Object.keys(PREDICTIONS).forEach(k => {
+            if(parseInt(k) > matchId) delete PREDICTIONS[k];
+        });
+    }
+    
+    localStorage.setItem('wc2026_predictions', JSON.stringify(PREDICTIONS));
+    renderPredictions();
+    showToast(`Đã chọn ${team} đi tiếp!`, 'success');
+}
+
+window.resetPredictions = function() {
+    if(confirm('Bạn có chắc muốn xóa toàn bộ dự đoán?')) {
+        PREDICTIONS = {};
+        localStorage.removeItem('wc2026_predictions');
+        renderPredictions();
+        showToast('Đã xóa tất cả dự đoán', 'success');
+    }
 }

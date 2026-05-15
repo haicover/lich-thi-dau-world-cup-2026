@@ -247,6 +247,10 @@
                     <span class="tab-icon" aria-hidden="true">📍</span>
                     <span>Sân Vận Động</span>
                 </button>
+                <button class="tab-btn" data-tab="prediction" id="tab-prediction" role="tab" aria-selected="false" aria-controls="content-prediction">
+                    <span class="tab-icon" aria-hidden="true">🔮</span>
+                    <span>Dự Đoán</span>
+                </button>
             </div>
         </div>
     </nav>
@@ -354,6 +358,18 @@
             <!-- Venues Tab -->
             <div class="tab-content" id="content-venues" role="tabpanel" aria-labelledby="tab-venues">
                 <div class="venues-grid" id="venuesGrid"></div>
+            </div>
+
+            <!-- Prediction Tab -->
+            <div class="tab-content" id="content-prediction" role="tabpanel" aria-labelledby="tab-prediction">
+                <div class="prediction-header">
+                    <div class="prediction-stats">
+                        <h3 class="section-title">🏆 Dự Đoán Nhánh Đấu Knockout</h3>
+                        <p id="predictionProgress" class="badge">0/31 trận đã dự đoán</p>
+                    </div>
+                    <button class="action-btn" onclick="resetPredictions()">🔄 Làm mới</button>
+                </div>
+                <div class="prediction-bracket" id="predictionBracket"></div>
             </div>
         </div>
     </main>
