@@ -54,7 +54,19 @@
 
     <!-- Performance: Reduced font weights + font-display:swap -->
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" onload="this.rel='stylesheet'">
-    <noscript><link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"></noscript>
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'"></noscript>
+
+    <!-- Mới: Ngăn FOUC (Flash of Unstyled Content) cho Dark/Light Theme -->
+    <script>
+        (function() {
+            try {
+                const savedTheme = localStorage.getItem('wc2026_theme');
+                if (savedTheme === 'light' || (!savedTheme && window.matchMedia('(prefers-color-scheme: light)').matches)) {
+                    document.documentElement.classList.add('light-theme');
+                }
+            } catch (e) {}
+        })();
+    </script>
 
     <!-- Performance: Critical CSS inlined for FCP -->
     <style>
@@ -140,35 +152,37 @@
                         <p>USA • Mexico • Canada</p>
                     </div>
                 </div>
-                <div class="countdown-container" id="countdownContainer">
-                    <div class="next-match-label" id="nextMatchLabel">Khai mạc giải đấu</div>
-                    <div class="countdown-timer" id="countdown">
-                        <div class="countdown-item">
-                            <span class="countdown-value" id="days">--</span>
-                            <span class="countdown-label">Ngày</span>
-                        </div>
-                        <div class="countdown-sep">:</div>
-                        <div class="countdown-item">
-                            <span class="countdown-value" id="hours">--</span>
-                            <span class="countdown-label">Giờ</span>
-                        </div>
-                        <div class="countdown-sep">:</div>
-                        <div class="countdown-item">
-                            <span class="countdown-value" id="minutes">--</span>
-                            <span class="countdown-label">Phút</span>
-                        </div>
-                        <div class="countdown-sep">:</div>
-                        <div class="countdown-item">
-                            <span class="countdown-value" id="seconds">--</span>
-                            <span class="countdown-label">Giây</span>
+                <div class="header-actions">
+                    <div class="countdown-container" id="countdownContainer">
+                        <div class="next-match-label" id="nextMatchLabel">Khai mạc giải đấu</div>
+                        <div class="countdown-timer" id="countdown">
+                            <div class="countdown-item">
+                                <span class="countdown-value" id="days">--</span>
+                                <span class="countdown-label">Ngày</span>
+                            </div>
+                            <div class="countdown-sep">:</div>
+                            <div class="countdown-item">
+                                <span class="countdown-value" id="hours">--</span>
+                                <span class="countdown-label">Giờ</span>
+                            </div>
+                            <div class="countdown-sep">:</div>
+                            <div class="countdown-item">
+                                <span class="countdown-value" id="minutes">--</span>
+                                <span class="countdown-label">Phút</span>
+                            </div>
+                            <div class="countdown-sep">:</div>
+                            <div class="countdown-item">
+                                <span class="countdown-value" id="seconds">--</span>
+                                <span class="countdown-label">Giây</span>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- US-28: Theme Toggle -->
-                <button class="theme-toggle" id="themeToggle" aria-label="Chuyển đổi giao diện sáng/tối" title="Dark/Light Mode">
-                    <span class="theme-icon" id="themeIcon">🌙</span>
-                </button>
+                    <!-- US-28: Theme Toggle -->
+                    <button class="theme-toggle" id="themeToggle" aria-label="Chuyển đổi giao diện sáng/tối" title="Dark/Light Mode">
+                        <span class="theme-icon" id="themeIcon">🌙</span>
+                    </button>
+                </div>
             </div>
             
             <!-- Global Search (US-09) -->

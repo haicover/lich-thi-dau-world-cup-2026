@@ -1590,13 +1590,13 @@ function initThemeToggle() {
     }
 
     if (isLight) {
-        document.body.classList.add('light-theme');
+        document.documentElement.classList.add('light-theme');
         icon.textContent = '☀️';
     }
 
     btn.addEventListener('click', () => {
-        document.body.classList.toggle('light-theme');
-        const isNowLight = document.body.classList.contains('light-theme');
+        document.documentElement.classList.toggle('light-theme');
+        const isNowLight = document.documentElement.classList.contains('light-theme');
         localStorage.setItem('wc2026_theme', isNowLight ? 'light' : 'dark');
         
         // Spin animation for icon
