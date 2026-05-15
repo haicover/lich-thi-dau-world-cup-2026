@@ -1,5 +1,5 @@
 // ========== SERVICE WORKER — World Cup 2026 PWA ==========
-const CACHE_NAME = 'wc2026-v2';
+const CACHE_NAME = 'wc2026-v3';
 const OFFLINE_URL = './index.html';
 
 // Files to pre-cache on install
@@ -14,7 +14,7 @@ const PRE_CACHE = [
     './manifest.json',
     './icon-192.png',
     './icon-512.png',
-    'https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap'
+    'https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap'
 ];
 
 // Flag images to cache (all 48 teams)
