@@ -23,6 +23,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     renderGroups();
     populateTeamFilter();
     renderSchedule();
+    renderKnockout();         // Added to fix empty knockout tab
     renderVenues();
     initFavoritesFilter();    // US-03
     initSearch();             // US-09
