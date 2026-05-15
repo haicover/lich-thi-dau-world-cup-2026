@@ -127,6 +127,12 @@
 - Print header/footer chỉ hiện khi in
 - Ẩn buttons, modals, animations, search bar
 
+### 🎯 Cộng Đồng & Tương Tác (Mới — Phase 6)
+- **Dark/Light Theme Toggle**: Nút chuyển đổi giao diện Sáng/Tối mượt mà, lưu vào LocalStorage, tự động nhận diện `prefers-color-scheme`.
+- **Top Scorers Leaderboard**: Bảng xếp hạng Vua phá lưới và Kiến tạo (Top 3 được gắn huy chương 🥇🥈🥉), xem trực tiếp trong tab Bảng đấu.
+- **Bracket Prediction Game**: Game dự đoán nhánh đấu Knockout. Click chọn người chiến thắng để tự động đưa đội đi tiếp, có thanh tiến trình và tính năng xoá (Reset).
+- **World Cup Trivia Quiz**: Mini-game trắc nghiệm 10 câu hỏi về lịch sử và thông tin World Cup 2026. Hiển thị giải thích chi tiết, chấm điểm và lưu kỷ lục vào thiết bị. Hỗ trợ tính năng chia sẻ (Web Share API).
+
 ## 🛠️ Công Nghệ
 
 | Thành phần | Công nghệ |
@@ -153,6 +159,8 @@ WorldCup2026/
 ├── matches.json        # Dữ liệu 104 trận đấu
 ├── teams.json          # Dữ liệu 48 đội tuyển
 ├── venues.json         # Dữ liệu 16 sân vận động
+├── scorers.json        # Dữ liệu Vua phá lưới (Mock)
+├── quiz.json           # Dữ liệu câu hỏi Trắc nghiệm
 ├── api/
 │   └── live.js         # Vercel Serverless: API proxy cho live scores
 ├── vercel.json         # Cấu hình Vercel deployment
@@ -213,7 +221,7 @@ python -m http.server 3000
 - [x] **Phase 3** — Serverless Backend + H2H + Bracket trực quan (Sprint 3) ✅
 - [x] **Phase 4** — Live Match Experience: Tỷ số trực tiếp, Thông báo bàn thắng, Timeline & Stats, Bảng xếp hạng tự cập nhật (Sprint 4) ✅
 - [x] **Phase 5** — Performance & PWA: Critical CSS, icon compression, SW v3 network-first, WCAG AA accessibility, print stylesheet A4 (Sprint 5) ✅
-- [ ] **Phase 6** — Cộng đồng + Dự đoán (Bracket Prediction, Trivia Quiz, Dark/Light toggle)
+- [x] **Phase 6** — Cộng đồng + Dự đoán: Dark/Light toggle, Top Scorers, Bracket Prediction, Trivia Quiz (Sprint 6) ✅
 
 ## 📄 License
 
