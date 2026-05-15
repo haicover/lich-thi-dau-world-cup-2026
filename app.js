@@ -71,14 +71,56 @@ function getFlagImg(name, size) {
     return `<img src="https://flagcdn.com/w40/${code}.png" width="${size}" height="${Math.round(size*0.75)}" alt="${name}" class="team-flag-img" loading="lazy">`;
 }
 
-// ========== US-02: SERVICE WORKER REGISTRATION ==========
+// ========== US-02 + US-23: SERVICE WORKER REGISTRATION ==========
+let swRegistration = null;
+
 function registerServiceWorker() {
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('./sw.js')
-            .then(reg => console.log('[SW] Registered:', reg.scope))
+            .then(reg => {
+                swRegistration = reg;
+                console.log('[SW] Registered:', reg.scope);
+
+                // US-23: Check for waiting worker (update available)
+                if (reg.waiting) {
+                    showSwUpdateBanner();
+                }
+
+                // US-23: Listen for new SW installing
+                reg.addEventListener('updatefound', () => {
+                    const newWorker = reg.installing;
+                    if (newWorker) {
+                        newWorker.addEventListener('statechange', () => {
+                            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                showSwUpdateBanner();
+                            }
+                        });
+                    }
+                });
+            })
             .catch(err => console.warn('[SW] Registration failed:', err));
+
+        // US-23: Reload page when new SW takes over
+        let refreshing = false;
+        navigator.serviceWorker.addEventListener('controllerchange', () => {
+            if (!refreshing) {
+                refreshing = true;
+                window.location.reload();
+            }
+        });
     }
 }
+
+function showSwUpdateBanner() {
+    const bar = document.getElementById('swUpdateBar');
+    if (bar) bar.classList.add('visible');
+}
+
+window.applySwUpdate = function() {
+    if (swRegistration && swRegistration.waiting) {
+        swRegistration.waiting.postMessage('skipWaiting');
+    }
+};
 
 // ========== US-02: OFFLINE DETECTION ==========
 function initOfflineDetection() {
@@ -1146,8 +1188,18 @@ function initLivePolling() {
 }
 
 async function fetchLiveScores() {
+    // US-23: Skip polling when offline — giữ dữ liệu cũ, không hiện lỗi
+    if (!navigator.onLine) {
+        console.log('[Live] Offline — bỏ qua polling');
+        return;
+    }
+
     try {
-        const res = await fetch('/api/live');
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 10000); // 10s timeout
+
+        const res = await fetch('/api/live', { signal: controller.signal });
+        clearTimeout(timeoutId);
         const data = await res.json();
         
         let liveMatches = data.matches || [];

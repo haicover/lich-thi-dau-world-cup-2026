@@ -311,9 +311,16 @@
     <!-- Toast Notification (US-03, US-05, US-06) -->
     <div class="toast" id="toast"></div>
 
-    <!-- Offline Indicator (US-02) -->
+    <!-- Offline Indicator (US-02 + US-23) -->
     <div class="offline-bar" id="offlineBar">
+        <span class="offline-pulse"></span>
         📶 Đang xem offline — Dữ liệu có thể chưa cập nhật
+    </div>
+
+    <!-- SW Update Banner (US-23) -->
+    <div class="sw-update-bar" id="swUpdateBar">
+        🆕 Có phiên bản mới!
+        <button id="swUpdateBtn" onclick="applySwUpdate()">🔄 Cập nhật ngay</button>
     </div>
 
     <!-- Footer -->

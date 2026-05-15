@@ -1,4 +1,4 @@
-// ========== SERVICE WORKER — World Cup 2026 PWA ==========
+// ========== SERVICE WORKER — World Cup 2026 PWA (US-23 Enhanced) ==========
 const CACHE_NAME = 'wc2026-v3';
 const OFFLINE_URL = './index.html';
 
@@ -25,12 +25,13 @@ const FLAG_URLS = [
     'ar','dz','at','jo','pt','cd','uz','co','gb-eng','hr','gh','pa'
 ].map(c => `https://flagcdn.com/w40/${c}.png`);
 
-// Install: pre-cache essential files
+// Install: pre-cache essential files (US-23: NO auto-skipWaiting — let app prompt user)
 self.addEventListener('install', event => {
     event.waitUntil(
         caches.open(CACHE_NAME).then(cache => {
             return cache.addAll([...PRE_CACHE, ...FLAG_URLS]);
-        }).then(() => self.skipWaiting())
+        })
+        // NOT calling self.skipWaiting() here — user will click "Update" button
     );
 });
 
@@ -43,14 +44,40 @@ self.addEventListener('activate', event => {
     );
 });
 
-// Fetch: cache-first for static, network-first for API
+// Fetch handler
 self.addEventListener('fetch', event => {
     const url = new URL(event.request.url);
 
     // Skip non-GET requests
     if (event.request.method !== 'GET') return;
 
-    // For same-origin and flagcdn: cache-first
+    // US-23: Network-first for API routes (live scores need fresh data)
+    if (url.pathname.startsWith('/api/')) {
+        event.respondWith(
+            fetch(event.request)
+                .then(response => {
+                    // Cache successful API responses for offline fallback
+                    if (response && response.ok) {
+                        const clone = response.clone();
+                        caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
+                    }
+                    return response;
+                })
+                .catch(() => {
+                    // Offline: return cached API data if available
+                    return caches.match(event.request).then(cached => {
+                        if (cached) return cached;
+                        // No cache: return empty JSON so app doesn't crash
+                        return new Response(JSON.stringify({ matches: [], note: 'offline', cached: true }), {
+                            headers: { 'Content-Type': 'application/json' }
+                        });
+                    });
+                })
+        );
+        return;
+    }
+
+    // For same-origin and flagcdn: stale-while-revalidate
     if (url.origin === self.location.origin || url.hostname === 'flagcdn.com' || url.hostname.includes('fonts.g')) {
         event.respondWith(
             caches.match(event.request).then(cached => {
@@ -78,7 +105,7 @@ self.addEventListener('fetch', event => {
     }
 });
 
-// Listen for messages from app
+// Listen for messages from app (US-23: user-triggered skipWaiting)
 self.addEventListener('message', event => {
     if (event.data === 'skipWaiting') {
         self.skipWaiting();
