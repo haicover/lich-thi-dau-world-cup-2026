@@ -8,6 +8,9 @@ let KNOCKOUT_MATCHES = [];
 let VENUES = [];
 let TEAMS_DATA = [];
 let SCORERS = [];
+let QUIZ_DATA = [];
+let currentQuizIndex = 0;
+let currentQuizScore = 0;
 let PREDICTIONS = JSON.parse(localStorage.getItem('wc2026_predictions')) || {};
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -27,17 +30,21 @@ document.addEventListener('DOMContentLoaded', async () => {
     initThemeToggle();        // US-28
     renderScorers();          // US-29
     renderPredictions();      // US-26
+    renderQuizIntro();        // US-27
 });
 
 async function fetchData() {
     try {
-        const [teamsRes, matchesRes, venuesRes, scorersRes] = await Promise.all([
-            fetch('./teams.json'), fetch('./matches.json'), fetch('./venues.json'), fetch('./scorers.json').catch(() => ({ json: () => [] }))
+        const [teamsRes, matchesRes, venuesRes, scorersRes, quizRes] = await Promise.all([
+            fetch('./teams.json'), fetch('./matches.json'), fetch('./venues.json'), 
+            fetch('./scorers.json').catch(() => ({ json: () => [] })),
+            fetch('./quiz.json').catch(() => ({ json: () => [] }))
         ]);
         const teamsData = await teamsRes.json();
         const matchesData = await matchesRes.json();
         VENUES = await venuesRes.json();
         SCORERS = await scorersRes.json();
+        QUIZ_DATA = await quizRes.json();
         TEAMS_DATA = teamsData;
 
         teamsData.forEach(t => {
@@ -1773,5 +1780,126 @@ window.resetPredictions = function() {
         localStorage.removeItem('wc2026_predictions');
         renderPredictions();
         showToast('Đã xóa tất cả dự đoán', 'success');
+    }
+}
+
+// ========== US-27: WORLD CUP TRIVIA QUIZ ==========
+window.renderQuizIntro = function() {
+    const container = document.getElementById('quizContainer');
+    if(!container) return;
+    
+    if(!QUIZ_DATA || QUIZ_DATA.length === 0) {
+        container.innerHTML = `<p>Dữ liệu Quiz đang được cập nhật...</p>`;
+        return;
+    }
+
+    const bestScore = localStorage.getItem('wc2026_quiz_best') || 0;
+    
+    container.innerHTML = `
+        <div class="quiz-result-box">
+            <div class="quiz-icon" style="font-size: 4rem; margin-bottom: 10px;">🧠</div>
+            <h2 class="quiz-title">Thử Tài Kiến Thức World Cup 2026</h2>
+            <p style="color: var(--text-muted); margin-bottom: 20px;">Bạn biết rõ về lịch sử World Cup và kỳ đại hội 2026 đến mức nào? Hãy trả lời ${QUIZ_DATA.length} câu hỏi để kiểm tra nhé!</p>
+            <div class="quiz-score-badge">Kỷ lục của bạn: ${bestScore} / ${QUIZ_DATA.length}</div>
+            <br>
+            <button class="action-btn" onclick="startQuiz()" style="font-size: 1.2rem; padding: 12px 30px; border-color: var(--gold); background: rgba(255,215,0,0.1); color: var(--gold);">🚀 Bắt đầu chơi</button>
+        </div>
+    `;
+}
+
+window.startQuiz = function() {
+    currentQuizIndex = 0;
+    currentQuizScore = 0;
+    renderQuizQuestion();
+}
+
+window.renderQuizQuestion = function() {
+    const container = document.getElementById('quizContainer');
+    const q = QUIZ_DATA[currentQuizIndex];
+    
+    container.innerHTML = `
+        <div style="text-align: left;">
+            <div class="quiz-score-badge">Câu hỏi ${currentQuizIndex + 1} / ${QUIZ_DATA.length}</div>
+            <div class="quiz-question">${q.question}</div>
+            <div class="quiz-options">
+                ${q.options.map((opt, i) => `
+                    <button class="quiz-option" id="quiz-opt-${i}" onclick="selectQuizAnswer(${i})">${['A','B','C','D'][i]}. ${opt}</button>
+                `).join('')}
+            </div>
+            <div class="quiz-explanation" id="quizExplanation">${q.explanation}</div>
+            <button class="action-btn quiz-next-btn" id="quizNextBtn" onclick="nextQuizQuestion()">Tiếp theo ➡️</button>
+        </div>
+    `;
+}
+
+window.selectQuizAnswer = function(selectedIndex) {
+    const q = QUIZ_DATA[currentQuizIndex];
+    const options = document.querySelectorAll('.quiz-option');
+    
+    // Disable all options
+    options.forEach(opt => opt.disabled = true);
+    
+    // Check answer
+    if(selectedIndex === q.correct) {
+        document.getElementById(`quiz-opt-${selectedIndex}`).classList.add('correct');
+        currentQuizScore++;
+        showToast('Chính xác! 🎉', 'success');
+    } else {
+        document.getElementById(`quiz-opt-${selectedIndex}`).classList.add('wrong');
+        document.getElementById(`quiz-opt-${q.correct}`).classList.add('correct');
+        showToast('Sai rồi! 😢', 'error');
+    }
+    
+    // Show explanation and next button
+    document.getElementById('quizExplanation').style.display = 'block';
+    const nextBtn = document.getElementById('quizNextBtn');
+    nextBtn.style.display = 'block';
+    
+    if(currentQuizIndex === QUIZ_DATA.length - 1) {
+        nextBtn.textContent = 'Xem kết quả 🏆';
+    }
+}
+
+window.nextQuizQuestion = function() {
+    currentQuizIndex++;
+    if(currentQuizIndex < QUIZ_DATA.length) {
+        renderQuizQuestion();
+    } else {
+        renderQuizResult();
+    }
+}
+
+window.renderQuizResult = function() {
+    const container = document.getElementById('quizContainer');
+    const bestScore = parseInt(localStorage.getItem('wc2026_quiz_best') || '0');
+    
+    if(currentQuizScore > bestScore) {
+        localStorage.setItem('wc2026_quiz_best', currentQuizScore);
+    }
+    
+    let message = '';
+    if(currentQuizScore === QUIZ_DATA.length) message = 'Xuất sắc! Bạn là một bách khoa toàn thư bóng đá! 🥇';
+    else if(currentQuizScore >= QUIZ_DATA.length / 2) message = 'Tuyệt vời! Kiến thức của bạn rất tốt! 🥈';
+    else message = 'Không sao, World Cup 2026 vẫn còn nhiều điều để học hỏi! 🥉';
+
+    container.innerHTML = `
+        <div class="quiz-result-box">
+            <div class="quiz-icon" style="font-size: 4rem; margin-bottom: 10px;">🎉</div>
+            <h2 class="quiz-title">Kết quả của bạn</h2>
+            <div style="font-size: 3rem; font-weight: bold; color: var(--gold); margin: 20px 0;">${currentQuizScore} / ${QUIZ_DATA.length}</div>
+            <p style="font-size: 1.2rem; margin-bottom: 30px;">${message}</p>
+            <button class="action-btn" onclick="startQuiz()" style="margin-right: 10px;">🔄 Chơi lại</button>
+            <button class="action-btn" onclick="shareQuizResult()">🔗 Chia sẻ</button>
+        </div>
+    `;
+}
+
+window.shareQuizResult = function() {
+    const text = \`Tôi vừa đạt \${currentQuizScore}/\${QUIZ_DATA.length} điểm trong bài trắc nghiệm kiến thức World Cup 2026! 🏆 Thử sức ngay tại wc2026.app\`;
+    if (navigator.share) {
+        navigator.share({ title: 'World Cup Quiz', text: text });
+    } else {
+        navigator.clipboard.writeText(text);
+        showToast('Đã copy kết quả để chia sẻ!', 'success');
     }
 }

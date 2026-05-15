@@ -741,6 +741,105 @@ body {
     text-decoration: line-through;
 }
 
+/* ========== US-27: TRIVIA QUIZ ========== */
+.quiz-wrapper {
+    max-width: 700px;
+    margin: 0 auto;
+    background: var(--surface);
+    padding: 30px;
+    border-radius: var(--radius);
+    border: 1px solid rgba(255,255,255,0.05);
+    text-align: center;
+}
+.light-theme .quiz-wrapper {
+    border-color: rgba(0,0,0,0.05);
+}
+.quiz-title {
+    font-size: 1.8rem;
+    color: var(--gold);
+    margin-bottom: 10px;
+}
+.quiz-score-badge {
+    display: inline-block;
+    background: rgba(255,215,0,0.1);
+    color: var(--gold);
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+.quiz-question {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 25px;
+    line-height: 1.5;
+}
+.quiz-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+.quiz-option {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 15px;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1.05rem;
+    text-align: left;
+}
+.light-theme .quiz-option {
+    background: rgba(0,0,0,0.03);
+    border-color: rgba(0,0,0,0.1);
+}
+.quiz-option:hover:not(:disabled) {
+    background: rgba(255,255,255,0.1);
+    transform: translateX(5px);
+}
+.light-theme .quiz-option:hover:not(:disabled) {
+    background: rgba(0,0,0,0.08);
+}
+.quiz-option.correct {
+    background: rgba(46, 204, 113, 0.2);
+    border-color: #2ecc71;
+    color: #2ecc71;
+}
+.quiz-option.wrong {
+    background: rgba(231, 76, 60, 0.2);
+    border-color: #e74c3c;
+    color: #e74c3c;
+}
+.quiz-explanation {
+    margin-top: 20px;
+    padding: 15px;
+    background: rgba(255,255,255,0.05);
+    border-left: 4px solid var(--gold);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    text-align: left;
+    display: none;
+    animation: fadeIn 0.3s ease;
+}
+.light-theme .quiz-explanation {
+    background: rgba(0,0,0,0.03);
+}
+.quiz-next-btn {
+    margin-top: 20px;
+    width: 100%;
+    padding: 15px;
+    font-size: 1.1rem;
+    display: none;
+}
+.quiz-result-box {
+    padding: 30px;
+}
+.quiz-result-box h2 {
+    font-size: 2.5rem;
+    color: var(--gold);
+    margin: 20px 0;
+}
+
 /* ========== GLOBAL SEARCH (US-09) ========== */
 .global-search-container {
     position: relative;

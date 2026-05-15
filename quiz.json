@@ -1,0 +1,62 @@
+[
+  {
+    "question": "World Cup 2026 được tổ chức tại mấy quốc gia?",
+    "options": ["1 quốc gia", "2 quốc gia", "3 quốc gia", "4 quốc gia"],
+    "correct": 2,
+    "explanation": "Đúng! World Cup 2026 sẽ được đồng đăng cai bởi 3 quốc gia: Mỹ, Mexico và Canada."
+  },
+  {
+    "question": "Đây là kỳ World Cup đầu tiên có sự tham gia của bao nhiêu đội tuyển?",
+    "options": ["32 đội", "40 đội", "48 đội", "64 đội"],
+    "correct": 2,
+    "explanation": "World Cup 2026 đánh dấu lần đầu tiên FIFA mở rộng số lượng đội tham dự lên 48 đội."
+  },
+  {
+    "question": "Trận chung kết World Cup 2026 sẽ diễn ra tại sân vận động nào?",
+    "options": ["Azteca (Mexico)", "MetLife (New York/New Jersey)", "SoFi (Los Angeles)", "AT&T (Dallas)"],
+    "correct": 1,
+    "explanation": "Trận chung kết sẽ diễn ra tại sân vận động MetLife ở New York/New Jersey vào ngày 19/07/2026."
+  },
+  {
+    "question": "Cầu thủ nào đang giữ kỷ lục ghi nhiều bàn thắng nhất trong một kỳ World Cup?",
+    "options": ["Pelé", "Gerd Müller", "Just Fontaine", "Ronaldo béo"],
+    "correct": 2,
+    "explanation": "Just Fontaine (Pháp) ghi 13 bàn tại World Cup 1958, một kỷ lục vẫn chưa bị xô đổ."
+  },
+  {
+    "question": "Quốc gia nào đã giành nhiều chức vô địch World Cup nhất trong lịch sử?",
+    "options": ["Đức", "Ý", "Brazil", "Argentina"],
+    "correct": 2,
+    "explanation": "Brazil là đội bóng giàu thành tích nhất với 5 lần vô địch (1958, 1962, 1970, 1994, 2002)."
+  },
+  {
+    "question": "Trận khai mạc World Cup 2026 sẽ diễn ra ở thành phố nào?",
+    "options": ["Mexico City", "Los Angeles", "Toronto", "Miami"],
+    "correct": 0,
+    "explanation": "Trận khai mạc sẽ diễn ra tại sân Azteca lịch sử ở Mexico City."
+  },
+  {
+    "question": "Trong thể thức 48 đội, vòng bảng World Cup 2026 có bao nhiêu bảng đấu?",
+    "options": ["8 bảng", "12 bảng", "16 bảng", "24 bảng"],
+    "correct": 1,
+    "explanation": "Sẽ có 12 bảng đấu (từ A đến L), mỗi bảng 4 đội."
+  },
+  {
+    "question": "Đội bóng nào là nhà đương kim vô địch bước vào World Cup 2026?",
+    "options": ["Pháp", "Brazil", "Tây Ban Nha", "Argentina"],
+    "correct": 3,
+    "explanation": "Argentina là nhà vô địch World Cup 2022 sau khi đánh bại Pháp trong trận chung kết."
+  },
+  {
+    "question": "Sân vận động nào có sức chứa lớn nhất tại World Cup 2026?",
+    "options": ["Sân vận động Azteca", "Sân vận động MetLife", "Sân vận động AT&T (Dallas)", "Sân vận động BC Place"],
+    "correct": 0,
+    "explanation": "Sân Azteca ở Mexico City có sức chứa cực lớn, và cũng là sân đầu tiên tổ chức 3 lễ khai mạc World Cup."
+  },
+  {
+    "question": "Tổng số trận đấu sẽ diễn ra tại World Cup 2026 là bao nhiêu?",
+    "options": ["64 trận", "80 trận", "96 trận", "104 trận"],
+    "correct": 3,
+    "explanation": "Với thể thức mới gồm 48 đội và có thêm vòng 32 đội, tổng số trận đấu được nâng lên con số kỷ lục 104 trận."
+  }
+]

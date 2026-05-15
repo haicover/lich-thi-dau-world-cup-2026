@@ -251,6 +251,10 @@
                     <span class="tab-icon" aria-hidden="true">🔮</span>
                     <span>Dự Đoán</span>
                 </button>
+                <button class="tab-btn" data-tab="quiz" id="tab-quiz" role="tab" aria-selected="false" aria-controls="content-quiz">
+                    <span class="tab-icon" aria-hidden="true">🎯</span>
+                    <span>Quiz</span>
+                </button>
             </div>
         </div>
     </nav>
@@ -370,6 +374,13 @@
                     <button class="action-btn" onclick="resetPredictions()">🔄 Làm mới</button>
                 </div>
                 <div class="prediction-bracket" id="predictionBracket"></div>
+            </div>
+
+            <!-- Quiz Tab -->
+            <div class="tab-content" id="content-quiz" role="tabpanel" aria-labelledby="tab-quiz">
+                <div class="quiz-wrapper" id="quizContainer">
+                    <!-- Quiz dynamically rendered here -->
+                </div>
             </div>
         </div>
     </main>
