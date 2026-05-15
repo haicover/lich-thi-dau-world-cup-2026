@@ -400,13 +400,41 @@ function initTabs() {
     const btns = document.querySelectorAll('.tab-btn');
     btns.forEach(btn => {
         btn.addEventListener('click', () => {
-            btns.forEach(b => b.classList.remove('active'));
+            btns.forEach(b => {
+                b.classList.remove('active');
+                b.setAttribute('aria-selected', 'false'); // US-24
+            });
             btn.classList.add('active');
+            btn.setAttribute('aria-selected', 'true'); // US-24
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
             const tab = btn.dataset.tab;
             document.getElementById(`content-${tab}`).classList.add('active');
             const fb = document.getElementById('filterBar');
             fb.style.display = tab === 'schedule' ? 'block' : 'none';
+        });
+
+        // US-24: Arrow key navigation between tabs
+        btn.addEventListener('keydown', (e) => {
+            const tabs = [...btns];
+            const idx = tabs.indexOf(btn);
+            let target = null;
+            if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                e.preventDefault();
+                target = tabs[(idx + 1) % tabs.length];
+            } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                e.preventDefault();
+                target = tabs[(idx - 1 + tabs.length) % tabs.length];
+            } else if (e.key === 'Home') {
+                e.preventDefault();
+                target = tabs[0];
+            } else if (e.key === 'End') {
+                e.preventDefault();
+                target = tabs[tabs.length - 1];
+            }
+            if (target) {
+                target.focus();
+                target.click();
+            }
         });
     });
     document.getElementById('filterStage').addEventListener('change', renderSchedule);
@@ -1062,16 +1090,16 @@ function showTeamProfile(teamName) {
     `;
 
     document.getElementById('teamModalBody').innerHTML = html;
-    document.getElementById('teamModal').classList.add('active');
+    openModal('teamModal');
 }
 
 document.getElementById('closeTeamModal').addEventListener('click', () => {
-    document.getElementById('teamModal').classList.remove('active');
+    closeModal('teamModal');
 });
 
 document.getElementById('teamModal').addEventListener('click', (e) => {
     if (e.target.id === 'teamModal') {
-        document.getElementById('teamModal').classList.remove('active');
+        closeModal('teamModal');
     }
 });
 
@@ -1163,18 +1191,18 @@ window.showH2H = function(teamA, teamB) {
     }
 
     body.innerHTML = html;
-    modal.classList.add('active');
+    openModal('h2hModal');
 }
 
 // Close H2H Modal
 document.getElementById('closeH2hModal').addEventListener('click', () => {
-    document.getElementById('h2hModal').classList.remove('active');
+    closeModal('h2hModal');
 });
 
 // Click outside H2H modal
 document.getElementById('h2hModal').addEventListener('click', (e) => {
     if (e.target === document.getElementById('h2hModal')) {
-        document.getElementById('h2hModal').classList.remove('active');
+        closeModal('h2hModal');
     }
 });
 
@@ -1399,7 +1427,7 @@ window.showMatchDetails = function(home, away) {
     `;
 
     body.innerHTML = html;
-    modal.classList.add('active');
+    openModal('matchDetailsModal');
 };
 
 function getEventIcon(type) {
@@ -1437,11 +1465,83 @@ window.switchMdTab = function(tabId, btn) {
 };
 
 document.getElementById('closeMatchDetailsModal').addEventListener('click', () => {
-    document.getElementById('matchDetailsModal').classList.remove('active');
+    closeModal('matchDetailsModal');
 });
 
 document.getElementById('matchDetailsModal').addEventListener('click', (e) => {
     if (e.target.id === 'matchDetailsModal') {
-        document.getElementById('matchDetailsModal').classList.remove('active');
+        closeModal('matchDetailsModal');
+    }
+});
+
+// ========== US-24: ACCESSIBILITY UTILITIES ==========
+
+// Store the element that opened the modal so we can return focus
+let lastFocusedElement = null;
+
+// Open modal with focus management
+function openModal(modalId) {
+    lastFocusedElement = document.activeElement;
+    const modal = document.getElementById(modalId);
+    modal.classList.add('active');
+    // Focus the close button inside
+    const closeBtn = modal.querySelector('.modal-close');
+    if (closeBtn) setTimeout(() => closeBtn.focus(), 100);
+    // Trap focus
+    modal.addEventListener('keydown', trapFocusHandler);
+}
+
+// Close modal with focus restoration
+function closeModal(modalId) {
+    const modal = document.getElementById(modalId);
+    modal.classList.remove('active');
+    modal.removeEventListener('keydown', trapFocusHandler);
+    // Return focus to trigger element
+    if (lastFocusedElement) {
+        lastFocusedElement.focus();
+        lastFocusedElement = null;
+    }
+}
+
+// Focus trap handler — keeps Tab cycling within the modal
+function trapFocusHandler(e) {
+    if (e.key === 'Escape') {
+        const modal = e.currentTarget;
+        closeModal(modal.id);
+        return;
+    }
+    if (e.key !== 'Tab') return;
+
+    const modal = e.currentTarget;
+    const focusable = modal.querySelectorAll(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    );
+    if (focusable.length === 0) return;
+
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+
+    if (e.shiftKey) {
+        if (document.activeElement === first) {
+            e.preventDefault();
+            last.focus();
+        }
+    } else {
+        if (document.activeElement === last) {
+            e.preventDefault();
+            first.focus();
+        }
+    }
+}
+
+// Global Escape key handler for any open modal
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        ['teamModal', 'h2hModal', 'matchDetailsModal'].forEach(id => {
+            const modal = document.getElementById(id);
+            if (modal && modal.classList.contains('active')) {
+                closeModal(id);
+            }
+        });
     }
 });

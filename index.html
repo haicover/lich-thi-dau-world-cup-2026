@@ -97,8 +97,11 @@
     <noscript><link rel="stylesheet" href="style.css"></noscript>
 </head>
 <body>
+    <!-- US-24: Skip to content link for keyboard users -->
+    <a href="#main-content" class="skip-link">Chuyển đến nội dung chính</a>
+
     <!-- Animated Background -->
-    <div class="bg-animation">
+    <div class="bg-animation" aria-hidden="true">
         <div class="bg-orb bg-orb-1"></div>
         <div class="bg-orb bg-orb-2"></div>
         <div class="bg-orb bg-orb-3"></div>
@@ -158,10 +161,10 @@
             </div>
             
             <!-- Global Search (US-09) -->
-            <div class="global-search-container">
+            <div class="global-search-container" role="search" aria-label="Tìm kiếm">
                 <div class="search-input-wrapper">
-                    <span class="search-icon">🔍</span>
-                    <input type="text" id="globalSearchInput" placeholder="Tìm đội, sân, thành phố..." autocomplete="off">
+                    <span class="search-icon" aria-hidden="true">🔍</span>
+                    <input type="text" id="globalSearchInput" placeholder="Tìm đội, sân, thành phố..." autocomplete="off" aria-label="Tìm đội bóng, sân vận động, thành phố">
                 </div>
                 <div class="search-results-dropdown" id="searchResults" style="display: none;">
                     <!-- Results rendered via JS -->
@@ -200,23 +203,23 @@
     </section>
 
     <!-- Navigation Tabs -->
-    <nav class="nav-tabs" id="navTabs">
+    <nav class="nav-tabs" id="navTabs" aria-label="Điều hướng chính">
         <div class="container">
-            <div class="tabs-wrapper">
-                <button class="tab-btn active" data-tab="groups" id="tab-groups">
-                    <span class="tab-icon">🏟️</span>
+            <div class="tabs-wrapper" role="tablist" aria-label="Các mục nội dung">
+                <button class="tab-btn active" data-tab="groups" id="tab-groups" role="tab" aria-selected="true" aria-controls="content-groups">
+                    <span class="tab-icon" aria-hidden="true">🏟️</span>
                     <span>Bảng Đấu</span>
                 </button>
-                <button class="tab-btn" data-tab="schedule" id="tab-schedule">
-                    <span class="tab-icon">📅</span>
+                <button class="tab-btn" data-tab="schedule" id="tab-schedule" role="tab" aria-selected="false" aria-controls="content-schedule">
+                    <span class="tab-icon" aria-hidden="true">📅</span>
                     <span>Lịch Thi Đấu</span>
                 </button>
-                <button class="tab-btn" data-tab="knockout" id="tab-knockout">
-                    <span class="tab-icon">⚔️</span>
+                <button class="tab-btn" data-tab="knockout" id="tab-knockout" role="tab" aria-selected="false" aria-controls="content-knockout">
+                    <span class="tab-icon" aria-hidden="true">⚔️</span>
                     <span>Vòng Loại Trực Tiếp</span>
                 </button>
-                <button class="tab-btn" data-tab="venues" id="tab-venues">
-                    <span class="tab-icon">📍</span>
+                <button class="tab-btn" data-tab="venues" id="tab-venues" role="tab" aria-selected="false" aria-controls="content-venues">
+                    <span class="tab-icon" aria-hidden="true">📍</span>
                     <span>Sân Vận Động</span>
                 </button>
             </div>
@@ -281,15 +284,15 @@
     </div>
 
     <!-- Main Content -->
-    <main class="main-content">
+    <main class="main-content" id="main-content">
         <div class="container">
             <!-- Groups Tab -->
-            <div class="tab-content active" id="content-groups">
+            <div class="tab-content active" id="content-groups" role="tabpanel" aria-labelledby="tab-groups">
                 <div class="groups-grid" id="groupsGrid"></div>
             </div>
 
             <!-- Schedule Tab -->
-            <div class="tab-content" id="content-schedule">
+            <div class="tab-content" id="content-schedule" role="tabpanel" aria-labelledby="tab-schedule">
                 <div class="schedule-list" id="scheduleList"></div>
                 <div class="schedule-calendar" id="scheduleCalendar" style="display:none;">
                     <!-- Calendar View will be rendered here -->
@@ -297,12 +300,12 @@
             </div>
 
             <!-- Knockout Tab -->
-            <div class="tab-content" id="content-knockout">
+            <div class="tab-content" id="content-knockout" role="tabpanel" aria-labelledby="tab-knockout">
                 <div class="knockout-bracket" id="knockoutBracket"></div>
             </div>
 
             <!-- Venues Tab -->
-            <div class="tab-content" id="content-venues">
+            <div class="tab-content" id="content-venues" role="tabpanel" aria-labelledby="tab-venues">
                 <div class="venues-grid" id="venuesGrid"></div>
             </div>
         </div>
@@ -346,25 +349,25 @@
     </button>
 
     <!-- Team Profile Modal (US-10) -->
-    <div class="modal-overlay" id="teamModal">
+    <div class="modal-overlay" id="teamModal" role="dialog" aria-modal="true" aria-label="Thông tin đội tuyển">
         <div class="modal-content">
-            <button class="modal-close" id="closeTeamModal">&times;</button>
+            <button class="modal-close" id="closeTeamModal" aria-label="Đóng">&times;</button>
             <div id="teamModalBody"></div>
         </div>
     </div>
 
     <!-- H2H Modal (US-15) -->
-    <div class="modal-overlay" id="h2hModal">
+    <div class="modal-overlay" id="h2hModal" role="dialog" aria-modal="true" aria-label="Lịch sử đối đầu">
         <div class="modal-content">
-            <button class="modal-close" id="closeH2hModal">&times;</button>
+            <button class="modal-close" id="closeH2hModal" aria-label="Đóng">&times;</button>
             <div id="h2hModalBody"></div>
         </div>
     </div>
 
     <!-- Match Details Modal (US-20) -->
-    <div class="modal-overlay" id="matchDetailsModal">
+    <div class="modal-overlay" id="matchDetailsModal" role="dialog" aria-modal="true" aria-label="Chi tiết trận đấu">
         <div class="modal-content match-details-content">
-            <button class="modal-close" id="closeMatchDetailsModal">&times;</button>
+            <button class="modal-close" id="closeMatchDetailsModal" aria-label="Đóng">&times;</button>
             <div id="matchDetailsModalBody"></div>
         </div>
     </div>
