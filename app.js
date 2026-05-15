@@ -1264,6 +1264,10 @@ async function fetchLiveScores() {
 
         const res = await fetch('/api/live', { signal: controller.signal });
         clearTimeout(timeoutId);
+        if (!res.ok) {
+            console.log('[Live] /api/live endpoint not available (likely local dev).');
+            return;
+        }
         const data = await res.json();
         
         let liveMatches = data.matches || [];
