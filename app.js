@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     initFavoritesFilter();    // US-03
     initSearch();             // US-09
     initLivePolling();        // US-18
+    initThemeToggle();        // US-28
 });
 
 async function fetchData() {
@@ -1568,3 +1569,49 @@ document.addEventListener('keydown', (e) => {
         });
     }
 });
+
+// ========== US-28: THEME TOGGLE ==========
+function initThemeToggle() {
+    const btn = document.getElementById('themeToggle');
+    const icon = document.getElementById('themeIcon');
+    if (!btn || !icon) return;
+
+    // Check LocalStorage or System Preference
+    const savedTheme = localStorage.getItem('wc2026_theme');
+    let isLight = false;
+
+    if (savedTheme === 'light') {
+        isLight = true;
+    } else if (savedTheme === 'dark') {
+        isLight = false;
+    } else {
+        // No saved preference, check system
+        isLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+    }
+
+    if (isLight) {
+        document.body.classList.add('light-theme');
+        icon.textContent = '☀️';
+    }
+
+    btn.addEventListener('click', () => {
+        document.body.classList.toggle('light-theme');
+        const isNowLight = document.body.classList.contains('light-theme');
+        localStorage.setItem('wc2026_theme', isNowLight ? 'light' : 'dark');
+        
+        // Spin animation for icon
+        icon.style.transition = 'transform 0.15s ease-in';
+        icon.style.transform = 'rotate(180deg) scale(0)';
+        
+        setTimeout(() => {
+            icon.textContent = isNowLight ? '☀️' : '🌙';
+            icon.style.transition = 'transform 0.15s ease-out';
+            icon.style.transform = 'rotate(360deg) scale(1)';
+            
+            setTimeout(() => {
+                icon.style.transition = '';
+                icon.style.transform = ''; // reset for hover effect
+            }, 150);
+        }, 150);
+    });
+}
