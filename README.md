@@ -1,6 +1,6 @@
 # ⚽ Lịch Thi Đấu World Cup 2026
 
-> 🏆 **FIFA World Cup 2026™** — Ứng dụng xem lịch thi đấu toàn diện, miễn phí, offline-ready.
+> 🏆 **FIFA World Cup 2026™** — Ứng dụng xem lịch thi đấu toàn diện, theo dõi trực tiếp, miễn phí, offline-ready.
 
 ![World Cup 2026](og-image.png)
 
@@ -11,6 +11,7 @@
 - 🆓 **Hoàn toàn miễn phí** — không quảng cáo, không thu phí
 - 📱 **Cài được trên điện thoại** — như app native, không cần App Store
 - 📶 **Hoạt động offline** — xem lịch mọi lúc, không cần mạng
+- 🔴 **Live Score** — cập nhật tỷ số tự động theo thời gian thực
 - 🇻🇳 **Giờ Việt Nam** — tất cả giờ thi đấu đã chuyển sang GMT+7
 
 ## ✨ Tính Năng
@@ -27,10 +28,12 @@
 - Highlight vàng nổi bật trong bảng đấu
 - Lưu vĩnh viễn trên thiết bị (localStorage)
 
-### 📊 Bảng Xếp Hạng
+### 📊 Bảng Xếp Hạng (Live Auto-update)
 - Xem thứ hạng đầy đủ: ST, T, H, B, BT, BB, HS, Điểm
 - Highlight đội vào vòng 32 (xanh) và đội có thể vào (vàng)
 - Toggle qua lại giữa danh sách đội ↔ bảng xếp hạng
+- **🆕 Tự động tính điểm và xếp hạng lại khi có bàn thắng**
+- **🆕 Hiển thị ▲/▼ khi đội thăng/tụt hạng trong thời gian thực**
 
 ### 📅 Thêm Vào Calendar
 - Download file `.ics` cho từng trận
@@ -43,24 +46,46 @@
 - Copy thông tin trận đấu ra clipboard (desktop)
 - Format đẹp: "🇧🇷 Brazil 🆚 Argentina | 10/06 01:00 (VN) | MetLife Stadium"
 
-### 🔍 Tìm Kiếm & Lọc Nhanh (Mới)
+### 🔍 Tìm Kiếm & Lọc Nhanh
 - Tìm kiếm tức thì (Realtime) đội bóng, sân vận động bằng công nghệ Fuse.js
 - Trả về kết quả phân nhóm trực quan ngay khi gõ
 
-### 👤 Thông Tin Đội Tuyển (Mới)
+### 👤 Thông Tin Đội Tuyển
 - Bấm vào tên đội bóng để xem lịch sử, HLV, thành tích
 - Danh sách tất cả các trận đấu của đội đó tại giải
 - Đánh dấu yêu thích trực tiếp trên trang cá nhân đội bóng
 
-### ⏱️ Đếm Ngược Trực Tiếp (Mới)
+### ⚔️ Lịch Sử Đối Đầu (H2H)
+- So sánh thành tích lịch sử giữa 2 đội trong cùng trận
+- Biểu đồ tròn trực quan Thắng/Hòa/Thua
+- Danh sách các trận đối đầu lịch sử
+
+### ⏱️ Đếm Ngược Trực Tiếp
 - Banner thông minh hiển thị chính xác trận đấu tiếp theo
 - Đếm ngược từng giây đến giờ bóng lăn
 - Trạng thái "ĐANG DIỄN RA" khi trận đấu bắt đầu
 
-### 📅 Lịch Dạng Tháng (Mới)
+### 📅 Lịch Dạng Tháng
 - Xem lịch thi đấu dưới dạng lưới tháng 6 & 7 trực quan
 - Đánh dấu số trận mỗi ngày
 - Bấm vào ngày để xem chi tiết các trận trong ngày đó
+
+### 🏆 Sơ Đồ Vòng Loại Trực Tiếp (Bracket)
+- Sơ đồ dạng cây từ Vòng 32 → Chung kết
+- Hiển thị trực quan đường đi đến ngôi vô địch
+- Bấm vào trận để xem chi tiết & thống kê
+
+### 🔴 Live Score & Thông Báo Bàn Thắng (Mới — Phase 4)
+- **Auto-refresh tỷ số**: Polling API mỗi 60 giây, cập nhật trực tiếp lên giao diện
+- **Badge LIVE nhấp nháy**: Trận đang đá sẽ có badge 🔴 LIVE đỏ nhấp nháy nổi bật
+- **Goal Notification**: Banner thông báo "⚽ VÀOOO!" trượt ra kèm âm thanh cổ vũ
+- **Tỷ số vàng rực rỡ**: Text tỷ số đổi sang màu vàng Gold + pulse animation
+
+### 📊 Chi Tiết Trận Đấu & Thống Kê (Mới — Phase 4)
+- **Match Details Modal**: Bấm vào bất kỳ trận nào để xem chi tiết đầy đủ
+- **Timeline dọc**: Hiển thị bàn thắng ⚽, thẻ vàng 🟨, thẻ đỏ 🟥, thay người 🔄 theo từng phút
+- **Bar Chart thống kê**: Kiểm soát bóng, số cú sút, sút trúng đích, phạt góc, phạm lỗi (CSS thuần, không thư viện)
+- **Tabs chuyển đổi mượt mà**: Dòng thời gian ↔ Thống kê
 
 ### 📶 Offline Mode
 - Service Worker cache toàn bộ app + 48 lá cờ quốc gia
@@ -73,7 +98,10 @@
 |---|---|
 | Frontend | HTML5, Vanilla CSS, JavaScript (ES6+) |
 | PWA | Service Worker, Web App Manifest |
-| Hosting | GitHub Pages (miễn phí) |
+| Backend API | Vercel Serverless Functions (API Proxy) |
+| Live Data | Football-Data.org Free Tier (10 req/phút) |
+| Hosting | Vercel (production) + GitHub Pages (fallback) |
+| Search | Fuse.js (client-side, 3KB) |
 | Icons | Flagcdn.com (cờ quốc gia) |
 | Font | Google Fonts (Outfit, Inter) |
 | SEO | Open Graph, Twitter Cards, JSON-LD |
@@ -85,11 +113,14 @@
 ```
 WorldCup2026/
 ├── index.html          # Trang chính (SPA)
-├── style.css           # Toàn bộ styling
-├── app.js              # Logic ứng dụng
+├── style.css           # Toàn bộ styling (~1350 dòng)
+├── app.js              # Logic ứng dụng (~1300 dòng)
 ├── matches.json        # Dữ liệu 104 trận đấu
 ├── teams.json          # Dữ liệu 48 đội tuyển
 ├── venues.json         # Dữ liệu 16 sân vận động
+├── api/
+│   └── live.js         # Vercel Serverless: API proxy cho live scores
+├── vercel.json         # Cấu hình Vercel deployment
 ├── sw.js               # Service Worker (offline cache)
 ├── manifest.json       # PWA manifest
 ├── og-image.png        # Ảnh preview khi share lên MXH
@@ -103,7 +134,8 @@ WorldCup2026/
 ## 🚀 Cài Đặt & Chạy
 
 ### Xem trực tiếp
-👉 **[https://haicover.github.io/WorldCup2026/](https://haicover.github.io/WorldCup2026/)**
+👉 **[https://world-cup2026.vercel.app](https://world-cup2026.vercel.app)** (Production — Vercel)
+👉 **[https://haicover.github.io/WorldCup2026/](https://haicover.github.io/WorldCup2026/)** (Fallback — GitHub Pages)
 
 ### Chạy local
 ```bash
@@ -111,7 +143,10 @@ WorldCup2026/
 git clone https://github.com/haicover/WorldCup2026.git
 cd WorldCup2026
 
-# Chạy server (cần Node.js)
+# Chạy với Vercel CLI (khuyến nghị — hỗ trợ API routes)
+npx vercel dev
+
+# Hoặc chạy static server (không có live API)
 npx serve .
 
 # Hoặc dùng Python
@@ -141,8 +176,9 @@ python -m http.server 3000
 - [x] **Phase 1** — PWA + Cá nhân hóa (Sprint 1) ✅
 - [x] **Phase 2** — Dữ liệu thời gian thực + Tìm kiếm, Lịch, Profile (Sprint 2) ✅
 - [x] **Phase 3** — Serverless Backend + H2H + Bracket trực quan (Sprint 3) ✅
-- [ ] **Phase 4** — Live Scores (Cập nhật tỷ số tự động)
-- [ ] **Phase 5** — Đa ngôn ngữ + Cộng đồng
+- [x] **Phase 4** — Live Match Experience: Tỷ số trực tiếp, Thông báo bàn thắng, Timeline & Stats, Bảng xếp hạng tự cập nhật (Sprint 4) ✅
+- [ ] **Phase 5** — Performance & PWA Optimization (Sprint 5)
+- [ ] **Phase 6** — Cộng đồng + Dự đoán (Bracket Prediction, Trivia Quiz)
 
 ## 📄 License
 
@@ -155,3 +191,4 @@ MIT License — Tự do sử dụng, chỉnh sửa, phân phối.
 <p align="center">
   Made with ❤️ for Vietnamese football fans 🇻🇳
 </p>
+
