@@ -100,6 +100,12 @@
     <!-- US-24: Skip to content link for keyboard users -->
     <a href="#main-content" class="skip-link">Chuyển đến nội dung chính</a>
 
+    <!-- US-25: Print-only header -->
+    <div class="print-header">
+        <h1>🏆 Lịch Thi Đấu World Cup 2026</h1>
+        <p>USA • Mexico • Canada — 11/06 – 19/07/2026 — 48 đội tuyển • 104 trận đấu</p>
+    </div>
+
     <!-- Animated Background -->
     <div class="bg-animation" aria-hidden="true">
         <div class="bg-orb bg-orb-1"></div>
@@ -278,6 +284,7 @@
                 <div class="filter-group view-toggle-group" style="margin-left: auto;">
                     <button class="view-toggle-btn active" id="btnListView" title="Xem dạng danh sách">📄 Danh sách</button>
                     <button class="view-toggle-btn" id="btnCalendarView" title="Xem dạng lịch tháng">📅 Lịch</button>
+                    <button class="view-toggle-btn print-btn" id="btnPrint" title="In lịch thi đấu" onclick="printSchedule()" aria-label="In lịch thi đấu">🖨️ In</button>
                 </div>
             </div>
         </div>
@@ -324,6 +331,11 @@
     <div class="sw-update-bar" id="swUpdateBar">
         🆕 Có phiên bản mới!
         <button id="swUpdateBtn" onclick="applySwUpdate()">🔄 Cập nhật ngay</button>
+    </div>
+
+    <!-- US-25: Print-only footer -->
+    <div class="print-footer">
+        🌐 Dữ liệu tổng hợp từ FIFA.com — Thời gian theo giờ Việt Nam (GMT+7) — In từ wc2026.app
     </div>
 
     <!-- Footer -->

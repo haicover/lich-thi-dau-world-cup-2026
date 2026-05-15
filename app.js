@@ -472,6 +472,29 @@ function initScrollTop() {
     btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 }
 
+// ========== US-25: PRINT SCHEDULE ==========
+window.printSchedule = function() {
+    // Temporarily show all tab content for printing
+    const tabs = document.querySelectorAll('.tab-content');
+    const wasActive = [];
+    tabs.forEach(t => {
+        wasActive.push(t.classList.contains('active'));
+        t.classList.add('active');
+    });
+
+    // Small delay to let browser paint
+    requestAnimationFrame(() => {
+        window.print();
+
+        // Restore tab state after print dialog closes
+        setTimeout(() => {
+            tabs.forEach((t, i) => {
+                if (!wasActive[i]) t.classList.remove('active');
+            });
+        }, 500);
+    });
+};
+
 // ========== HELPERS ==========
 function getFlag(name, size) { return getFlagImg(name, size); }
 function formatDate(d) {
