@@ -7,6 +7,7 @@ let GROUP_MATCHES = [];
 let KNOCKOUT_MATCHES = [];
 let VENUES = [];
 let TEAMS_DATA = [];
+let SCORERS = [];
 
 document.addEventListener('DOMContentLoaded', async () => {
     await fetchData();
@@ -23,16 +24,18 @@ document.addEventListener('DOMContentLoaded', async () => {
     initSearch();             // US-09
     initLivePolling();        // US-18
     initThemeToggle();        // US-28
+    renderScorers();          // US-29
 });
 
 async function fetchData() {
     try {
-        const [teamsRes, matchesRes, venuesRes] = await Promise.all([
-            fetch('./teams.json'), fetch('./matches.json'), fetch('./venues.json')
+        const [teamsRes, matchesRes, venuesRes, scorersRes] = await Promise.all([
+            fetch('./teams.json'), fetch('./matches.json'), fetch('./venues.json'), fetch('./scorers.json').catch(() => ({ json: () => [] }))
         ]);
         const teamsData = await teamsRes.json();
         const matchesData = await matchesRes.json();
         VENUES = await venuesRes.json();
+        SCORERS = await scorersRes.json();
         TEAMS_DATA = teamsData;
 
         teamsData.forEach(t => {
@@ -1614,4 +1617,40 @@ function initThemeToggle() {
             }, 150);
         }, 150);
     });
+}
+
+// ========== US-29: TOP SCORERS ==========
+function renderScorers() {
+    const tbody = document.getElementById('scorersBody');
+    if (!tbody || SCORERS.length === 0) return;
+
+    let html = '';
+    SCORERS.sort((a, b) => b.goals - a.goals || b.assists - a.assists);
+
+    SCORERS.forEach((s, index) => {
+        let rank = index + 1;
+        let rankDisplay = rank;
+        if (rank === 1) rankDisplay = '<span class="medal">🥇</span>';
+        else if (rank === 2) rankDisplay = '<span class="medal">🥈</span>';
+        else if (rank === 3) rankDisplay = '<span class="medal">🥉</span>';
+
+        // Find team name from TEAMS_DATA
+        const team = TEAMS_DATA.find(t => t.code === s.teamId) || { name: s.teamId };
+        const flagUrl = FLAG_CODES[team.name] ? `https://flagcdn.com/24x18/${FLAG_CODES[team.name]}.png` : '';
+
+        html += `
+            <tr>
+                <td class="text-center">${rankDisplay}</td>
+                <td class="player-name" onclick="openTeamModal('${team.name}')" role="button" tabindex="0">${s.name}</td>
+                <td class="team-cell">
+                    ${flagUrl ? `<img src="${flagUrl}" class="team-flag" alt="${team.name}" width="20" height="15" loading="lazy">` : ''}
+                    ${s.teamId}
+                </td>
+                <td class="text-center font-bold" style="color: var(--gold);">${s.goals}</td>
+                <td class="text-center">${s.assists}</td>
+            </tr>
+        `;
+    });
+
+    tbody.innerHTML = html;
 }

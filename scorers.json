@@ -1,0 +1,17 @@
+[
+  { "id": 1, "name": "Kylian Mbappé", "teamId": "FRA", "goals": 8, "assists": 2 },
+  { "id": 2, "name": "Lionel Messi", "teamId": "ARG", "goals": 7, "assists": 3 },
+  { "id": 3, "name": "Julián Álvarez", "teamId": "ARG", "goals": 4, "assists": 1 },
+  { "id": 4, "name": "Olivier Giroud", "teamId": "FRA", "goals": 4, "assists": 0 },
+  { "id": 5, "name": "Bukayo Saka", "teamId": "ENG", "goals": 3, "assists": 1 },
+  { "id": 6, "name": "Richarlison", "teamId": "BRA", "goals": 3, "assists": 0 },
+  { "id": 7, "name": "Gonçalo Ramos", "teamId": "POR", "goals": 3, "assists": 1 },
+  { "id": 8, "name": "Cody Gakpo", "teamId": "NED", "goals": 3, "assists": 0 },
+  { "id": 9, "name": "Marcus Rashford", "teamId": "ENG", "goals": 3, "assists": 0 },
+  { "id": 10, "name": "Álvaro Morata", "teamId": "ESP", "goals": 3, "assists": 1 },
+  { "id": 11, "name": "Neymar Jr", "teamId": "BRA", "goals": 2, "assists": 1 },
+  { "id": 12, "name": "Harry Kane", "teamId": "ENG", "goals": 2, "assists": 3 },
+  { "id": 13, "name": "Vinícius Júnior", "teamId": "BRA", "goals": 1, "assists": 2 },
+  { "id": 14, "name": "Kevin De Bruyne", "teamId": "BEL", "goals": 0, "assists": 3 },
+  { "id": 15, "name": "Jude Bellingham", "teamId": "ENG", "goals": 1, "assists": 1 }
+]
