@@ -1719,21 +1719,21 @@ function renderPredictions() {
                             const isAwayPredicted = PREDICTIONS[m.num] === m.away && m.away && !m.away.startsWith('Thắng ');
                             const hasPrediction = !!PREDICTIONS[m.num];
                             
-                            return \`
+                            return `
                                 <div class="bracket-match-card prediction-match">
-                                    <div class="b-match-num">Trận #\${m.num}</div>
+                                    <div class="b-match-num">Trận #${m.num}</div>
                                     <div class="b-match-teams">
-                                        <div class="b-team prediction-team \${isHomePredicted ? 'selected' : (hasPrediction ? 'loser' : '')}" onclick="predictWinner(\${m.num}, '\${m.home.replace(/'/g, "\\'")}')">
-                                            <span class="b-team-flag">\${getFlag(m.home, 20)}</span>
-                                            <span class="b-team-name">\${m.home}</span>
+                                        <div class="b-team prediction-team ${isHomePredicted ? 'selected' : (hasPrediction ? 'loser' : '')}" onclick="predictWinner(${m.num}, '${m.home.replace(/'/g, "\\'")}')">
+                                            <span class="b-team-flag">${getFlag(m.home, 20)}</span>
+                                            <span class="b-team-name">${m.home}</span>
                                         </div>
-                                        <div class="b-team prediction-team \${isAwayPredicted ? 'selected' : (hasPrediction ? 'loser' : '')}" onclick="predictWinner(\${m.num}, '\${m.away.replace(/'/g, "\\'")}')">
-                                            <span class="b-team-flag">\${getFlag(m.away, 20)}</span>
-                                            <span class="b-team-name">\${m.away}</span>
+                                        <div class="b-team prediction-team ${isAwayPredicted ? 'selected' : (hasPrediction ? 'loser' : '')}" onclick="predictWinner(${m.num}, '${m.away.replace(/'/g, "\\'")}')">
+                                            <span class="b-team-flag">${getFlag(m.away, 20)}</span>
+                                            <span class="b-team-name">${m.away}</span>
                                         </div>
                                     </div>
                                 </div>
-                            \`;
+                            `;
                         }).join('')}
                     </div>
                 </div>`;
@@ -1895,7 +1895,7 @@ window.renderQuizResult = function() {
 }
 
 window.shareQuizResult = function() {
-    const text = \`Tôi vừa đạt \${currentQuizScore}/\${QUIZ_DATA.length} điểm trong bài trắc nghiệm kiến thức World Cup 2026! 🏆 Thử sức ngay tại wc2026.app\`;
+    const text = `Tôi vừa đạt ${currentQuizScore}/${QUIZ_DATA.length} điểm trong bài trắc nghiệm kiến thức World Cup 2026! 🏆 Thử sức ngay tại wc2026.app`;
     if (navigator.share) {
         navigator.share({ title: 'World Cup Quiz', text: text });
     } else {
