@@ -12,6 +12,9 @@
 - 📱 **Cài được trên điện thoại** — như app native, không cần App Store
 - 📶 **Hoạt động offline** — xem lịch mọi lúc, không cần mạng
 - 🔴 **Live Score** — cập nhật tỷ số tự động theo thời gian thực
+- ⚡ **Hiệu năng cao** — Lighthouse Performance ≥ 90, Critical CSS inline
+- ♿ **Accessible** — WCAG AA, keyboard navigation, screen reader ready
+- 🖨️ **In được** — Print stylesheet A4-friendly cho lịch thi đấu
 - 🇻🇳 **Giờ Việt Nam** — tất cả giờ thi đấu đã chuyển sang GMT+7
 
 ## ✨ Tính Năng
@@ -87,10 +90,42 @@
 - **Bar Chart thống kê**: Kiểm soát bóng, số cú sút, sút trúng đích, phạt góc, phạm lỗi (CSS thuần, không thư viện)
 - **Tabs chuyển đổi mượt mà**: Dòng thời gian ↔ Thống kê
 
-### 📶 Offline Mode
-- Service Worker cache toàn bộ app + 48 lá cờ quốc gia
-- Xem lịch thi đấu khi không có mạng
-- Tự đồng bộ khi có kết nối lại
+### 📶 Offline Mode (Nâng cấp — Phase 5)
+- Service Worker với **chiến lược cache thông minh**: stale-while-revalidate cho static, network-first cho API
+- Cache toàn bộ app + 48 lá cờ quốc gia
+- **Offline Guard**: API polling tự động skip khi mất mạng — không lỗi console
+- **API fallback**: Trả về JSON rỗng an toàn khi chưa có cache offline
+- Thanh trạng thái offline với pulse animation
+- **Thông báo cập nhật**: Banner "🆕 Có phiên bản mới!" khi SW detect version mới
+- User-controlled update — bấm "🔄 Cập nhật ngay" để kích hoạt
+
+### ⚡ Hiệu Năng Cao (Mới — Phase 5)
+- **Critical CSS inline**: ~2KB CSS trọng yếu nhúng trực tiếp trong `<head>` → FCP tức thì
+- **Deferred stylesheet**: `style.css` load async qua `<link rel="preload">`
+- **Font optimization**: Giảm từ 12 weights → 6 weights, preload + font-display:swap
+- **Icon compression**: icon-192 giảm 88% (386KB → 45KB), icon-512 giảm 28%
+- **Preconnect**: 3 origins (fonts.googleapis, fonts.gstatic, flagcdn.com)
+- **Lazy loading**: Tất cả cờ quốc gia dùng `loading="lazy"`
+- **Fetch timeout**: AbortController 10s cho API calls
+
+### ♿ Accessibility — WCAG AA (Mới — Phase 5)
+- **Skip-to-content**: Link ẩn cho keyboard users — nhấn Tab đầu tiên
+- **ARIA Tablist**: `role="tablist"` / `role="tab"` / `role="tabpanel"` + `aria-selected`
+- **ARIA Modals**: `role="dialog"` + `aria-modal` + `aria-label` cho 3 modals
+- **Focus Trap**: Tab cycling bị giữ trong modal khi đang mở
+- **Focus Restoration**: Đóng modal → focus quay về element trigger
+- **Keyboard Navigation**: ← → ↑ ↓ di chuyển tabs, Esc đóng modal
+- **Focus-visible**: Viền vàng Gold 2px cho keyboard, ẩn khi click chuột
+- **Reduced Motion**: `prefers-reduced-motion` tắt toàn bộ animation
+- **Decorative hidden**: `aria-hidden="true"` cho emoji trang trí
+
+### 🖨️ In Lịch Thi Đấu — A4 (Mới — Phase 5)
+- Nút "🖨️ In" trong filter bar
+- In ra tất cả tab content: Bảng đấu + Lịch + Vòng KO + Sân
+- Nền trắng, chữ đen, font 10pt, compact layout
+- Groups grid 2 cột, page-break-inside: avoid
+- Print header/footer chỉ hiện khi in
+- Ẩn buttons, modals, animations, search bar
 
 ## 🛠️ Công Nghệ
 
@@ -112,20 +147,20 @@
 
 ```
 WorldCup2026/
-├── index.html          # Trang chính (SPA)
-├── style.css           # Toàn bộ styling (~1350 dòng)
-├── app.js              # Logic ứng dụng (~1300 dòng)
+├── index.html          # Trang chính (SPA) — Critical CSS inline
+├── style.css           # Toàn bộ styling (~1570 dòng, incl. print)
+├── app.js              # Logic ứng dụng (~1570 dòng, incl. a11y)
 ├── matches.json        # Dữ liệu 104 trận đấu
 ├── teams.json          # Dữ liệu 48 đội tuyển
 ├── venues.json         # Dữ liệu 16 sân vận động
 ├── api/
 │   └── live.js         # Vercel Serverless: API proxy cho live scores
 ├── vercel.json         # Cấu hình Vercel deployment
-├── sw.js               # Service Worker (offline cache)
+├── sw.js               # Service Worker (v3 — network-first API)
 ├── manifest.json       # PWA manifest
 ├── og-image.png        # Ảnh preview khi share lên MXH
-├── icon-192.png        # App icon 192x192
-├── icon-512.png        # App icon 512x512
+├── icon-192.png        # App icon 192x192 (optimized: 45KB)
+├── icon-512.png        # App icon 512x512 (optimized: 278KB)
 ├── robots.txt          # SEO configuration
 ├── sitemap.xml         # SEO sitemap
 └── README.md           # File này
@@ -177,8 +212,8 @@ python -m http.server 3000
 - [x] **Phase 2** — Dữ liệu thời gian thực + Tìm kiếm, Lịch, Profile (Sprint 2) ✅
 - [x] **Phase 3** — Serverless Backend + H2H + Bracket trực quan (Sprint 3) ✅
 - [x] **Phase 4** — Live Match Experience: Tỷ số trực tiếp, Thông báo bàn thắng, Timeline & Stats, Bảng xếp hạng tự cập nhật (Sprint 4) ✅
-- [ ] **Phase 5** — Performance & PWA Optimization (Sprint 5)
-- [ ] **Phase 6** — Cộng đồng + Dự đoán (Bracket Prediction, Trivia Quiz)
+- [x] **Phase 5** — Performance & PWA: Critical CSS, icon compression, SW v3 network-first, WCAG AA accessibility, print stylesheet A4 (Sprint 5) ✅
+- [ ] **Phase 6** — Cộng đồng + Dự đoán (Bracket Prediction, Trivia Quiz, Dark/Light toggle)
 
 ## 📄 License
 
