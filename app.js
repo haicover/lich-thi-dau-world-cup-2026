@@ -11,7 +11,22 @@ let SCORERS = [];
 let QUIZ_DATA = [];
 let currentQuizIndex = 0;
 let currentQuizScore = 0;
-let PREDICTIONS = JSON.parse(localStorage.getItem('wc2026_predictions')) || {};
+let isSharedView = false;
+let PREDICTIONS = {};
+const urlParams = new URLSearchParams(window.location.search);
+const sharedParam = urlParams.get('bracket');
+
+if (sharedParam) {
+    try {
+        PREDICTIONS = JSON.parse(atob(sharedParam));
+        isSharedView = true;
+    } catch(e) {
+        console.error("Lỗi giải mã bracket:", e);
+        PREDICTIONS = JSON.parse(localStorage.getItem('wc2026_predictions')) || {};
+    }
+} else {
+    PREDICTIONS = JSON.parse(localStorage.getItem('wc2026_predictions')) || {};
+}
 
 document.addEventListener('DOMContentLoaded', async () => {
     await fetchData();
@@ -32,6 +47,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     renderScorers();          // US-29
     renderPredictions();      // US-26
     renderQuizIntro();        // US-27
+    
+    if (isSharedView) {
+        setTimeout(() => {
+            const predTab = document.querySelector('.tab-btn[data-tab="predictions"]');
+            if (predTab) predTab.click();
+        }, 100);
+    }
 });
 
 async function fetchData() {
@@ -1709,7 +1731,23 @@ function renderPredictions() {
     const stageNames = { round32:"Vòng 32 Đội", round16:"Vòng 16 Đội", quarter:"Tứ Kết", semi:"Bán Kết", final:"Chung Kết" };
     const stages = ["round32","round16","quarter","semi","final"];
 
-    let html = `<div class="bracket-wrapper"><div class="bracket-scroll-container">`;
+    let html = '';
+    
+    // Add Share Banner & Buttons
+    if (isSharedView) {
+        html += `
+        <div style="background: var(--gold); color: #000; padding: 12px; border-radius: 8px; text-align: center; margin-bottom: 20px; font-weight: bold; box-shadow: 0 4px 12px rgba(255, 215, 0, 0.2);">
+            👀 Bạn đang xem dự đoán được chia sẻ. 
+            <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 0.9em; margin-left: 10px; background: #fff; color: #000; border: none; font-weight: bold;" onclick="exitSharedView()">Trở về dự đoán của tôi</button>
+        </div>`;
+    }
+
+    html += `<div style="text-align: center; margin-bottom: 20px; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
+                <button class="btn btn-secondary" onclick="resetPredictions()">🗑️ Làm lại từ đầu</button>
+                <button class="btn btn-primary" onclick="shareBracket()" style="background: var(--gold); color: #000;">🔗 Chia sẻ dự đoán</button>
+            </div>`;
+
+    html += `<div class="bracket-wrapper"><div class="bracket-scroll-container">`;
 
     stages.forEach(stage => {
         const matches = pMatches.filter(m => m.stage === stage);
@@ -1764,10 +1802,15 @@ window.predictWinner = function(matchId, team) {
     const oldWinner = PREDICTIONS[matchId];
     PREDICTIONS[matchId] = team;
     
+    // Claim ownership if interacting with shared view
+    if (isSharedView) {
+        isSharedView = false;
+        window.history.replaceState({}, document.title, window.location.pathname);
+        showToast('Đã lưu bản sao dự đoán thành của bạn!', 'success');
+    }
+    
     // If changed, wipe subsequent rounds to avoid corrupted state
     if(oldWinner && oldWinner !== team) {
-        // A simple wipe logic: wipe everything after this round (matchId > this matchId)
-        // More robust: wipe specific matches, but for simplicity we wipe higher IDs since knockout flows sequentially 73 -> 104
         Object.keys(PREDICTIONS).forEach(k => {
             if(parseInt(k) > matchId) delete PREDICTIONS[k];
         });
@@ -1775,16 +1818,47 @@ window.predictWinner = function(matchId, team) {
     
     localStorage.setItem('wc2026_predictions', JSON.stringify(PREDICTIONS));
     renderPredictions();
-    showToast(`Đã chọn ${team} đi tiếp!`, 'success');
+    if(!isSharedView) showToast(`Đã chọn ${team} đi tiếp!`, 'success');
 }
 
 window.resetPredictions = function() {
     if(confirm('Bạn có chắc muốn xóa toàn bộ dự đoán?')) {
         PREDICTIONS = {};
+        if (isSharedView) {
+            isSharedView = false;
+            window.history.replaceState({}, document.title, window.location.pathname);
+        }
         localStorage.removeItem('wc2026_predictions');
         renderPredictions();
         showToast('Đã xóa tất cả dự đoán', 'success');
     }
+}
+
+window.shareBracket = function() {
+    if (Object.keys(PREDICTIONS).length === 0) {
+        showToast('Bạn chưa dự đoán trận nào để chia sẻ!', 'warning');
+        return;
+    }
+    const encoded = btoa(JSON.stringify(PREDICTIONS));
+    const shareUrl = window.location.origin + window.location.pathname + '?bracket=' + encoded;
+    
+    if (navigator.share) {
+        navigator.share({
+            title: 'Dự đoán World Cup 2026',
+            text: 'Đây là dự đoán nhánh đấu World Cup 2026 của tôi, vào xem nhé!',
+            url: shareUrl
+        }).catch(err => {
+            console.log('Share canceled or failed', err);
+        });
+    } else {
+        navigator.clipboard.writeText(shareUrl).then(() => {
+            showToast('🔗 Đã copy link chia sẻ vào Clipboard!', 'success');
+        });
+    }
+}
+
+window.exitSharedView = function() {
+    window.location.href = window.location.origin + window.location.pathname;
 }
 
 // ========== US-27: WORLD CUP TRIVIA QUIZ ==========
