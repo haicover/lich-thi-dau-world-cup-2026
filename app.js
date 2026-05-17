@@ -1630,7 +1630,12 @@ function initThemeToggle() {
 // ========== US-29: TOP SCORERS ==========
 function renderScorers() {
     const tbody = document.getElementById('scorersBody');
-    if (!tbody || SCORERS.length === 0) return;
+    if (!tbody) return;
+    
+    if (!SCORERS || SCORERS.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" class="text-center" style="padding: 20px; color: var(--text-secondary);">🏆 Giải đấu chưa diễn ra. Dữ liệu sẽ được cập nhật sau khi có bàn thắng đầu tiên.</td></tr>`;
+        return;
+    }
 
     let html = '';
     SCORERS.sort((a, b) => b.goals - a.goals || b.assists - a.assists);

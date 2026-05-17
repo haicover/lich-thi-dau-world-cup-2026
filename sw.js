@@ -1,5 +1,5 @@
 // ========== SERVICE WORKER — World Cup 2026 PWA (US-23 Enhanced) ==========
-const CACHE_NAME = 'wc2026-v3';
+const CACHE_NAME = 'wc2026-v4';
 const OFFLINE_URL = './index.html';
 
 // Files to pre-cache on install
