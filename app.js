@@ -1265,26 +1265,20 @@ async function fetchLiveScores() {
 
         const res = await fetch('/api/live', { signal: controller.signal });
         clearTimeout(timeoutId);
+        let liveMatches = [];
         if (!res.ok) {
             console.log('[Live] /api/live endpoint not available (likely local dev).');
-            return;
+        } else {
+            const data = await res.json();
+            liveMatches = data.matches || [];
         }
-        const data = await res.json();
         
-        let liveMatches = data.matches || [];
-        
-        // Mock data logic if no real matches and we are in dev/testing
-        if (liveMatches.length === 0 && data.note) {
-             const mockMatch = ALL_MATCHES.find(m => m.stage === 'group' && m.group === 'A');
-             if (mockMatch) {
-                 // Giả lập trận đấu ngẫu nhiên
-                 liveMatches.push({
-                     homeTeam: { name: mockMatch.home },
-                     awayTeam: { name: mockMatch.away },
-                     score: { fullTime: { home: Math.floor(Math.random()*4), away: Math.floor(Math.random()*4) } },
-                     status: 'IN_PLAY'
-                 });
-             }
+        // Notify user if no matches are live (only once per session)
+        if (liveMatches.length === 0) {
+            if (!sessionStorage.getItem('wc2026_live_notified')) {
+                showToast('⚽ Tính năng Trực tiếp: Tỷ số sẽ được tự động cập nhật khi có trận đấu.', 'info');
+                sessionStorage.setItem('wc2026_live_notified', 'true');
+            }
         }
         
         liveMatches.forEach(lm => {
