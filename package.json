@@ -1,0 +1,16 @@
+{
+  "name": "worldcup2026",
+  "version": "7.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "npx serve .",
+    "generate-vapid": "npx web-push generate-vapid-keys --json"
+  },
+  "dependencies": {
+    "web-push": "^3.6.7",
+    "@vercel/kv": "^2.0.0"
+  },
+  "devDependencies": {
+    "playwright": "^1.60.0"
+  }
+}

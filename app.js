@@ -47,6 +47,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     renderScorers();          // US-29
     renderPredictions();      // US-26
     renderQuizIntro();        // US-27
+    initPushNotifications();  // Phase 7: Web Push
     
     if (isSharedView) {
         setTimeout(() => {
@@ -1411,29 +1412,47 @@ window.showMatchDetails = function(home, away) {
     
     const match = ALL_MATCHES.find(m => m.home === home && m.away === away);
     const scoreStr = match?.score || 'VS';
+    const hasScore = match?.score && match.score.includes('-');
     
-    // Generate Mock Stats
-    const stats = {
-        possession: [Math.floor(Math.random()*40 + 30), 0],
-        shots: [Math.floor(Math.random()*15 + 2), Math.floor(Math.random()*15 + 2)],
-        shotsOnTarget: [Math.floor(Math.random()*8 + 1), Math.floor(Math.random()*8 + 1)],
-        corners: [Math.floor(Math.random()*8), Math.floor(Math.random()*8)],
-        fouls: [Math.floor(Math.random()*15 + 5), Math.floor(Math.random()*15 + 5)]
-    };
-    stats.possession[1] = 100 - stats.possession[0];
+    // Use real data from API if available, otherwise show placeholder
+    const stats = match?.stats || null;
+    const events = match?.events || [];
 
-    // Generate Mock Timeline
-    const events = [];
-    const eventTypes = ['goal', 'yellow-card', 'red-card', 'sub'];
-    for(let i=0; i<Math.floor(Math.random()*6 + 2); i++) {
-        events.push({
-            minute: Math.floor(Math.random()*90 + 1),
-            type: eventTypes[Math.floor(Math.random()*eventTypes.length)],
-            team: Math.random() > 0.5 ? home : away,
-            player: 'Cầu thủ số ' + Math.floor(Math.random()*20 + 1)
-        });
+    let timelineHtml = '';
+    let statsHtml = '';
+
+    if (hasScore && events.length > 0) {
+        // Real events from API
+        const sortedEvents = [...events].sort((a,b) => a.minute - b.minute);
+        timelineHtml = `
+            <div class="md-timeline-container">
+                ${sortedEvents.map(e => `
+                    <div class="timeline-row ${e.team === home ? 'row-left' : 'row-right'}">
+                        <div class="timeline-event-box">
+                            <div class="t-min">${e.minute}'</div>
+                            <div class="t-icon">${getEventIcon(e.type)}</div>
+                            <div class="t-desc">${e.player}</div>
+                        </div>
+                    </div>
+                `).join('')}
+                <div class="timeline-line"></div>
+            </div>`;
+    } else {
+        timelineHtml = `<p style="text-align:center; color: var(--text-secondary); padding: 30px 0;">⏳ Dữ liệu chi tiết sẽ được cập nhật khi trận đấu diễn ra.</p>`;
     }
-    events.sort((a,b) => a.minute - b.minute);
+
+    if (hasScore && stats) {
+        statsHtml = `
+            <div class="md-stats-container">
+                ${renderStatBar('Kiểm soát bóng (%)', stats.possession?.[0] || 50, stats.possession?.[1] || 50)}
+                ${renderStatBar('Số cú sút', stats.shots?.[0] || 0, stats.shots?.[1] || 0)}
+                ${renderStatBar('Sút trúng đích', stats.shotsOnTarget?.[0] || 0, stats.shotsOnTarget?.[1] || 0)}
+                ${renderStatBar('Phạt góc', stats.corners?.[0] || 0, stats.corners?.[1] || 0)}
+                ${renderStatBar('Phạm lỗi', stats.fouls?.[0] || 0, stats.fouls?.[1] || 0)}
+            </div>`;
+    } else {
+        statsHtml = `<p style="text-align:center; color: var(--text-secondary); padding: 30px 0;">📊 Thống kê sẽ được cập nhật khi trận đấu diễn ra.</p>`;
+    }
 
     const html = `
         <div class="md-header">
@@ -1442,7 +1461,7 @@ window.showMatchDetails = function(home, away) {
                 <h4>${home}</h4>
             </div>
             <div class="md-score-board">
-                <div class="md-status">${match?.isLive ? '🔴 ĐANG ĐÁ' : 'KẾT QUẢ'}</div>
+                <div class="md-status">${match?.isLive ? '🔴 ĐANG ĐÁ' : (hasScore ? 'KẾT QUẢ' : 'SẮP DIỄN RA')}</div>
                 <div class="md-score ${match?.isLive ? 'live-score-text' : ''}">${scoreStr}</div>
             </div>
             <div class="md-team md-away">
@@ -1457,29 +1476,11 @@ window.showMatchDetails = function(home, away) {
         </div>
 
         <div id="md-timeline" class="md-panel active">
-            <div class="md-timeline-container">
-                ${events.length === 0 ? '<p style="text-align:center; color:gray">Chưa có sự kiện nào</p>' : ''}
-                ${events.map(e => `
-                    <div class="timeline-row ${e.team === home ? 'row-left' : 'row-right'}">
-                        <div class="timeline-event-box">
-                            <div class="t-min">${e.minute}'</div>
-                            <div class="t-icon">${getEventIcon(e.type)}</div>
-                            <div class="t-desc">${e.player}</div>
-                        </div>
-                    </div>
-                `).join('')}
-                <div class="timeline-line"></div>
-            </div>
+            ${timelineHtml}
         </div>
 
         <div id="md-stats" class="md-panel">
-            <div class="md-stats-container">
-                ${renderStatBar('Kiểm soát bóng (%)', stats.possession[0], stats.possession[1])}
-                ${renderStatBar('Số cú sút', stats.shots[0], stats.shots[1])}
-                ${renderStatBar('Sút trúng đích', stats.shotsOnTarget[0], stats.shotsOnTarget[1])}
-                ${renderStatBar('Phạt góc', stats.corners[0], stats.corners[1])}
-                ${renderStatBar('Phạm lỗi', stats.fouls[0], stats.fouls[1])}
-            </div>
+            ${statsHtml}
         </div>
     `;
 
@@ -1981,3 +1982,152 @@ window.shareQuizResult = function() {
         showToast('Đã copy kết quả để chia sẻ!', 'success');
     }
 }
+
+// ========== PHASE 7: WEB PUSH NOTIFICATIONS ==========
+
+function urlBase64ToUint8Array(base64String) {
+    const padding = '='.repeat((4 - base64String.length % 4) % 4);
+    const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
+    const rawData = window.atob(base64);
+    const outputArray = new Uint8Array(rawData.length);
+    for (let i = 0; i < rawData.length; ++i) {
+        outputArray[i] = rawData.charCodeAt(i);
+    }
+    return outputArray;
+}
+
+async function initPushNotifications() {
+    const pushBtn = document.getElementById('pushToggleBtn');
+    if (!pushBtn) return;
+
+    // Kiểm tra trình duyệt hỗ trợ
+    if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
+        pushBtn.textContent = '🔕 Trình duyệt chưa hỗ trợ';
+        pushBtn.disabled = true;
+        pushBtn.title = 'Trình duyệt không hỗ trợ Web Push Notification';
+        return;
+    }
+
+    // Kiểm tra iOS chưa Add to Home Screen
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone;
+    if (isIOS && !isStandalone) {
+        pushBtn.textContent = '📱 Cần thêm vào MH chính';
+        pushBtn.title = 'Trên iOS, hãy bấm Chia sẻ → Thêm vào MH chính để nhận thông báo';
+        pushBtn.addEventListener('click', () => {
+            showToast('📱 Trên iPhone: Bấm nút Chia sẻ ở Safari → "Thêm vào Màn hình chính", sau đó mở lại app từ icon.', 'info');
+        });
+        return;
+    }
+
+    // Kiểm tra đã bị chặn chưa
+    if (Notification.permission === 'denied') {
+        pushBtn.textContent = '🚫 Thông báo bị chặn';
+        pushBtn.disabled = true;
+        pushBtn.title = 'Bạn đã chặn thông báo. Vui lòng vào cài đặt trình duyệt để bật lại.';
+        return;
+    }
+
+    // Kiểm tra subscription hiện tại
+    try {
+        const reg = await navigator.serviceWorker.ready;
+        const existingSub = await reg.pushManager.getSubscription();
+
+        if (existingSub) {
+            pushBtn.textContent = '🔔 Đang nhận thông báo';
+            pushBtn.classList.add('push-active');
+            pushBtn.onclick = () => unsubscribePush(reg, existingSub, pushBtn);
+        } else {
+            pushBtn.textContent = '🔕 Bật thông báo trực tiếp';
+            pushBtn.classList.remove('push-active');
+            pushBtn.onclick = () => subscribePush(reg, pushBtn);
+        }
+    } catch (err) {
+        console.error('[Push] Init error:', err);
+        pushBtn.textContent = '🔕 Bật thông báo trực tiếp';
+        pushBtn.onclick = () => subscribePush(null, pushBtn);
+    }
+}
+
+async function subscribePush(reg, btn) {
+    try {
+        btn.textContent = '⏳ Đang kích hoạt...';
+        btn.disabled = true;
+
+        if (!reg) reg = await navigator.serviceWorker.ready;
+
+        // Lấy VAPID public key từ server
+        const keyRes = await fetch('/api/subscribe');
+        if (!keyRes.ok) {
+            showToast('⚠️ Push chưa được cấu hình trên server.', 'warning');
+            btn.textContent = '🔕 Bật thông báo trực tiếp';
+            btn.disabled = false;
+            return;
+        }
+        const { publicKey } = await keyRes.json();
+
+        // Subscribe
+        const subscription = await reg.pushManager.subscribe({
+            userVisibleOnly: true,
+            applicationServerKey: urlBase64ToUint8Array(publicKey)
+        });
+
+        // Gửi subscription lên server
+        await fetch('/api/subscribe', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(subscription)
+        });
+
+        btn.textContent = '🔔 Đang nhận thông báo';
+        btn.classList.add('push-active');
+        btn.disabled = false;
+        btn.onclick = () => unsubscribePush(reg, subscription, btn);
+        showToast('🔔 Đã bật thông báo! Bạn sẽ nhận tin bàn thắng ngay khi có trận đấu.', 'success');
+
+        // Haptic feedback
+        if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
+
+    } catch (err) {
+        console.error('[Push] Subscribe error:', err);
+        btn.disabled = false;
+        if (Notification.permission === 'denied') {
+            btn.textContent = '🚫 Thông báo bị chặn';
+            btn.disabled = true;
+            showToast('Bạn đã chặn thông báo. Hãy vào cài đặt trình duyệt để bật lại.', 'error');
+        } else {
+            btn.textContent = '🔕 Bật thông báo trực tiếp';
+            showToast('Không thể kích hoạt thông báo. Vui lòng thử lại.', 'error');
+        }
+    }
+}
+
+async function unsubscribePush(reg, subscription, btn) {
+    try {
+        btn.textContent = '⏳ Đang tắt...';
+        btn.disabled = true;
+
+        // Xóa trên server
+        await fetch('/api/subscribe', {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ endpoint: subscription.endpoint })
+        });
+
+        // Xóa trên browser
+        await subscription.unsubscribe();
+
+        btn.textContent = '🔕 Bật thông báo trực tiếp';
+        btn.classList.remove('push-active');
+        btn.disabled = false;
+        btn.onclick = () => subscribePush(reg, btn);
+        showToast('🔕 Đã tắt thông báo.', 'info');
+
+    } catch (err) {
+        console.error('[Push] Unsubscribe error:', err);
+        btn.disabled = false;
+        btn.textContent = '🔔 Đang nhận thông báo';
+        showToast('Lỗi khi tắt thông báo. Vui lòng thử lại.', 'error');
+    }
+}
+

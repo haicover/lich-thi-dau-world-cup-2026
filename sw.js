@@ -1,5 +1,5 @@
 // ========== SERVICE WORKER — World Cup 2026 PWA (US-23 Enhanced) ==========
-const CACHE_NAME = 'wc2026-v4';
+const CACHE_NAME = 'wc2026-v5';
 const OFFLINE_URL = './index.html';
 
 // Files to pre-cache on install
@@ -110,4 +110,55 @@ self.addEventListener('message', event => {
     if (event.data === 'skipWaiting') {
         self.skipWaiting();
     }
+});
+
+// ========== WEB PUSH NOTIFICATION (Phase 7) ==========
+self.addEventListener('push', event => {
+    if (!event.data) return;
+
+    let payload;
+    try {
+        payload = event.data.json();
+    } catch (e) {
+        payload = {
+            title: '⚽ World Cup 2026',
+            body: event.data.text(),
+            icon: '/icon-192.png'
+        };
+    }
+
+    const options = {
+        body: payload.body || '',
+        icon: payload.icon || '/icon-192.png',
+        badge: '/icon-192.png',
+        tag: payload.tag || 'wc2026-default',
+        vibrate: payload.vibrate || [200, 100, 200],
+        requireInteraction: payload.requireInteraction || false,
+        data: payload.data || { url: '/' },
+        actions: payload.actions || []
+    };
+
+    event.waitUntil(
+        self.registration.showNotification(payload.title || '⚽ World Cup 2026', options)
+    );
+});
+
+self.addEventListener('notificationclick', event => {
+    event.notification.close();
+
+    const targetUrl = event.notification.data?.url || '/';
+
+    event.waitUntil(
+        clients.matchAll({ type: 'window', includeUncontrolled: true }).then(windowClients => {
+            // Tìm tab đang mở app → focus vào đó
+            for (const client of windowClients) {
+                if (client.url.includes(self.location.origin) && 'focus' in client) {
+                    client.navigate(targetUrl);
+                    return client.focus();
+                }
+            }
+            // Không có tab nào → mở tab mới
+            return clients.openWindow(targetUrl);
+        })
+    );
 });

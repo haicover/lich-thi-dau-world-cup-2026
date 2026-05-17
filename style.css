@@ -210,6 +210,58 @@ body .bg-orb, body .hero {
     gap: 16px;
 }
 
+/* Phase 7: Push Notification Toggle */
+.push-toggle {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border-radius: 20px;
+    border: 1.5px solid var(--border);
+    background: var(--bg-glass);
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-weight: 600;
+    font-family: inherit;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+.push-toggle:hover {
+    border-color: var(--gold);
+    background: rgba(255, 215, 0, 0.1);
+    color: var(--text);
+    transform: scale(1.03);
+}
+.push-toggle:active { transform: scale(0.97); }
+.push-toggle:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+.push-toggle.push-active {
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 107, 53, 0.1));
+    border-color: var(--gold);
+    color: var(--gold);
+    box-shadow: 0 0 12px rgba(255, 215, 0, 0.15);
+}
+.light-theme .push-toggle {
+    background: rgba(255, 165, 0, 0.06);
+    border-color: rgba(212, 160, 0, 0.25);
+}
+.light-theme .push-toggle.push-active {
+    background: rgba(255, 215, 0, 0.12);
+    border-color: var(--gold);
+}
+
+@media (max-width: 768px) {
+    .push-toggle {
+        font-size: 0.7rem;
+        padding: 6px 10px;
+    }
+}
+
 html { scroll-behavior: smooth; }
 
 body {
