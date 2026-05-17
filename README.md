@@ -222,6 +222,63 @@ python -m http.server 3000
 - [x] **Phase 4** — Live Match Experience: Tỷ số trực tiếp, Thông báo bàn thắng, Timeline & Stats, Bảng xếp hạng tự cập nhật (Sprint 4) ✅
 - [x] **Phase 5** — Performance & PWA: Critical CSS, icon compression, SW v3 network-first, WCAG AA accessibility, print stylesheet A4 (Sprint 5) ✅
 - [x] **Phase 6** — Cộng đồng + Dự đoán: Dark/Light toggle, Top Scorers, Bracket Prediction, Trivia Quiz (Sprint 6) ✅
+- [x] **Phase 7** — Web Push Notifications + Share Bracket URL + Loại bỏ Mock Data (Sprint 7) ✅
+
+## 🔔 Phase 7: Web Push Notifications
+
+### Kiến trúc
+
+```
+Football-Data.org API
+      ↓ fetch mỗi 5 phút
+Vercel Cron Job (/api/notify)
+      ↓ so sánh state cũ vs mới (Vercel KV)
+Web Push API → Browser người dùng
+```
+
+### Sự kiện được phát hiện tự động
+
+| Sự kiện | Mô tả |
+|---------|-------|
+| ⚽ Kick-off | Trận đấu bắt đầu |
+| 🎉 Bàn thắng | Tỷ số thay đổi |
+| ⏰ Hiệp phụ | Trận chuyển sang extra time |
+| 🎯 Luân lưu | Penalty shootout |
+| 🏁 Kết thúc | Trận đấu kết thúc |
+
+### Tính năng chia sẻ dự đoán (Share Bracket URL)
+
+Người dùng có thể chia sẻ dự đoán nhánh đấu qua URL (không cần backend):
+- Bấm `🔗 Chia sẻ dự đoán` → tạo URL dạng `?bracket=<base64>`
+- Người nhận link xem dự đoán → có thể "nhận về" làm của riêng
+
+### Cài đặt Environment Variables (Vercel)
+
+```bash
+# 1. Tạo VAPID keys
+npx web-push generate-vapid-keys --json
+
+# 2. Cấu hình trên Vercel Dashboard → Settings → Environment Variables
+VAPID_PUBLIC_KEY=<public_key>
+VAPID_PRIVATE_KEY=<private_key>
+VAPID_EMAIL=mailto:your@email.com
+FOOTBALL_API_KEY=<your_football_data_org_key>
+CRON_SECRET=<random_string>
+
+# 3. Tạo Vercel KV Store
+# Vercel Dashboard → Storage → Create Database → KV
+# (Tự động inject KV_REST_API_URL và KV_REST_API_TOKEN)
+```
+
+### Chi phí
+
+| Dịch vụ | Free tier | Mức dùng |
+|---------|-----------|----------|
+| Vercel Cron | 2 jobs | 1 job |
+| Vercel KV | 30MB | ~1-2MB |
+| Football-Data.org | 10 req/phút | 1 req/5 phút |
+| Web Push | Miễn phí | — |
+| **Tổng** | | **$0/tháng** ✅ |
 
 ## 📄 License
 
