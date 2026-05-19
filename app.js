@@ -7,6 +7,7 @@ let GROUP_MATCHES = [];
 let KNOCKOUT_MATCHES = [];
 let VENUES = [];
 let TEAMS_DATA = [];
+let SQUADS_DATA = {};
 let SCORERS = [];
 let QUIZ_DATA = [];
 let currentQuizIndex = 0;
@@ -59,16 +60,18 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 async function fetchData() {
     try {
-        const [teamsRes, matchesRes, venuesRes, scorersRes, quizRes] = await Promise.all([
+        const [teamsRes, matchesRes, venuesRes, scorersRes, quizRes, squadsRes] = await Promise.all([
             fetch('./teams.json'), fetch('./matches.json'), fetch('./venues.json'), 
             fetch('./scorers.json').catch(() => ({ json: () => [] })),
-            fetch('./quiz.json').catch(() => ({ json: () => [] }))
+            fetch('./quiz.json').catch(() => ({ json: () => [] })),
+            fetch('./squads.json').catch(() => ({ json: () => ({}) }))
         ]);
         const teamsData = await teamsRes.json();
         const matchesData = await matchesRes.json();
         VENUES = await venuesRes.json();
         SCORERS = await scorersRes.json();
         QUIZ_DATA = await quizRes.json();
+        SQUADS_DATA = await squadsRes.json().catch(() => ({}));
         TEAMS_DATA = teamsData;
 
         teamsData.forEach(t => {
@@ -106,6 +109,10 @@ function getFlagImg(name, size) {
     const code = FLAG_CODES[name];
     if (!code) return '<span class="team-flag-placeholder">🏳️</span>';
     return `<img src="https://flagcdn.com/w40/${code}.png" width="${size}" height="${Math.round(size*0.75)}" alt="${name}" class="team-flag-img" loading="lazy">`;
+}
+
+function getFlagUrl(code) {
+    return code ? `https://flagcdn.com/w160/${code}.png` : '';
 }
 
 // ========== US-02 + US-23: SERVICE WORKER REGISTRATION ==========
@@ -1087,12 +1094,21 @@ function initSearch() {
 }
 
 // ========== US-10: TEAM PROFILE MODAL ==========
+window.switchModalTab = function(tabId) {
+    document.querySelectorAll('.modal-tab-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-tab') === tabId);
+    });
+    document.querySelectorAll('.modal-tab-content').forEach(content => {
+        content.classList.toggle('active', content.id === `modal-tab-${tabId}`);
+    });
+};
+
 function showTeamProfile(teamName) {
     const teamInfo = TEAMS_DATA.find(t => t.name === teamName);
     if (!teamInfo) return;
 
     const matches = ALL_MATCHES.filter(m => m.home === teamName || m.away === teamName);
-    const isFav = favorites.includes(teamName);
+    const isFav = isFavorite(teamName);
 
     const matchHtml = matches.map(m => `
         <div class="profile-match-card">
@@ -1106,6 +1122,57 @@ function showTeamProfile(teamName) {
         </div>
     `).join('');
 
+    const squadInfo = SQUADS_DATA[teamName];
+    let squadHtml = '';
+    
+    if (squadInfo && squadInfo.players) {
+        const positions = {
+            "GK": "🧤 Thủ môn (Goalkeepers)",
+            "DF": "🛡️ Hậu vệ (Defenders)",
+            "MF": "⚙️ Tiền vệ (Midfielders)",
+            "FW": "⚡ Tiền đạo (Forwards)"
+        };
+        squadHtml = `
+            <div class="team-profile-squad">
+                <div class="squad-coach-badge">
+                    <span>👔 HLV Trưởng:</span> <strong>${squadInfo.coach || teamInfo.coach}</strong>
+                </div>
+                <div class="squad-positions-grid">
+                    ${Object.entries(positions).map(([posKey, posName]) => {
+                        const playersList = squadInfo.players[posKey] || [];
+                        return `
+                            <div class="squad-pos-section">
+                                <h5 class="squad-pos-title">
+                                    <span>${posName}</span>
+                                    <span class="pos-count">${playersList.length} cầu thủ</span>
+                                </h5>
+                                <div class="squad-players-list">
+                                    ${playersList.map(p => `
+                                        <div class="squad-player-item">
+                                            <span class="player-name">${p.name}</span>
+                                            <span class="player-club">${p.club}</span>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            </div>
+        `;
+    } else {
+        squadHtml = `
+            <div class="team-profile-squad">
+                <div class="squad-empty-state">
+                    <div class="squad-empty-icon">📋</div>
+                    <div class="squad-empty-title">Đang Chờ Công Bố</div>
+                    <div class="squad-empty-text">Đội tuyển chưa công bố danh sách chính thức 26 cầu thủ tham dự World Cup 2026.</div>
+                    <div class="squad-empty-subtext">Danh sách chính thức phải nộp cho FIFA trước ngày <strong>02/06/2026</strong>. Chúng tôi sẽ cập nhật ngay khi HLV ${teamInfo.coach || 'đội tuyển'} công bố chính thức.</div>
+                </div>
+            </div>
+        `;
+    }
+
     const html = `
         <div class="team-profile-header">
             <div class="team-profile-flag">
@@ -1117,33 +1184,44 @@ function showTeamProfile(teamName) {
                 <span class="team-profile-tag">Bảng ${teamInfo.group}</span>
             </div>
         </div>
+
+        <div class="modal-tabs">
+            <button class="modal-tab-btn active" data-tab="overview" onclick="switchModalTab('overview')">Tổng quan & Lịch đấu</button>
+            <button class="modal-tab-btn" data-tab="squad" onclick="switchModalTab('squad')">Danh sách thi đấu</button>
+        </div>
         
-        <div class="team-profile-info">
-            <div class="profile-info-row">
-                <span class="profile-info-label">Huấn luyện viên</span>
-                <span class="profile-info-value">${teamInfo.coach || 'Đang cập nhật'}</span>
+        <div class="modal-tab-content active" id="modal-tab-overview">
+            <div class="team-profile-info">
+                <div class="profile-info-row">
+                    <span class="profile-info-label">Huấn luyện viên</span>
+                    <span class="profile-info-value">${teamInfo.coach || 'Đang cập nhật'}</span>
+                </div>
+                <div class="profile-info-row">
+                    <span class="profile-info-label">Biệt danh</span>
+                    <span class="profile-info-value">${teamInfo.nickname || 'Đang cập nhật'}</span>
+                </div>
+                <div class="profile-info-row">
+                    <span class="profile-info-label">Xếp hạng FIFA</span>
+                    <span class="profile-info-value">Hạng ${teamInfo.ranking || '-'}</span>
+                </div>
+                <div class="profile-info-row">
+                    <span class="profile-info-label">Thành tích tốt nhất</span>
+                    <span class="profile-info-value">${teamInfo.best_finish || 'Đang cập nhật'}</span>
+                </div>
             </div>
-            <div class="profile-info-row">
-                <span class="profile-info-label">Biệt danh</span>
-                <span class="profile-info-value">${teamInfo.nickname || 'Đang cập nhật'}</span>
-            </div>
-            <div class="profile-info-row">
-                <span class="profile-info-label">Xếp hạng FIFA</span>
-                <span class="profile-info-value">Hạng ${teamInfo.ranking || '-'}</span>
-            </div>
-            <div class="profile-info-row">
-                <span class="profile-info-label">Thành tích tốt nhất</span>
-                <span class="profile-info-value">${teamInfo.best_finish || 'Đang cập nhật'}</span>
+
+            <div class="team-profile-matches">
+                <h4>Lịch thi đấu (${matches.length} trận)</h4>
+                ${matchHtml}
             </div>
         </div>
 
-        <div class="team-profile-matches">
-            <h4>Lịch thi đấu (${matches.length} trận)</h4>
-            ${matchHtml}
+        <div class="modal-tab-content" id="modal-tab-squad">
+            ${squadHtml}
         </div>
 
         <div class="team-profile-actions">
-            <button class="btn ${isFav ? 'btn-outline' : ''}" onclick="toggleFavorite(event, '${teamName}'); showTeamProfile('${teamName}')">
+            <button class="btn ${isFav ? 'btn-outline' : ''}" onclick="toggleFavorite('${teamName}'); showTeamProfile('${teamName}')">
                 ${isFav ? '❌ Bỏ Yêu Thích' : '⭐ Yêu Thích Đội Này'}
             </button>
         </div>

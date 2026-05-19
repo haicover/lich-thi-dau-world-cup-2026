@@ -1122,6 +1122,187 @@ body {
     width: 100%;
 }
 
+/* Modal Tab System & Squads */
+.modal-tabs {
+    display: flex;
+    background: rgba(0, 0, 0, 0.25);
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    padding: 3px;
+    border: 1px solid var(--border);
+}
+.modal-tab-btn {
+    flex: 1;
+    background: none;
+    border: none;
+    padding: 10px;
+    color: var(--text-secondary);
+    font-weight: 600;
+    font-size: 0.85rem;
+    font-family: var(--font-main);
+    cursor: pointer;
+    border-radius: 6px;
+    transition: var(--transition);
+}
+.modal-tab-btn:hover {
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.03);
+}
+.modal-tab-btn.active {
+    color: var(--gold);
+    background: rgba(255, 215, 0, 0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+.modal-tab-content {
+    display: none;
+    animation: modalTabFadeIn 0.3s ease;
+}
+.modal-tab-content.active {
+    display: block;
+}
+@keyframes modalTabFadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.squad-coach-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 215, 0, 0.06);
+    border: 1px solid rgba(255, 215, 0, 0.15);
+    padding: 10px 16px;
+    border-radius: var(--radius-sm);
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+}
+.squad-coach-badge strong {
+    color: var(--gold);
+}
+
+.squad-positions-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+.squad-pos-section {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1rem;
+}
+.squad-pos-title {
+    font-family: var(--font-main);
+    font-size: 0.95rem;
+    color: var(--gold);
+    margin-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.5rem;
+    font-weight: 700;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.squad-pos-title .pos-count {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+.squad-players-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px;
+}
+.squad-player-item {
+    background: rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    border-radius: 8px;
+    padding: 8px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    transition: var(--transition);
+}
+.squad-player-item:hover {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(255, 215, 0, 0.15);
+}
+.squad-player-item .player-name {
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: var(--text-primary);
+}
+.squad-player-item .player-club {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.squad-empty-state {
+    text-align: center;
+    padding: 2.5rem 1rem;
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: var(--radius);
+    border: 1px dashed var(--border);
+}
+.squad-empty-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.2));
+    animation: emptyFloat 3s ease-in-out infinite;
+}
+@keyframes emptyFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+}
+.squad-empty-title {
+    font-family: var(--font-main);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--gold);
+    margin-bottom: 0.5rem;
+}
+.squad-empty-text {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+    line-height: 1.5;
+}
+.squad-empty-subtext {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+
+/* Light Theme overrides for squads */
+.light-theme .modal-tabs {
+    background: rgba(0, 0, 0, 0.05);
+    border-color: rgba(0, 0, 0, 0.08);
+}
+.light-theme .modal-tab-btn:hover {
+    background: rgba(0, 0, 0, 0.02);
+}
+.light-theme .modal-tab-btn.active {
+    background: rgba(255, 165, 0, 0.12);
+}
+.light-theme .squad-coach-badge {
+    background: rgba(255, 165, 0, 0.06);
+    border-color: rgba(255, 165, 0, 0.2);
+}
+.light-theme .squad-pos-section {
+    background: rgba(0, 0, 0, 0.01);
+}
+.light-theme .squad-player-item {
+    background: rgba(255, 255, 255, 0.9);
+    border-color: rgba(0, 0, 0, 0.05);
+}
+.light-theme .squad-player-item:hover {
+    background: #fff;
+    border-color: rgba(212, 160, 0, 0.3);
+}
+.light-theme .squad-empty-state {
+    background: rgba(0, 0, 0, 0.02);
+}
+
 /* ========== US-12: CALENDAR VIEW ========== */
 .view-toggle-group {
     background: rgba(0,0,0,0.3);

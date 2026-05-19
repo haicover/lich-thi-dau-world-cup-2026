@@ -1,0 +1,197 @@
+{
+  "Brazil": {
+    "coach": "Carlo Ancelotti",
+    "players": {
+      "GK": [
+        { "name": "Alisson Becker", "club": "Liverpool (ENG)" },
+        { "name": "Ederson Moraes", "club": "Fenerbahçe (TUR)" },
+        { "name": "Weverton", "club": "Grêmio (BRA)" }
+      ],
+      "DF": [
+        { "name": "Marquinhos", "club": "Paris Saint-Germain (FRA)" },
+        { "name": "Gabriel Magalhães", "club": "Arsenal (ENG)" },
+        { "name": "Bremer", "club": "Juventus (ITA)" },
+        { "name": "Danilo", "club": "Flamengo (BRA)" },
+        { "name": "Alex Sandro", "club": "Flamengo (BRA)" },
+        { "name": "Douglas Santos", "club": "Zenit (RUS)" },
+        { "name": "Léo Pereira", "club": "Flamengo (BRA)" },
+        { "name": "Ibañez", "club": "Al-Ahli (KSA)" },
+        { "name": "Wesley", "club": "Roma (ITA)" }
+      ],
+      "MF": [
+        { "name": "Casemiro", "club": "Manchester United (ENG)" },
+        { "name": "Bruno Guimarães", "club": "Newcastle United (ENG)" },
+        { "name": "Lucas Paquetá", "club": "Flamengo (BRA)" },
+        { "name": "Fabinho", "club": "Al-Ittihad (KSA)" },
+        { "name": "Danilo Santos", "club": "Botafogo (BRA)" }
+      ],
+      "FW": [
+        { "name": "Vinícius Júnior", "club": "Real Madrid (ESP)" },
+        { "name": "Neymar Jr", "club": "Santos (BRA)" },
+        { "name": "Raphinha", "club": "Barcelona (ESP)" },
+        { "name": "Endrick", "club": "Lyon (FRA)" },
+        { "name": "Gabriel Martinelli", "club": "Arsenal (ENG)" },
+        { "name": "Matheus Cunha", "club": "Manchester United (ENG)" },
+        { "name": "Igor Thiago", "club": "Brentford (ENG)" },
+        { "name": "Luiz Henrique", "club": "Zenit (RUS)" },
+        { "name": "Rayan", "club": "Bournemouth (ENG)" }
+      ]
+    }
+  },
+  "France": {
+    "coach": "Didier Deschamps",
+    "players": {
+      "GK": [
+        { "name": "Mike Maignan", "club": "AC Milan (ITA)" },
+        { "name": "Brice Samba", "club": "Rennes (FRA)" },
+        { "name": "Robin Risser", "club": "Lens (FRA)" }
+      ],
+      "DF": [
+        { "name": "William Saliba", "club": "Arsenal (ENG)" },
+        { "name": "Dayot Upamecano", "club": "Bayern Munich (GER)" },
+        { "name": "Ibrahima Konaté", "club": "Liverpool (ENG)" },
+        { "name": "Jules Koundé", "club": "Barcelona (ESP)" },
+        { "name": "Theo Hernández", "club": "Al-Hilal (KSA)" },
+        { "name": "Lucas Hernández", "club": "Paris Saint-Germain (FRA)" },
+        { "name": "Malo Gusto", "club": "Chelsea (ENG)" },
+        { "name": "Lucas Digne", "club": "Aston Villa (ENG)" },
+        { "name": "Maxence Lacroix", "club": "Crystal Palace (ENG)" }
+      ],
+      "MF": [
+        { "name": "Aurélien Tchouaméni", "club": "Real Madrid (ESP)" },
+        { "name": "Warren Zaïre-Emery", "club": "Paris Saint-Germain (FRA)" },
+        { "name": "Adrien Rabiot", "club": "AC Milan (ITA)" },
+        { "name": "N'Golo Kanté", "club": "Fenerbahçe (TUR)" },
+        { "name": "Manu Koné", "club": "AS Roma (ITA)" }
+      ],
+      "FW": [
+        { "name": "Kylian Mbappé", "club": "Real Madrid (ESP)" },
+        { "name": "Ousmane Dembélé", "club": "Paris Saint-Germain (FRA)" },
+        { "name": "Marcus Thuram", "club": "Inter Milan (ITA)" },
+        { "name": "Bradley Barcola", "club": "Paris Saint-Germain (FRA)" },
+        { "name": "Michael Olise", "club": "Bayern Munich (GER)" },
+        { "name": "Rayan Cherki", "club": "Manchester City (ENG)" },
+        { "name": "Maghnes Akliouche", "club": "AS Monaco (FRA)" },
+        { "name": "Désiré Doué", "club": "Paris Saint-Germain (FRA)" },
+        { "name": "Jean-Philippe Mateta", "club": "Crystal Palace (ENG)" }
+      ]
+    }
+  },
+  "Croatia": {
+    "coach": "Zlatko Dalić",
+    "players": {
+      "GK": [
+        { "name": "Dominik Livaković", "club": "Dinamo Zagreb (CRO)" },
+        { "name": "Dominik Kotarski", "club": "Copenhagen (DEN)" },
+        { "name": "Ivor Pandur", "club": "Hull City (ENG)" }
+      ],
+      "DF": [
+        { "name": "Joško Gvardiol", "club": "Manchester City (ENG)" },
+        { "name": "Josip Šutalo", "club": "Ajax (NED)" },
+        { "name": "Josip Stanišić", "club": "Bayern Munich (GER)" },
+        { "name": "Duje Ćaleta-Car", "club": "Real Sociedad (ESP)" },
+        { "name": "Marin Pongračić", "club": "Fiorentina (ITA)" },
+        { "name": "Martin Erlić", "club": "Midtjylland (DEN)" },
+        { "name": "Luka Vušković", "club": "Hamburger SV (GER)" }
+      ],
+      "MF": [
+        { "name": "Luka Modrić", "club": "AC Milan (ITA)" },
+        { "name": "Mateo Kovačić", "club": "Manchester City (ENG)" },
+        { "name": "Mario Pašalić", "club": "Atalanta (ITA)" },
+        { "name": "Luka Sučić", "club": "Real Sociedad (ESP)" },
+        { "name": "Martin Baturina", "club": "Como (ITA)" },
+        { "name": "Nikola Vlašić", "club": "Torino (ITA)" },
+        { "name": "Kristijan Jakić", "club": "Augsburg (GER)" },
+        { "name": "Petar Sučić", "club": "Inter Milan (ITA)" },
+        { "name": "Nikola Moro", "club": "Bologna (ITA)" },
+        { "name": "Toni Fruk", "club": "Rijeka (CRO)" }
+      ],
+      "FW": [
+        { "name": "Ivan Perišić", "club": "PSV Eindhoven (NED)" },
+        { "name": "Andrej Kramarić", "club": "TSG Hoffenheim (GER)" },
+        { "name": "Ante Budimir", "club": "Osasuna (ESP)" },
+        { "name": "Marco Pašalić", "club": "Orlando City (USA)" },
+        { "name": "Petar Musa", "club": "FC Dallas (USA)" },
+        { "name": "Igor Matanović", "club": "SC Freiburg (GER)" }
+      ]
+    }
+  },
+  "South Korea": {
+    "coach": "Hong Myung-bo",
+    "players": {
+      "GK": [
+        { "name": "Jo Hyeon-woo", "club": "Ulsan HD FC (KOR)" },
+        { "name": "Kim Seung-gyu", "club": "FC Tokyo (JPN)" },
+        { "name": "Song Bum-keun", "club": "Jeonbuk Hyundai Motors (KOR)" }
+      ],
+      "DF": [
+        { "name": "Kim Min-jae", "club": "Bayern Munich (GER)" },
+        { "name": "Seol Young-woo", "club": "Red Star Belgrade (SRB)" },
+        { "name": "Cho Yu-min", "club": "Sharjah FC (UAE)" },
+        { "name": "Jens Castrop", "club": "Borussia Mönchengladbach (GER)" },
+        { "name": "Kim Moon-hwan", "club": "Daejeon Hana Citizen (KOR)" },
+        { "name": "Kim Tae-hyeon", "club": "Kashima Antlers (JPN)" },
+        { "name": "Lee Han-beom", "club": "FC Midtjylland (DEN)" },
+        { "name": "Lee Ki-hyuk", "club": "Gangwon FC (KOR)" },
+        { "name": "Lee Tae-seok", "club": "Austria Wien (AUT)" },
+        { "name": "Park Jin-seob", "club": "Zhejiang FC (CHN)" }
+      ],
+      "MF": [
+        { "name": "Lee Kang-in", "club": "Paris Saint-Germain (FRA)" },
+        { "name": "Hwang Hee-chan", "club": "Wolverhampton Wanderers (ENG)" },
+        { "name": "Bae Jun-ho", "club": "Stoke City (ENG)" },
+        { "name": "Hwang In-beom", "club": "Feyenoord (NED)" },
+        { "name": "Lee Jae-sung", "club": "Mainz 05 (GER)" },
+        { "name": "Paik Seung-ho", "club": "Birmingham City (ENG)" },
+        { "name": "Eom Ji-sung", "club": "Swansea City (WAL)" },
+        { "name": "Kim Jin-gyu", "club": "Jeonbuk Hyundai Motors (KOR)" },
+        { "name": "Lee Dong-gyeong", "club": "Ulsan HD FC (KOR)" },
+        { "name": "Yang Hyun-jun", "club": "Celtic FC (SCO)" }
+      ],
+      "FW": [
+        { "name": "Son Heung-min", "club": "Los Angeles FC (USA)" },
+        { "name": "Cho Gue-sung", "club": "FC Midtjylland (DEN)" },
+        { "name": "Oh Hyeon-gyu", "club": "Besiktas (TUR)" }
+      ]
+    }
+  },
+  "Japan": {
+    "coach": "Hajime Moriyasu",
+    "players": {
+      "GK": [
+        { "name": "Zion Suzuki", "club": "Parma (ITA)" },
+        { "name": "Keisuke Osako", "club": "Sanfrecce Hiroshima (JPN)" },
+        { "name": "Tomoki Hayakawa", "club": "Kashima Antlers (JPN)" }
+      ],
+      "DF": [
+        { "name": "Yuto Nagatomo", "club": "FC Tokyo (JPN)" },
+        { "name": "Takehiro Tomiyasu", "club": "Ajax (NED)" },
+        { "name": "Ko Itakura", "club": "Ajax (NED)" },
+        { "name": "Shogo Taniguchi", "club": "Sint-Truiden (BEL)" },
+        { "name": "Hiroki Ito", "club": "Bayern Munich (GER)" },
+        { "name": "Yukinari Sugawara", "club": "Werder Bremen (GER)" },
+        { "name": "Ayumu Seko", "club": "Le Havre (FRA)" },
+        { "name": "Tsuyoshi Watanabe", "club": "Feyenoord (NED)" },
+        { "name": "Junnosuke Suzuki", "club": "Copenhagen (DEN)" }
+      ],
+      "MF": [
+        { "name": "Wataru Endo", "club": "Liverpool (ENG)" },
+        { "name": "Junya Ito", "club": "Genk (BEL)" },
+        { "name": "Ritsu Doan", "club": "Eintracht Frankfurt (GER)" },
+        { "name": "Daichi Kamada", "club": "Crystal Palace (ENG)" },
+        { "name": "Takefusa Kubo", "club": "Real Sociedad (ESP)" },
+        { "name": "Ao Tanaka", "club": "Leeds United (ENG)" },
+        { "name": "Keito Nakamura", "club": "Reims (FRA)" },
+        { "name": "Kaishu Sano", "club": "Mainz 05 (GER)" }
+      ],
+      "FW": [
+        { "name": "Ayase Ueda", "club": "Feyenoord (NED)" },
+        { "name": "Daizen Maeda", "club": "Celtic FC (SCO)" },
+        { "name": "Koki Ogawa", "club": "NEC Nijmegen (NED)" },
+        { "name": "Yuito Suzuki", "club": "Brøndby IF (DEN)" },
+        { "name": "Keisuke Goto", "club": "Anderlecht (BEL)" },
+        { "name": "Kento Shiogai", "club": "NEC Nijmegen (NED)" }
+      ]
+    }
+  }
+}
