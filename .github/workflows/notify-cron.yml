@@ -1,0 +1,17 @@
+name: Trigger Live Notify Cron
+
+on:
+  schedule:
+    # Chạy mỗi 5 phút
+    - cron: '*/5 * * * *'
+  workflow_dispatch: # Cho phép kích hoạt thủ công từ tab Actions trên GitHub
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call Vercel Notify API
+        run: |
+          curl -s -X GET "https://world-cup2026.vercel.app/api/notify" \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+            -H "Content-Type: application/json"
