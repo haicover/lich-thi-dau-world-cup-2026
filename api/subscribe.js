@@ -1,4 +1,26 @@
-import { kv } from '@vercel/kv';
+import Redis from 'ioredis';
+
+// Initialize Redis using REDIS_URL
+const redis = new Redis(process.env.REDIS_URL || '');
+
+const kv = {
+    async get(key) {
+        try {
+            const data = await redis.get(key);
+            return data ? JSON.parse(data) : null;
+        } catch (err) {
+            console.error(`Redis GET error for key ${key}:`, err);
+            return null;
+        }
+    },
+    async set(key, value) {
+        try {
+            await redis.set(key, JSON.stringify(value));
+        } catch (err) {
+            console.error(`Redis SET error for key ${key}:`, err);
+        }
+    }
+};
 
 export default async function handler(req, res) {
     res.setHeader('Access-Control-Allow-Credentials', true);

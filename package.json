@@ -7,8 +7,9 @@
     "generate-vapid": "npx web-push generate-vapid-keys --json"
   },
   "dependencies": {
-    "web-push": "^3.6.7",
-    "@vercel/kv": "^2.0.0"
+    "@vercel/kv": "^2.0.0",
+    "ioredis": "^5.10.1",
+    "web-push": "^3.6.7"
   },
   "devDependencies": {
     "playwright": "^1.60.0"
