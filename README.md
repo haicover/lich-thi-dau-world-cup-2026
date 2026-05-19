@@ -152,7 +152,7 @@
 ## 📂 Cấu Trúc Dự Án
 
 ```
-WorldCup2026/
+lich-thi-dau-world-cup-2026/
 ├── index.html          # Trang chính (SPA) — Critical CSS inline
 ├── style.css           # Toàn bộ styling (~1570 dòng, incl. print)
 ├── app.js              # Logic ứng dụng (~1570 dòng, incl. a11y)
@@ -178,13 +178,13 @@ WorldCup2026/
 
 ### Xem trực tiếp
 👉 **[https://world-cup2026.vercel.app](https://world-cup2026.vercel.app)** (Production — Vercel)
-👉 **[https://haicover.github.io/WorldCup2026/](https://haicover.github.io/WorldCup2026/)** (Fallback — GitHub Pages)
+👉 **[https://haicover.github.io/lich-thi-dau-world-cup-2026/](https://haicover.github.io/lich-thi-dau-world-cup-2026/)** (Fallback — GitHub Pages)
 
 ### Chạy local
 ```bash
 # Clone repo
-git clone https://github.com/haicover/WorldCup2026.git
-cd WorldCup2026
+git clone https://github.com/haicover/lich-thi-dau-world-cup-2026.git
+cd lich-thi-dau-world-cup-2026
 
 # Chạy với Vercel CLI (khuyến nghị — hỗ trợ API routes)
 npx vercel dev
