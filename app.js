@@ -751,7 +751,7 @@ function renderGroups() {
             <!-- Team List View -->
             <div class="group-teams" id="teamlist-${g}">
                 ${teams.map((t, i) => `
-                    <div class="team-row ${favs.includes(t) ? 'team-favorite' : ''}">
+                    <div class="team-row ${favs.includes(t) ? 'team-favorite' : ''}" id="team-row-${t.replace(/\s+/g, '-').replace(/[^a-zA-Z0-9-]/g, '')}">
                         <span class="team-rank">${i + 1}</span>
                         <span class="team-flag">${getFlag(t, 28)}</span>
                         <span class="team-name" onclick="showTeamProfile('${t}')" style="cursor: pointer;">${t}</span>
@@ -1057,7 +1057,7 @@ function renderVenues() {
     const grid = document.getElementById('venuesGrid');
     const countryFlags = { "USA": getFlagImg("United States", 16), "Mexico": getFlagImg("Mexico", 16), "Canada": getFlagImg("Canada", 16) };
     grid.innerHTML = VENUES.map(v => `
-        <div class="venue-card">
+        <div class="venue-card" id="venue-card-${v.name.replace(/\s+/g, '-').replace(/[^a-zA-Z0-9-]/g, '')}">
             <div class="venue-img">${v.emoji}</div>
             <div class="venue-info">
                 <div class="venue-city">${v.city}</div>
@@ -1073,6 +1073,88 @@ function renderVenues() {
 }
 
 // ========== US-09: GLOBAL SEARCH (Fuse.js) ==========
+window.showTeamFromSearch = function(teamName) {
+    document.getElementById('globalSearchInput').value = '';
+    document.getElementById('searchResults').style.display = 'none';
+    showTeamProfile(teamName);
+    const groupsTab = document.querySelector('.tab-btn[data-tab="groups"]');
+    if (groupsTab) groupsTab.click();
+    setTimeout(() => {
+        const teamRowId = `team-row-${teamName.replace(/\s+/g, '-').replace(/[^a-zA-Z0-9-]/g, '')}`;
+        const el = document.getElementById(teamRowId);
+        if (el) {
+            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            el.classList.add('highlight-pulse-active');
+            setTimeout(() => el.classList.remove('highlight-pulse-active'), 3600);
+        }
+    }, 100);
+};
+
+window.showPlayerFromSearch = function(playerName, teamName) {
+    document.getElementById('globalSearchInput').value = '';
+    document.getElementById('searchResults').style.display = 'none';
+    showTeamProfile(teamName);
+    switchModalTab('squad');
+    setTimeout(() => {
+        const playerCardId = `player-card-${playerName.replace(/\s+/g, '-').replace(/[^a-zA-Z0-9-]/g, '')}`;
+        const el = document.getElementById(playerCardId);
+        if (el) {
+            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            el.classList.add('highlight-pulse-active');
+            setTimeout(() => el.classList.remove('highlight-pulse-active'), 3600);
+        }
+    }, 300);
+};
+
+window.showMatchFromSearch = function(home, away) {
+    document.getElementById('globalSearchInput').value = '';
+    document.getElementById('searchResults').style.display = 'none';
+    showMatchDetails(home, away);
+    const schedTab = document.querySelector('.tab-btn[data-tab="schedule"]');
+    if (schedTab) schedTab.click();
+
+    // Reset filters
+    const filterStage = document.getElementById('filterStage');
+    const filterGroup = document.getElementById('filterGroup');
+    const filterTeam = document.getElementById('filterTeam');
+    if (filterStage) filterStage.value = 'all';
+    if (filterGroup) filterGroup.value = 'all';
+    if (filterTeam) filterTeam.value = 'all';
+    
+    if (typeof favoritesFilterActive !== 'undefined') {
+        favoritesFilterActive = false;
+        const favToggle = document.getElementById('favFilterToggle');
+        if (favToggle) favToggle.classList.remove('active');
+    }
+
+    renderSchedule();
+
+    setTimeout(() => {
+        const card = document.querySelector(`.match-card[data-home="${home}"][data-away="${away}"]`);
+        if (card) {
+            card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            card.classList.add('highlight-pulse-active');
+            setTimeout(() => card.classList.remove('highlight-pulse-active'), 3600);
+        }
+    }, 100);
+};
+
+window.showVenueFromSearch = function(venueName) {
+    document.getElementById('globalSearchInput').value = '';
+    document.getElementById('searchResults').style.display = 'none';
+    const venuesTab = document.querySelector('.tab-btn[data-tab="venues"]');
+    if (venuesTab) venuesTab.click();
+    setTimeout(() => {
+        const venueCardId = `venue-card-${venueName.replace(/\s+/g, '-').replace(/[^a-zA-Z0-9-]/g, '')}`;
+        const el = document.getElementById(venueCardId);
+        if (el) {
+            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            el.classList.add('highlight-pulse-active');
+            setTimeout(() => el.classList.remove('highlight-pulse-active'), 3600);
+        }
+    }, 100);
+};
+
 function initSearch() {
     const input = document.getElementById('globalSearchInput');
     const dropdown = document.getElementById('searchResults');
@@ -1084,6 +1166,26 @@ function initSearch() {
     
     const fuseMatches = new Fuse(ALL_MATCHES, { keys: ['home', 'away', 'venue'], threshold: 0.3 });
     const fuseVenues = new Fuse(VENUES, { keys: ['name', 'city'], threshold: 0.3 });
+
+    // Index all players in SQUADS_DATA
+    const playersData = [];
+    Object.entries(SQUADS_DATA).forEach(([teamName, squadInfo]) => {
+        if (squadInfo && squadInfo.players) {
+            Object.entries(squadInfo.players).forEach(([pos, list]) => {
+                if (Array.isArray(list)) {
+                    list.forEach(p => {
+                        playersData.push({
+                            name: p.name,
+                            club: p.club,
+                            team: teamName,
+                            position: pos
+                        });
+                    });
+                }
+            });
+        }
+    });
+    const fusePlayers = new Fuse(playersData, { keys: ['name', 'club', 'team'], threshold: 0.3 });
 
     let debounceTimer;
 
@@ -1099,8 +1201,9 @@ function initSearch() {
             const resTeams = fuseTeams.search(q).slice(0, 3).map(r => r.item);
             const resMatches = fuseMatches.search(q).slice(0, 3).map(r => r.item);
             const resVenues = fuseVenues.search(q).slice(0, 3).map(r => r.item);
+            const resPlayers = fusePlayers.search(q).slice(0, 3).map(r => r.item);
 
-            if (!resTeams.length && !resMatches.length && !resVenues.length) {
+            if (!resTeams.length && !resMatches.length && !resVenues.length && !resPlayers.length) {
                 dropdown.innerHTML = '<div class="search-result-item"><div class="search-result-text"><div class="search-result-title">Không tìm thấy kết quả</div></div></div>';
                 dropdown.style.display = 'block';
                 return;
@@ -1111,7 +1214,7 @@ function initSearch() {
                 html += '<div class="search-results-group"><div class="search-group-title">Đội tuyển</div>';
                 resTeams.forEach(t => {
                     html += `
-                        <div class="search-result-item" onclick="document.getElementById('globalSearchInput').value=''; document.getElementById('searchResults').style.display='none'; showTeamProfile('${t.name}');">
+                        <div class="search-result-item" onclick="showTeamFromSearch('${t.name}');">
                             <div class="search-result-icon">🏳️</div>
                             <div class="search-result-text">
                                 <div class="search-result-title">${t.name}</div>
@@ -1123,11 +1226,28 @@ function initSearch() {
                 html += '</div>';
             }
 
+            if (resPlayers.length) {
+                html += '<div class="search-results-group"><div class="search-group-title">Cầu thủ</div>';
+                resPlayers.forEach(p => {
+                    const flag = getFlag(p.team, 16);
+                    html += `
+                        <div class="search-result-item" onclick="showPlayerFromSearch('${p.name}', '${p.team}');">
+                            <div class="search-result-icon">👤</div>
+                            <div class="search-result-text">
+                                <div class="search-result-title">${p.name} (${p.position})</div>
+                                <div class="search-result-desc">${flag} ${p.team} • ${p.club}</div>
+                            </div>
+                        </div>
+                    `;
+                });
+                html += '</div>';
+            }
+
             if (resMatches.length) {
                 html += '<div class="search-results-group"><div class="search-group-title">Trận đấu</div>';
                 resMatches.forEach(m => {
                     html += `
-                        <div class="search-result-item" onclick="document.getElementById('tab-schedule').click(); document.getElementById('globalSearchInput').value=''; document.getElementById('searchResults').style.display='none';">
+                        <div class="search-result-item" onclick="showMatchFromSearch('${m.home}', '${m.away}');">
                             <div class="search-result-icon">⚽</div>
                             <div class="search-result-text">
                                 <div class="search-result-title">${m.home} vs ${m.away}</div>
@@ -1143,7 +1263,7 @@ function initSearch() {
                 html += '<div class="search-results-group"><div class="search-group-title">Sân vận động</div>';
                 resVenues.forEach(v => {
                     html += `
-                        <div class="search-result-item" onclick="document.getElementById('tab-venues').click(); document.getElementById('globalSearchInput').value=''; document.getElementById('searchResults').style.display='none';">
+                        <div class="search-result-item" onclick="showVenueFromSearch('${v.name}');">
                             <div class="search-result-icon">🏟️</div>
                             <div class="search-result-text">
                                 <div class="search-result-title">${v.name}</div>
@@ -1234,7 +1354,7 @@ function showTeamProfile(teamName) {
                                         const stats = getPlayerStats(p.name, posKey, idx);
                                         const initials = getInitials(p.name);
                                         return `
-                                            <div class="squad-player-item pos-${posKey.toLowerCase()}">
+                                            <div class="squad-player-item pos-${posKey.toLowerCase()}" id="player-card-${p.name.replace(/\s+/g, '-').replace(/[^a-zA-Z0-9-]/g, '')}">
                                                 <div class="player-avatar-wrapper">
                                                     <div class="player-avatar-circle" title="${p.name}">
                                                         ${initials}

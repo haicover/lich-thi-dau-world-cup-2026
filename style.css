@@ -2286,3 +2286,46 @@ body {
         border-top: 1px solid #ccc; padding-top: 8px; margin-top: 20px;
     }
 }
+
+/* ========== UPGRADED FOCUS HIGHLIGHTS & LIGHT THEME SEARCH ========== */
+@keyframes cardHighlightPulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.8);
+        border-color: var(--gold) !important;
+        transform: scale(1);
+    }
+    50% {
+        box-shadow: 0 0 30px 10px rgba(255, 215, 0, 0.5);
+        border-color: var(--gold) !important;
+        transform: scale(1.03);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(255, 215, 0, 0);
+        transform: scale(1);
+    }
+}
+.highlight-pulse-active {
+    animation: cardHighlightPulse 1.8s cubic-bezier(0.25, 1, 0.5, 1) 2 !important;
+    position: relative;
+    z-index: 10;
+}
+
+/* Light theme overrides for global search dropdown */
+.light-theme .search-results-dropdown {
+    background: var(--surface) !important;
+    border-color: var(--border) !important;
+    box-shadow: var(--shadow) !important;
+}
+.light-theme .search-result-item:hover {
+    background: rgba(0, 0, 0, 0.04) !important;
+}
+.light-theme .search-result-title {
+    color: var(--text-primary) !important;
+}
+.light-theme .search-results-group {
+    border-bottom-color: var(--border) !important;
+}
+.light-theme .search-group-title {
+    color: var(--text-secondary) !important;
+}
+
