@@ -1210,31 +1210,144 @@ body {
 }
 .squad-players-list {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 10px;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 12px;
 }
 .squad-player-item {
-    background: rgba(0, 0, 0, 0.15);
-    border: 1px solid rgba(255, 255, 255, 0.03);
-    border-radius: 8px;
-    padding: 8px 12px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 14px;
+    padding: 12px;
     display: flex;
-    flex-direction: column;
-    gap: 2px;
-    transition: var(--transition);
+    gap: 12px;
+    align-items: center;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
 }
 .squad-player-item:hover {
+    transform: translateY(-2px);
     background: rgba(255, 255, 255, 0.04);
-    border-color: rgba(255, 215, 0, 0.15);
+    border-color: rgba(255, 215, 0, 0.3);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3), 0 0 10px rgba(255, 215, 0, 0.05);
+}
+.squad-player-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--pos-gradient, var(--gold));
+    opacity: 0.8;
+}
+
+/* Position theme variables for border lines and avatars */
+.squad-player-item.pos-gk { 
+    --pos-gradient: linear-gradient(to bottom, #10b981, #059669); 
+    --avatar-bg: linear-gradient(135deg, #10b981, #059669);
+}
+.squad-player-item.pos-df { 
+    --pos-gradient: linear-gradient(to bottom, #3b82f6, #1d4ed8); 
+    --avatar-bg: linear-gradient(135deg, #3b82f6, #1d4ed8);
+}
+.squad-player-item.pos-mf { 
+    --pos-gradient: linear-gradient(to bottom, #8b5cf6, #5b21b6); 
+    --avatar-bg: linear-gradient(135deg, #8b5cf6, #5b21b6);
+}
+.squad-player-item.pos-fw { 
+    --pos-gradient: linear-gradient(to bottom, #f59e0b, #b45309); 
+    --avatar-bg: linear-gradient(135deg, #f59e0b, #b45309);
+}
+
+.player-avatar-wrapper {
+    position: relative;
+    flex-shrink: 0;
+}
+.player-avatar-circle {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 0.95rem;
+    color: #fff;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    border: 2px solid rgba(255,255,255,0.1);
+    font-family: var(--font-main);
+    background: var(--avatar-bg);
+}
+.player-number-badge {
+    position: absolute;
+    bottom: -4px;
+    right: -4px;
+    background: var(--gold);
+    color: #000;
+    font-size: 0.65rem;
+    font-weight: 800;
+    padding: 1px 4px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    border: 1px solid #000;
+    min-width: 14px;
+    text-align: center;
+}
+
+.player-info-main {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+}
+.player-name-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    justify-content: space-between;
 }
 .squad-player-item .player-name {
-    font-weight: 600;
-    font-size: 0.85rem;
+    font-weight: 700;
+    font-size: 0.9rem;
     color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .squad-player-item .player-club {
     font-size: 0.75rem;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.player-stats-grid {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+    margin-top: 2px;
+}
+.player-stat-tag {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 6px;
+    padding: 2px 6px;
+    font-size: 0.68rem;
     color: var(--text-muted);
+    font-family: monospace;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+.player-stat-tag strong {
+    color: var(--text-primary);
 }
 
 .squad-empty-state {
@@ -1292,12 +1405,20 @@ body {
     background: rgba(0, 0, 0, 0.01);
 }
 .light-theme .squad-player-item {
-    background: rgba(255, 255, 255, 0.9);
-    border-color: rgba(0, 0, 0, 0.05);
+    background: rgba(0, 0, 0, 0.02);
+    border-color: rgba(0, 0, 0, 0.08);
 }
 .light-theme .squad-player-item:hover {
     background: #fff;
     border-color: rgba(212, 160, 0, 0.3);
+}
+.light-theme .player-avatar-circle {
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    border-color: rgba(255,255,255,0.6);
+}
+.light-theme .player-stat-tag {
+    background: rgba(0, 0, 0, 0.03);
+    border-color: rgba(0, 0, 0, 0.05);
 }
 .light-theme .squad-empty-state {
     background: rgba(0, 0, 0, 0.02);
