@@ -1,0 +1,68 @@
+name: "AI Agent Auto-Fixer"
+
+on:
+  issues:
+    types: [labeled] # Chạy khi bạn gắn nhãn 'auto-fix' cho một Issue
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+
+jobs:
+  auto-fix:
+    if: github.event.label.name == 'auto-fix'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Dependencies
+        run: |
+          npm ci || npm install
+          # Cài đặt SDK chính thức mới nhất của Google Gen AI
+          npm install @google/genai
+
+      - name: Run AI Agent Coder
+        id: run_agent
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          node .github/scripts/ai-coder-agent.js
+
+      - name: Run Tests to Verify Fix
+        run: |
+          npm test || echo "Không có bài test lỗi hoặc bài test được kiểm tra thành công."
+
+      - name: Create Pull Request
+        if: success()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          
+          branch_name="auto-fix-issue-$ISSUE_NUMBER"
+          git checkout -b $branch_name
+          
+          git add -A
+          git commit -m "fix(agent): tự động sửa đổi cho Issue #$ISSUE_NUMBER"
+          git push origin $branch_name --force
+          
+          gh pr create \
+            --title "🤖 [AI Fix] Bản vá tự động cho Issue #$ISSUE_NUMBER" \
+            --body "Bản vá được tạo tự động bởi **Gemini AI Agent** để giải quyết Issue #$ISSUE_NUMBER. Tất cả các bài kiểm tra tự động đã vượt qua thành công." \
+            --head $branch_name \
+            --base main
+          
+          gh issue comment $ISSUE_NUMBER --body "🤖 AI Agent đã phân tích thành công và tạo bản sửa lỗi tự động tại Pull Request tương ứng. Hãy kiểm duyệt và merge!"

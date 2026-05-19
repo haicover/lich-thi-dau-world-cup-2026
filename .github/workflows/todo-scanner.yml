@@ -1,0 +1,70 @@
+name: "Auto TODO Scanner"
+
+on:
+  push:
+    branches: [ main ]
+  schedule:
+    - cron: '0 0 * * *' # Chạy tự động vào lúc 0h00 mỗi ngày
+
+permissions:
+  issues: write
+  contents: read
+
+jobs:
+  scan-todos:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Scan for TODOs
+        id: todo_scan
+        run: |
+          echo "=== Đang quét các ghi chú TODO trong mã nguồn ==="
+          # Tìm các dòng chứa TODO: trong file .js và .css (loại trừ node_modules)
+          grep -rn "TODO:" --include="*.js" --include="*.css" --exclude-dir="node_modules" . > todos.txt || true
+          
+          if [ -s todos.txt ]; then
+            echo "found=true" >> $GITHUB_OUTPUT
+          else
+            echo "found=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Auto Create GitHub Issues
+        if: steps.todo_scan.outputs.found == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          while IFS= read -r line; do
+            # Trích xuất thông tin file, dòng và nội dung TODO
+            file=$(echo "$line" | cut -d':' -f1)
+            line_num=$(echo "$line" | cut -d':' -f2)
+            content=$(echo "$line" | cut -d':' -f3- | sed 's/^[ \t]*//' | sed 's/TODO://' | sed 's/^[ \t]*//')
+            
+            # Đảm bảo title ngắn gọn (5-10 từ) theo hướng dẫn của Issues Skill
+            title="Sửa TODO tại $file (Dòng $line_num)"
+            
+            body="## Description
+          Hệ thống tự động phát hiện ghi chú cần xử lý trong mã nguồn của dự án World Cup 2026.
+          
+          - **Tệp tin:** \`$file\`
+          - **Ghi chú cụ thể:** \`$content\`
+          
+          ## Steps to Resolve
+          1. Tìm đến tệp \`$file\` tại dòng \`$line_num\`.
+          2. Thực hiện sửa đổi để giải quyết ghi chú TODO: \`$content\`.
+          3. Hãy gắn nhãn \`auto-fix\` cho issue này để AI Agent tự động chạy workflow sửa đổi và tạo Pull Request.
+          
+          ## Context
+          Tạo tự động bởi **Auto TODO Scanner Workflow**."
+            
+            # Kiểm tra xem Issue với tiêu đề này đã tồn tại chưa để tránh trùng lặp
+            existing=$(gh issue list --search "$title" --state open --json number)
+            if [ "$existing" = "[]" ]; then
+              # Sử dụng heredoc để tạo issue an toàn
+              gh issue create --title "$title" --body "$body" --label "todo"
+              echo "Đã tạo Issue thành công cho: $title"
+            else
+              echo "Issue cho $title đã tồn tại, bỏ qua."
+            fi
+          done < todos.txt
