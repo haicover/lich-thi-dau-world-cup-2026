@@ -188,9 +188,126 @@
         { "name": "Ayase Ueda", "club": "Feyenoord (NED)" },
         { "name": "Daizen Maeda", "club": "Celtic FC (SCO)" },
         { "name": "Koki Ogawa", "club": "NEC Nijmegen (NED)" },
-        { "name": "Yuito Suzuki", "club": "Brøndby IF (DEN)" },
-        { "name": "Keisuke Goto", "club": "Anderlecht (BEL)" },
-        { "name": "Kento Shiogai", "club": "NEC Nijmegen (NED)" }
+        { "name": "Yuito Suzuki", "club": "SC Freiburg (GER)" },
+        { "name": "Keisuke Goto", "club": "Sint-Truiden (BEL)" },
+        { "name": "Kento Shiogai", "club": "VfL Wolfsburg (GER)" }
+      ]
+    }
+  },
+  "Switzerland": {
+    "coach": "Murat Yakin",
+    "players": {
+      "GK": [
+        { "name": "Gregor Kobel", "club": "Borussia Dortmund (GER)" },
+        { "name": "Yvon Mvogo", "club": "FC Lorient (FRA)" },
+        { "name": "Marvin Keller", "club": "Grasshoppers (SUI)" }
+      ],
+      "DF": [
+        { "name": "Manuel Akanji", "club": "Manchester City (ENG)" },
+        { "name": "Aurèle Amenda", "club": "Eintracht Frankfurt (GER)" },
+        { "name": "Eray Cömert", "club": "Valencia (ESP)" },
+        { "name": "Nico Elvedi", "club": "Borussia Mönchengladbach (GER)" },
+        { "name": "Luca Jaquez", "club": "SC Freiburg (GER)" },
+        { "name": "Miro Muheim", "club": "Leeds United (ENG)" },
+        { "name": "Ricardo Rodriguez", "club": "Real Betis (ESP)" },
+        { "name": "Silvan Widmer", "club": "Mainz 05 (GER)" }
+      ],
+      "MF": [
+        { "name": "Michel Aebischer", "club": "Bologna (ITA)" },
+        { "name": "Christian Fassnacht", "club": "BSC Young Boys (SUI)" },
+        { "name": "Remo Freuler", "club": "Bologna (ITA)" },
+        { "name": "Cedric Itten", "club": "BSC Young Boys (SUI)" },
+        { "name": "Ardon Jashari", "club": "Club Brugge (BEL)" },
+        { "name": "Fabian Rieder", "club": "VfB Stuttgart (GER)" },
+        { "name": "Djibril Sow", "club": "Sevilla (ESP)" },
+        { "name": "Granit Xhaka", "club": "Bayer Leverkusen (GER)" },
+        { "name": "Denis Zakaria", "club": "AS Monaco (FRA)" }
+      ],
+      "FW": [
+        { "name": "Zeki Amdouni", "club": "Benfica (POR)" },
+        { "name": "Breel Embolo", "club": "AS Monaco (FRA)" },
+        { "name": "Johan Manzambi", "club": "Servette FC (SUI)" },
+        { "name": "Dan Ndoye", "club": "Bologna (ITA)" },
+        { "name": "Noah Okafor", "club": "AC Milan (ITA)" },
+        { "name": "Ruben Vargas", "club": "FC Augsburg (GER)" }
+      ]
+    }
+  },
+  "Bosnia and Herzegovina": {
+    "coach": "Sergej Barbarez",
+    "players": {
+      "GK": [
+        { "name": "Nikola Vasilj", "club": "FC St. Pauli (GER)" },
+        { "name": "Martin Zlomislić", "club": "HNK Rijeka (CRO)" },
+        { "name": "Osman Hadžikić", "club": "Slaven Belupo (CRO)" }
+      ],
+      "DF": [
+        { "name": "Sead Kolašinac", "club": "Atalanta BC (ITA)" },
+        { "name": "Amar Dedić", "club": "SL Benfica (POR)" },
+        { "name": "Nihad Mujakić", "club": "Gaziantep FK (TUR)" },
+        { "name": "Nikola Katić", "club": "Schalke 04 (GER)" },
+        { "name": "Tarik Muharemović", "club": "US Sassuolo (ITA)" },
+        { "name": "Stjepan Radeljić", "club": "HNK Rijeka (CRO)" },
+        { "name": "Dennis Hadžikadunić", "club": "UC Sampdoria (ITA)" },
+        { "name": "Nidal Čelik", "club": "RC Lens (FRA)" }
+      ],
+      "MF": [
+        { "name": "Amir Hadžiahmetović", "club": "Hull City (ENG)" },
+        { "name": "Ivan Šunjić", "club": "Pafos FC (CYP)" },
+        { "name": "Ivan Bašić", "club": "FC Astana (KAZ)" },
+        { "name": "Dženis Burnić", "club": "Karlsruher SC (GER)" },
+        { "name": "Ermin Mahmić", "club": "FC Slovan Liberec (CZE)" },
+        { "name": "Benjamin Tahirović", "club": "Brøndby IF (DEN)" },
+        { "name": "Amar Memić", "club": "FC Viktoria Plzeň (CZE)" },
+        { "name": "Armin Gigović", "club": "BSC Young Boys (SUI)" }
+      ],
+      "FW": [
+        { "name": "Kerim Alajbegović", "club": "RB Salzburg (AUT)" },
+        { "name": "Esmir Bajraktarević", "club": "PSV Eindhoven (NED)" },
+        { "name": "Ermedin Demirović", "club": "VfB Stuttgart (GER)" },
+        { "name": "Jovo Lukić", "club": "FC Universitatea Cluj (ROU)" },
+        { "name": "Samed Baždar", "club": "Jagiellonia Białystok (POL)" },
+        { "name": "Haris Tabaković", "club": "Borussia Mönchengladbach (GER)" },
+        { "name": "Edin Džeko", "club": "Schalke 04 (GER)" }
+      ]
+    }
+  },
+  "Portugal": {
+    "coach": "Roberto Martínez",
+    "players": {
+      "GK": [
+        { "name": "Diogo Costa", "club": "FC Porto (POR)" },
+        { "name": "José Sá", "club": "Wolverhampton Wanderers (ENG)" },
+        { "name": "Rui Silva", "club": "Sporting CP (POR)" }
+      ],
+      "DF": [
+        { "name": "João Cancelo", "club": "Barcelona (ESP)" },
+        { "name": "Diogo Dalot", "club": "Manchester United (ENG)" },
+        { "name": "Nuno Mendes", "club": "Paris Saint-Germain (FRA)" },
+        { "name": "Rúben Dias", "club": "Manchester City (ENG)" },
+        { "name": "Gonçalo Inácio", "club": "Sporting CP (POR)" },
+        { "name": "Renato Veiga", "club": "Villarreal (ESP)" },
+        { "name": "Tomás Araújo", "club": "SL Benfica (POR)" },
+        { "name": "Nélson Semedo", "club": "Wolverhampton Wanderers (ENG)" }
+      ],
+      "MF": [
+        { "name": "Bernardo Silva", "club": "Manchester City (ENG)" },
+        { "name": "Bruno Fernandes", "club": "Manchester United (ENG)" },
+        { "name": "Vitinha", "club": "Paris Saint-Germain (FRA)" },
+        { "name": "João Neves", "club": "Paris Saint-Germain (FRA)" },
+        { "name": "Rúben Neves", "club": "Al-Hilal (KSA)" },
+        { "name": "Samú Costa", "club": "RCD Mallorca (ESP)" },
+        { "name": "Matheus Nunes", "club": "Manchester City (ENG)" }
+      ],
+      "FW": [
+        { "name": "Cristiano Ronaldo", "club": "Al Nassr (KSA)" },
+        { "name": "Rafael Leão", "club": "AC Milan (ITA)" },
+        { "name": "Gonçalo Ramos", "club": "Paris Saint-Germain (FRA)" },
+        { "name": "Pedro Neto", "club": "Chelsea (ENG)" },
+        { "name": "Francisco Conceição", "club": "Juventus (ITA)" },
+        { "name": "João Félix", "club": "Chelsea (ENG)" },
+        { "name": "Gonçalo Guedes", "club": "Real Sociedad (ESP)" },
+        { "name": "Francisco Trincão", "club": "Sporting CP (POR)" }
       ]
     }
   }
